@@ -310,38 +310,75 @@ System.arraycopy(arr, 0, arrClone, 0, arr.length);
 
 - ```그래서 new Stringbuffer```를 이용하면 좋음.
 
-  - ```StringBuffer```인스턴스에 저장된 문자열은 변경가능하니까,appned```메소드를 사용함.
+  - ```StringBuffer```인스턴스에 저장된 문자열은 변경가능하니까 ```appned``` 메소드를 사용함.
 
-  
 
-###### 9.7 문자열비교
+###### 9.7 String 클래스 의 생성자와 메서드
 
-- 
+- ```String s = new String("Hello")``` String 인스턴스 생성, hello를 갖는
+- ```String(char[] value)``` ->```char[] = {'h','e','l','l','o'}```
+- ```String(StringBuffer buf)```
+- ```char charAt(int index)``` : 지정된 위치(0부터시작하는 문자를 알려줌.
+- ```int indexOf(int ch)``` : 주어진 문자 ch가 문자열에 존재하는지 찾음. 
+- ```String[] split(String regex)``` : 문자열을 지정된 regex로 나눠 string 배열에 저장함.
+- ```String substring(int begin, int end)``` : 시작 부터 끝 위치까지 포함된 문자열을 얻음.
+- ```String trim()``` 문자열 왼쪽,오른쪽끝에 있는 공백 제거, 단 문자열 중간에 있는 공백은 제거하지 않음.
 
-###### 9.8 String을 기본 값으로 변환
+
+
+###### 9.8 join(), StringJoiner
+
+```java
+String animals = "dog,cat,bear";
+String[] arr = animals.split(",");
+String str = String.join("-",arr);
+System.out.println(str); //dog-cat-bear
+```
+
+###### 
 
 ###### 9.9 Wrapping boxing, Unboxing
 
 - primitive data type을 reference type에 할당이 가능하게 된것.
 - Boolean, Byte, Short, Character, Integer, Long, Float, Double으로 박싱
 
-###### 9.10 Join()
 
-###### 유니코드
 
-- A 65,  a
+###### 9.10 기본형 값 <->String
 
-###### 문자인코딩
+```java
+int i = 100;
+String str1 = i +""; //100을 "100"으로
+String str2 = String.valueOf(i);
+```
 
-- UTF8 가변길이 유니코드.
+```java
+int i = Integer.pareInt("100"); //"100"을 100으로
+int i2 = Integer.valueOf("100");
+```
+
+- ```valueOf```리턴값은 Integer그렇지만 오토박싱에 의하여 int값으로 자동변화
+
+- [기본형 문자열 변환방법](<https://m.blog.naver.com/PostView.nhn?blogId=iloveshe2&logNo=90189516739&proxyReferer=https%3A%2F%2Fwww.google.com%2F>)
 
 
 
 ##### - StringBuffer 클래스, StringBulider클래스
 
+- StringBuffer는 내용이 변경 가능함. 어떻게? ```append()``` 를 이용해서
+
+
+
 ###### 9.11 StringBuilder
 
 - 멀티쓰레드. 한번에 한 사람만 그 자원을 쓸 수 있도록 만들어 주는 것.
+
+###### 9.12 StringBuffer 클래스 생성자와 메서드
+
+###### 9.13 StringBuffer의 비교
+
+- 위의 방법으로 생성된 객체는 ```equals``` 를 사용해도 ```==```를 비교한 결과를 얻음.
+- 그래서 ```toString```을 호출한다음 ```equlas```메소드를 사용해야함.
 
 
 
@@ -349,19 +386,47 @@ System.arraycopy(arr, 0, arrClone, 0, arr.length);
 
 - 모두 static으로 정의됨.
 
-###### 9.12 예외를 발생시키는 메서드
+- 올림,버림,반올림이 굉장히 귀찮게 되어있음.
+
+  ```java
+  //90.7552 소수점 셋째자리에서 반올림해서 소수 두째자리까지?
+  
+  1. 원래값에 100을 곱하고
+  2. 그 결과에 Math.round()를 쓰고
+  3. 2번 겨로가에 100.0으로 나눔.
+  ```
+
+  
+
+###### 9.13 예외를 발생시키는 메서드
 
 - 메서드 이름에 ```Exact```면 연산에서 발생 할 수 있는 오버 플로우를 감지하기 위함.
 
-###### 9.13 StrictMath
+  ```int addExact (int x, int y)``` : x+y를 통해서 발생할 수 있는 overflow감지!
+
+###### 9.14 StrictMath
 
 - Math OS의 메소드를 사용 왜? 연산이 빠르게 진행됨. 하지만 컴퓨터마다 결과가 다를 수 있음.
 - 그래서 StrictMath를 이용하면 차이를 방지할 수 있음.
 
+
+
+###### 9.15 Math 클래스와 매서드
+
+| 메서드명                      | 설명                |
+| ----------------------------- | ------------------- |
+| ```Math.ceil()```/double에만  | 올림                |
+| ```Math.floor()```/double에만 | 버림                |
+| ```Math.abs()```              | 절대값 반환         |
+| ```Math.max,min()```          | 최대,최소값         |
+| ```Math.random()```           | 0.0~1.0임의 값 반환 |
+
+
+
 ##### - 래퍼wrapper 클래스
 
-- 파이썬은 모두 객체
 - 모든 것을 객체로 다룰려면, 이 클래스를 이용하면 됨.
+- 오토박싱이 여기서 나오고.
 
 
 
@@ -370,6 +435,15 @@ System.arraycopy(arr, 0, arrClone, 0, arr.length);
 - 널 체크(null check)할때 유용,
 - 매개 변수의 유효성 검사를 할 때 유용함.
 - ```Objects.equals``` 매개변수값이 null인지 확인할 필요 없음 (cf ```object.equals```와는 다름)
+
+```java
+String[][] str2D = new String[][]{{"aaa","bbb"},{"aaa","bbb"}};
+String[][] str2D2 = new String[][]{{"aaa","bbb"},{"aaa","bbb"}}; //이중 배열 생성과 할당
+
+//2중배열을 비교할떄는? equals가 아닌 deepEquals
+
+System.out.printnln(Objects.deepEquals(str2D,str2D2));
+```
 
 
 
