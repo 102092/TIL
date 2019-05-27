@@ -320,14 +320,12 @@ System.arraycopy(arr, 0, arrClone, 0, arr.length);
 
 ###### 9.8 String을 기본 값으로 변환
 
-###### Wrapping boxing, Unboxing
+###### 9.9 Wrapping boxing, Unboxing
 
 - primitive data type을 reference type에 할당이 가능하게 된것.
 - Boolean, Byte, Short, Character, Integer, Long, Float, Double으로 박싱
 
-
-
-###### Join()
+###### 9.10 Join()
 
 ###### 유니코드
 
@@ -337,37 +335,37 @@ System.arraycopy(arr, 0, arrClone, 0, arr.length);
 
 - UTF8 가변길이 유니코드.
 
-##### StringBuffer 클래스, StringBulider클래스
 
-###### StringBuilder
+
+##### - StringBuffer 클래스, StringBulider클래스
+
+###### 9.11 StringBuilder
 
 - 멀티쓰레드. 한번에 한 사람만 그 자원을 쓸 수 있도록 만들어 주는 것.
 
 
 
-##### Math 클래스
+##### - Math 클래스
 
 - 모두 static으로 정의됨.
 
-###### 예외를 발생시키는 메서드
+###### 9.12 예외를 발생시키는 메서드
 
 - 메서드 이름에 ```Exact```면 연산에서 발생 할 수 있는 오버 플로우를 감지하기 위함.
 
-###### StrictMath
+###### 9.13 StrictMath
 
 - Math OS의 메소드를 사용 왜? 연산이 빠르게 진행됨. 하지만 컴퓨터마다 결과가 다를 수 있음.
 - 그래서 StrictMath를 이용하면 차이를 방지할 수 있음.
 
-
-
-##### 래퍼wrapper 클래스
+##### - 래퍼wrapper 클래스
 
 - 파이썬은 모두 객체
 - 모든 것을 객체로 다룰려면, 이 클래스를 이용하면 됨.
 
 
 
-##### java.util.Objects클래스
+##### - java.util.Objects클래스
 
 - 널 체크(null check)할때 유용,
 - 매개 변수의 유효성 검사를 할 때 유용함.
@@ -375,6 +373,31 @@ System.arraycopy(arr, 0, arrClone, 0, arr.length);
 
 
 
-##### java.util.Random
+##### - java.util.Random
 
-##### Regular Expression
+##### - Regular Expression
+
+1. 정규식을 매개변수로 Pattern 클래스, static 메서드인 Pattern compile(String regex)을 호출해서 
+
+   ```Pattern p = Pattern.compile("c[a-z]*");```c로 시작하는 소문자 영단어 모두 
+
+2. ```Macther m = p.macher(data[i]);```
+
+3. ```if(m.matches())``` boolean값으로 리턴됨.
+
+##### - java.util.Scanner클래스
+
+```java
+Scanner s = new Scanner(System.in);
+String input = s.nextLine();
+```
+
+
+
+##### - java.util.StringTokenizer 클래스
+
+- ```split(), Scanner(line).useDelimiter(",");``` 와 같은효과. 이 전에 쓰던 방법
+
+##### - java.math.BigInteger 클래스
+
+- 필요할때 찾아보자.
