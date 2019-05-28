@@ -6,6 +6,8 @@
 
 2. [생활코딩_자바](<https://opentutorials.org/course/1223>) - 참고
 
+3. [TCP자바](<http://tcpschool.com/java/intro>)
+
    - **반드시 내가 이해한바를 적는다.** 
 
    - **그냥 교재나 코드가 써있는 바를 적지 않는다.**
@@ -23,8 +25,6 @@
 
 
 ###### 2.2 변수 초기화.
-
-
 
 primitive data type : boolean, byte, short, chat, int, long, float, double
 
@@ -219,6 +219,8 @@ try{
 
 ### 9. java.lang 패키지, 유용한 클래스
 
+
+
 ##### - Object 
 
 ###### 9.1 equals()
@@ -227,6 +229,7 @@ try{
   - Call by value vs Call by reference
   - ```equals``` : 대상 내용 자체를 비교 ```boolean```값으로 비교함.
   - ```==``` : 비교하고자 하는 대상의 주소값을 비교
+  - ```Object.equals```는 주소값 비교 ```String.equals```는 실제값비교
 
 ###### 9.2 hasCode()
 
@@ -246,15 +249,13 @@ public String toString(){
 }//16진수 해시코드값 도출.
 ```
 
-- 오버라이딩을 통해
-
 
 
 ###### 9.4 clone()
 
 - 기본적으로 단순히 인스턴스변수값만 복사(얕은 복사에 해당함.)
-  - 얕은 복사. 원본과 복제본이 같은 객체를 공유, 그래서 원본변경하면 복사본도 영향(온전한 복제라 볼 수 없지.) ex) 기본형 배열을 복사하면 얕은 복사를 한거라 할 수 있지.
-  - 깊은 복사.  원본이 참조하고 있는 객체까지 복사. 원본과 복사본은 서로다른 객체를 참조하게 됨. 그래서 원본의 변경이 복사본에 영향을 미치지 않음.
+  - **얕은 복사**. 원본과 복제본이 같은 객체를 공유, 그래서 원본변경하면 복사본도 영향(온전한 복제라 볼 수 없지.) ex) 기본형 배열을 복사하면 얕은 복사를 한거라 할 수 있지.
+  - **깊은 복사**.  원본이 참조하고 있는 객체까지 복사. 원본과 복사본은 서로다른 객체를 참조하게 됨. 그래서 원본의 변경이 복사본에 영향을 미치지 않음.
 
 ```java
 class point implements Clonable{ //clonable 인터페이스를 구현한 클래스에서만 clone을 호출할 수 있음.
@@ -311,6 +312,8 @@ System.arraycopy(arr, 0, arrClone, 0, arr.length);
 - ```그래서 new Stringbuffer```를 이용하면 좋음.
 
   - ```StringBuffer```인스턴스에 저장된 문자열은 변경가능하니까 ```appned``` 메소드를 사용함.
+  
+  
 
 
 ###### 9.7 String 클래스 의 생성자와 메서드
@@ -335,7 +338,7 @@ String str = String.join("-",arr);
 System.out.println(str); //dog-cat-bear
 ```
 
-###### 
+
 
 ###### 9.9 Wrapping boxing, Unboxing
 
@@ -365,8 +368,6 @@ int i2 = Integer.valueOf("100");
 
 ##### - StringBuffer 클래스, StringBulider클래스
 
-- StringBuffer는 내용이 변경 가능함. 어떻게? ```append()``` 를 이용해서
-
 
 
 ###### 9.11 StringBuilder
@@ -375,16 +376,36 @@ int i2 = Integer.valueOf("100");
 
 ###### 9.12 StringBuffer 클래스 생성자와 메서드
 
+- 가변문자열을 만들려할때 ```StringBuffer```을 사용함
+
+- Stiring클래스와 다름. 
+
+  - ```append()```
+
+  ```java
+  StringBuffer str = new StringBuffer("java");
+  System.out.println(str.append("123"));
+  System.out.println(str); // java
+  ```
+
+  - 즉 원본문자열을 바뀌지 않음.
+  - ```delete()```,```insert()```등
+
 ###### 9.13 StringBuffer의 비교
 
-- 위의 방법으로 생성된 객체는 ```equals``` 를 사용해도 ```==```를 비교한 결과를 얻음.
+- 위의 방법으로 생성된 객체는 ```equals``` 를 사용해도 ```==```를 비교한 결과(주소값을비교하는)를 얻음.
 - 그래서 ```toString```을 호출한다음 ```equlas```메소드를 사용해야함.
 
 
 
 ##### - Math 클래스
 
-- 모두 static으로 정의됨.
+- 생성자 private이므로, new Math()하는 것이 불가하다
+
+- 모든 속성과 메서드는 static으로 정의됨.
+
+  - ``` Math.E``` : 약 2.718
+  - ```Math.PI``` : 약 3.141592.
 
 - 올림,버림,반올림이 굉장히 귀찮게 되어있음.
 
@@ -396,7 +417,6 @@ int i2 = Integer.valueOf("100");
   3. 2번 겨로가에 100.0으로 나눔.
   ```
 
-  
 
 ###### 9.13 예외를 발생시키는 메서드
 
@@ -421,12 +441,48 @@ int i2 = Integer.valueOf("100");
 | ```Math.max,min()```          | 최대,최소값         |
 | ```Math.random()```           | 0.0~1.0임의 값 반환 |
 
+- 우리가 대부분 알고있는 영어로 구성됨.
+- ```Math.random()*100``` 하면 0~99난수 생성하는 방법
+- ```pow(),sqrt()``` 등.
+
 
 
 ##### - 래퍼wrapper 클래스
 
 - 모든 것을 객체로 다룰려면, 이 클래스를 이용하면 됨.
+
 - 오토박싱이 여기서 나오고.
+
+  ```java
+  Integer num = new Integer(5); //박싱
+  int n = num.inValue(); //언박싱, 5
+  
+  Character ch = 'x'; // Character ch = new Character('x') 오토박싱
+  char c = ch; // char c = ch.charValue() 오토언박싱  ,x
+  ```
+
+  
+
+| Primitive | Wrapper class | primitive값만? |
+| --------- | ------------- | -------------- |
+| boolean   | Boolean       | booleanValue() |
+| byte      | Byte          |                |
+| short     | Short         |                |
+| char      | Character     |                |
+| int       | Integer       |                |
+| long      | Long          |                |
+| float     | Float         |                |
+| double    | Double        |                |
+
+
+
+| 문자열        | Wrapper클래스로       |
+| ------------- | --------------------- |
+| 문자열 "true" | Boolean.paseBoolean() |
+| 문자열 "100"  | Byte.parseByte()...   |
+|               |                       |
+
+![](C:\Users\student\Downloads\img_java_boxing_unboxing.png)
 
 
 
@@ -449,6 +505,8 @@ System.out.printnln(Objects.deepEquals(str2D,str2D2));
 
 ##### - java.util.Random
 
+
+
 ##### - Regular Expression
 
 1. 정규식을 매개변수로 Pattern 클래스, static 메서드인 Pattern compile(String regex)을 호출해서 
@@ -459,11 +517,16 @@ System.out.printnln(Objects.deepEquals(str2D,str2D2));
 
 3. ```if(m.matches())``` boolean값으로 리턴됨.
 
+4. [참고](<https://regexr.com/>)  작성된 regex를 살펴볼 수 있음. 단 ```javascript```만 됨..
+
+
+
 ##### - java.util.Scanner클래스
 
 ```java
 Scanner s = new Scanner(System.in);
 String input = s.nextLine();
+int input = s.nextInt();
 ```
 
 
@@ -472,6 +535,158 @@ String input = s.nextLine();
 
 - ```split(), Scanner(line).useDelimiter(",");``` 와 같은효과. 이 전에 쓰던 방법
 
+
+
 ##### - java.math.BigInteger 클래스
 
 - 필요할때 찾아보자.
+
+
+
+### 10. 날짜 시간, 형식화
+
+#### - 날짜와 시간
+
+- Calendar는 추상클래스. 직접객체 생성불가
+- Date, Calendar간 변환
+
+```java
+//Calendar -> Date
+Calendar cal = Calendar.getInstance(); //그래서 getInstance()부분사용
+Date d= new Date(cal.getTimeMillis()); 
+
+//Date -> Calendar
+Date d = new Date();
+Calendar cal = Calendar.getInstance();
+cal.setTime(d)
+```
+
+
+
+```java
+package lab.java.core;
+
+import java.util.Calendar;
+
+public class CalendarEx2 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		final String[] DAY_OF_WEEK = {"","일","월","화","수","목","금","토"};
+		
+		Calendar date1 = Calendar.getInstance();
+		Calendar date2 = Calendar.getInstance();
+		
+		//date1.set(2015,Calendar.AUGUST,15);
+		date1.set(2015,7,15); // 2015년 8월 15일, 왜 7? 0부터 시작해서
+		System.out.println("date1은 "+toString(date1)+DAY_OF_WEEK[date1.get(Calendar.DAY_OF_WEEK)]+"요일이고");
+		System.out.println("오늘(date2)은 "+toString(date2)+DAY_OF_WEEK[date1.get(Calendar.DAY_OF_WEEK)]+"요일입니다");
+		
+		long difference = (date2.getTimeInMillis() - date1.getTimeInMillis())/1000;
+		System.out.println("date1부터 지금까지 "+ difference+" 초가 지났습니다.");
+		System.out.println("일로 계산하면 "+ difference/(24*60*60)+" 일입니다.");		
+	}	
+	public static String toString(Calendar date) {
+		// TODO Auto-generated method stub
+		return date.get(Calendar.YEAR) +"년 " + (date.get(Calendar.MONTH)+1) + "월 " + date.get(Calendar.DATE) + "일 ";}
+}
+
+```
+
+- ```date.add```와 ```date.roll```의 차이점 , add는 date자체에 영향을주지만 roll은 안 줌.
+- ```boolean isLeapYear(int year)```
+- ```int datDiff(int y1, int m1)```
+- ```int getDayOfWeek(int year, int month, int day)```
+- ```String covertDayToDate(int day)```
+- ```int convertDateToDay(int year, int month, int day)```
+
+
+
+#### - 형식화 클래스
+
+
+
+### 11. 컬렉션 프레임웍
+
+- 컬렉션 : 객체들에 대한 집합
+
+- 프레임웍 : 기반시설, 미리 만들어놓은 것. 나중에 사용하면 개발이 굉장히 쉬워진다..ㅠㅠ
+
+- 하나 이상 같은 데이터들의 집합은 배열로 만들어놨지만,
+
+  - 생성시에 배열의 크기를 정해놔야 하고,
+
+  
+
+- List : 순서가 있고, 데이터의 중복을 허용함.  ex)ArrayList,,,Vector,Stack, index로 핸들링
+
+- Set :  순서를 유지 하지 않음. 데이터 중복 허용하지 않음. index로 핸들링 못함. 왜? 순서가 없으니까.
+
+  - 그래서 ```lterator```라는 친구를 이용해서 데이터를 찾음
+
+- Vector랑 Arraylist는 같은 친구지만, 백터는 멀티쓰레드, 무거움(여러 사용자가 접근). arraylist 싱글 쓰레드, 가벼움(한 사용자가 접근)
+
+
+
+###### 11.1 Collection 인터페이스
+
+###### 11.2 List 인터페이스
+
+###### 11.3 Set 인터페이스
+
+- 중복허용하지 않고, 저장순서가 유지 되지 않는 컬렉션 구현할때
+- ```HashSet``` , ```TreeSet``` 
+
+- hashset은 저장된 그대로, 중복은 제거되면서, TreeSet은 약간의 순서변화가 있고 중복은 제거됨.
+
+
+
+```java
+package lab.java.core;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.Vector;;
+
+public class SetTest {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		String cars[] = {"k3","k5","sm6","k7","sm7","sm6","k9"};
+		Set<String> hset = new HashSet();
+		Set<String> tset = new TreeSet();
+		for (String car : cars) {
+			hset.add(car);
+			tset.add(car);
+		}
+		
+		//Iterator로 꺼내오기		
+		Iterator<String> iter = hset.iterator();
+		System.out.print("HashSet : ");
+		while(iter.hasNext()) {
+			System.out.print(iter.next()+",");
+		}
+		System.out.println();
+		
+		iter = tset.iterator();
+		System.out.print("TreeSet : ");
+		while(iter.hasNext()) {
+			System.out.print(iter.next()+",");
+		}
+		System.out.println();		
+	}
+
+}
+//HashSet : k3,k5,k7,sm7,sm6,k9,
+//TreeSet : k3,k5,k7,k9,sm6,sm7,
+
+```
+
+
+
+
+
