@@ -42,9 +42,7 @@ primitive data type : boolean, byte, short, chat, int, long, float, double
 
 그렇지만 추상클래스와는 달리, 일반 메서드, 멤버변수를 구성원으로 가질 수 없음.
 
-인터페이스는 다른 클래스를 작성하는데 도움될 목적으로 만들어지고
-
-인터페이스는 일종의 기초 설계도. 객체를 만들때 설계되는 최소한의 틀의 느낌.
+인터페이스는 다른 클래스를 작성하는데 도움될 목적으로 만들어지고 일종의 기초 설계도. 객체를 만들때 설계되는 최소한의 틀의 느낌.
 
 
 
@@ -547,7 +545,7 @@ int input = s.nextInt();
 
 #### - 날짜와 시간
 
-- Calendar는 추상클래스. 직접객체 생성불가
+- Calendar는 추상클래스. 직접객체 생성불가 그래서..?
 - Date, Calendar간 변환
 
 ```java
@@ -600,11 +598,30 @@ public class CalendarEx2 {
 - ```String covertDayToDate(int day)```
 - ```int convertDateToDay(int year, int month, int day)```
 
+- 날짜 데이터를 특정 형식으로 문자열 하려면? ```yyyy-MM(월)-dd hh:mm(분):ss```
+  - ```SimepleDateForm	at sdf = new SimpleDateFormat("yyyy-MM(월)-dd hh:mm(분):ss");```
+- 숫자 데이터를 특정 형식으로 문자열 하려면? java.text.DecimalFormat
+  - ```DecimalFormat df = new DecimalFormat("\u00A4##,###.")``` 
+
 
 
 #### - 형식화 클래스
 
+- DecimalFormat 왜? **숫자데이터**를 정수,부동소수점,금액등으로 다양한 형식으로 변환하기 위해서
 
+  ```java
+  double number = 1234567.89;
+  DecimalFormat df = new DecimalFormat("#.#E0"); //#10진수, .소수점 E지수 0 10진수(0값 없을 때 0)
+  ```
+
+- SimpleDateFormat 날짜 데이터를 우리가 원하는 방식으로 나타내기 위해서.
+
+  ```java
+  SimpleDateFormat sdf1; //선언
+  sdf1 = new SimpleDateFormat("yyyy-MM-dd"); //2015-11-23형식...
+  ```
+
+  
 
 ### 11. 컬렉션 프레임웍
 
@@ -614,7 +631,7 @@ public class CalendarEx2 {
 
 - 하나 이상 같은 데이터들의 집합은 배열로 만들어놨지만,
 
-  - 생성시에 배열의 크기를 정해놔야 하고,
+  - **생성시에 배열의 크기를 정해놔야 하고**, 그 값보다 더 많은 값을 지정하려면 에러가 발생.
 
   
 
@@ -631,6 +648,16 @@ public class CalendarEx2 {
 ###### 11.1 Collection 인터페이스
 
 ###### 11.2 List 인터페이스
+
+```java
+Arraylist a1 = new Arraylist();
+a1.add("one");
+
+// String[] arrayObj = new String[2];
+// arrayObj[0] = "one"; 과 같은말.
+```
+
+
 
 ###### 11.3 Set 인터페이스
 
@@ -687,6 +714,24 @@ public class SetTest {
 ```
 
 
+
+#### - ArrayList
+
+- Object배열을 이용해서 데이터를 순차적으로 저장.
+
+### 12. 지네릭스
+
+###### 12.1 지네릭스
+
+###### 12.2 열거형
+
+###### 12.3 애너테이션
+
+
+
+### 15. 입출력(I/0)
+
+###### 15.1 자바에서 입출력
 
 
 
