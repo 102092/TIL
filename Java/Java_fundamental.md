@@ -9,10 +9,82 @@
 3. [TCP자바](<http://tcpschool.com/java/intro>)
 
    - **반드시 내가 이해한바를 적는다.** 
-
    - **그냥 교재나 코드가 써있는 바를 적지 않는다.**
 
-   
+
+
+### 1. 시작
+
+![](C:\Users\student\Downloads\687474703a2f2f77696b69646f63732e6e65742f696d616765732f706167652f3235372f6a646b2e6a7067.jpg)
+
+- JVM 자바 가상 머신?
+
+  - 자바바이트 코드를 실행시킬 수 있는 기계.
+  - 서로 다른 운영체제에 맞춰서 실행시키기 위해 사용하는 것.
+
+  ![](C:\Users\student\Downloads\img_java_jvm.png)
+
+  -  Garbage collector가 있는 곳. 더 이상 사용하지 않는 메모리를 자동으로 회수해주는 역할
+
+- JRE 자바 실행환경
+
+  - JVM을 포함하고 있고
+  - 자바를 동작시킬때 필요한 라이브러리,기타파일들을 가지고 있음.
+
+  
+
+![](C:\Users\student\Downloads\javacomplie.png)
+
+- `javac`를 통해 `java`를 컴파일(컴퓨터언어로바꿔주고), 이 형태가 `.class`
+- `java`는 `.class`파일을 실행시킬 수 있음.
+
+- 변수명
+
+  - <u>숫자, 특수기호가 맨 앞에 올 수 없고</u>,
+  - 자바에서 사용되는 키워드는 사용할 수 없고.
+
+  ```
+  abstract  continue  for         new        switch
+  assert    default   goto        package    synchronized
+  boolean   do        if          private    this
+  break     double    implements  protected  throw
+  byte      else      import      public     throws
+  case      enum      instanceof  return     transient
+  catch     extends   int         short      try
+  char      final     interface   static     void
+  class     finally   long        strictfp   volatile
+  const     float     native      super      while
+  ```
+
+  
+
+- 주석
+
+  ```java
+  //한줄
+  /*여러
+  줄
+  /*
+  ```
+
+
+
+- 자료형
+  - 변수를 처음 선언할 때 어떤 자료형인지 알려주는 것
+    - 숫자, int long, double float byte short
+    - boolean  true,false
+    - 문자, char
+    - 문자열 관련해서는 String, StringBuffer (서로 다른것)
+    - 배열, ArrayList
+    - 해쉬, HashMap
+- 접근제어자
+  - 적절한 제어를 통해, 객체에 접근성을 설정할수있음
+  - `private` : 해당클래스내만 접근할 수 있음
+  - `default` : 해당 패키지내만
+  - `protected ` : 해당 패키지 + 해당클래스 + 해당클래스를 상속받은 외부 패키지에서의 클래스까지
+  - `public` 
+- `fianl` : 상수, 선언하면 변경되지 않음. 객체에서 어떤 것을 상수로 선언해줘야하나도 고민해봐야할 문제. 
+- 자바는 멀티쓰레드 환경을 구성하기가 좋음.
 
 ### 2. 변수 variable
 
@@ -21,6 +93,8 @@
 - 변수는 메모리상 공간.
 - 변수는 단 하나의 값만 저장할 수 있음.
 - ```int``` 변수타입 : 정수, ```age``` : 변수 이름. ```//age라는 이름의 변수를 선언한 것```
+- 기본형(primitive type)
+- 참조형(reference type)
 
 
 
