@@ -656,7 +656,7 @@ select deptno, ename, job, sal from emp where  sal >=1500 and job = 'PRESIDENT' 
 
 
 
-- Database SQL Language Reference](<https://docs.oracle.com/cd/E11882_01/server.112/e41084/toc.htm>)
+- [Database SQL Language Reference](<https://docs.oracle.com/cd/E11882_01/server.112/e41084/toc.htm>)
   - `Function` 으로 들어가면 함수에 대한 reference를 볼 수 있음.
   - `chr`
 
@@ -905,9 +905,15 @@ Q. 사원번호중 홀수인 사원들만 출력
 
 
 
+<<<<<<< HEAD
 #### 6.2 조건처리 함수
 
 - `decode`(column, 표현식1, 리턴값1, 표현식2, 리턴값 2......)
+=======
+  ![](./Oracle_SQL.assets/date_tochar.png)
+
+  ![](./Oracle_SQL.assets/date_tochar_eng.png)
+>>>>>>> cc0f97dad328d594ad83f346a5277db2143e14f4
 
 - 조건처리 표현식, 표준 sql3에서 : case [표현식] when [값|조건표현식]  then 값
 
