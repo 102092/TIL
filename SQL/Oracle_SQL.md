@@ -710,9 +710,9 @@ Q. 사원번호중 홀수인 사원들만 출력
 
 - `to_char('기존 날짜','변환한 문자format 형식')`
 
-  ![](TIL\Oracle_SQL.assets\date_tochar.png)
+  ![](SQL/Oracle_SQL.assets/date_tochar.png)
 
-  ![](TIL\Oracle_SQL.assets\date_tochar_eng.png)
+  ![](SQL\Oracle_SQL.assets\date_tochar_eng.png)
 
 	- 영어형식으로 날짜가 출력됨.
 
