@@ -712,7 +712,7 @@ Q. 사원번호중 홀수인 사원들만 출력
 
   ![](./Oracle_SQL.assets/date_tochar.png)
 
-  ![](SQL\Oracle_SQL.assets\date_tochar_eng.png)
+  ![](./Oracle_SQL.assets/date_tochar_eng.png)
 
 	- 영어형식으로 날짜가 출력됨.
 
