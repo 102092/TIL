@@ -489,7 +489,7 @@ select deptno, ename, job, sal from emp where  sal >=1500 and job = 'PRESIDENT' 
 
 ### 5. 필수 함수
 
-- Database SQL Language Reference](<https://docs.oracle.com/cd/E11882_01/server.112/e41084/toc.htm>)
+- [Database SQL Language Reference](<https://docs.oracle.com/cd/E11882_01/server.112/e41084/toc.htm>)
   - `Function` 으로 들어가면 함수에 대한 reference를 볼 수 있음.
   - `chr`
 
@@ -710,9 +710,9 @@ Q. 사원번호중 홀수인 사원들만 출력
 
 - `to_char('기존 날짜','변환한 문자format 형식')`
 
-  ![](\Oracle_SQL.assets\date_tochar.png)
+  ![](TIL\Oracle_SQL.assets\date_tochar.png)
 
-  ![](\Oracle_SQL.assets\date_tochar_eng.png)
+  ![](TIL\Oracle_SQL.assets\date_tochar_eng.png)
 
 	- 영어형식으로 날짜가 출력됨.
 
