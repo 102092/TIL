@@ -7,9 +7,8 @@
 2. [생활코딩_자바](<https://opentutorials.org/course/1223>) - 참고
 
 3. [TCP자바](<http://tcpschool.com/java/intro>)
-
-   - **반드시 내가 이해한바를 적는다.** 
-   - **그냥 교재나 코드가 써있는 바를 적지 않는다.**
+- **반드시 내가 이해한바를 적는다.** 
+- **그냥 교재나 코드가 써있는 바를 적지 않는다.**
 
 
 
@@ -37,26 +36,6 @@
 
 - `javac`를 통해 `java`를 컴파일(컴퓨터언어로바꿔주고), 이 형태가 `.class`
 - `java`는 `.class`파일을 실행시킬 수 있음.
-
-- 변수명
-
-  - <u>숫자, 특수기호가 맨 앞에 올 수 없고</u>,
-  - 자바에서 사용되는 키워드는 사용할 수 없고.
-
-  ```
-  abstract  continue  for         new        switch
-  assert    default   goto        package    synchronized
-  boolean   do        if          private    this
-  break     double    implements  protected  throw
-  byte      else      import      public     throws
-  case      enum      instanceof  return     transient
-  catch     extends   int         short      try
-  char      final     interface   static     void
-  class     finally   long        strictfp   volatile
-  const     float     native      super      while
-  ```
-
-  
 
 - 주석
 
@@ -86,6 +65,8 @@
 - `fianl` : 상수, 선언하면 변경되지 않음. 객체에서 어떤 것을 상수로 선언해줘야하나도 고민해봐야할 문제. 
 - 자바는 멀티쓰레드 환경을 구성하기가 좋음.
 
+
+
 ### 2. 변수 variable
 
 ###### 2.1 변수란?
@@ -100,11 +81,355 @@
 
 ###### 2.2 변수 초기화.
 
-primitive data type : boolean, byte, short, chat, int, long, float, double
+###### 2.3 변수 명명규칙
 
-- 하나의 값만 가질 목적으로 만들어짐.
+- 대소문자구분, 길이제한없음
+
+- 예약어(true같은) 사용못함
+
+  ```
+  abstract  continue  for         new        switch
+  assert    default   goto        package    synchronized
+  boolean   do        if          private    this
+  break     double    implements  protected  throw
+  byte      else      import      public     throws
+  case      enum      instanceof  return     transient
+  catch     extends   int         short      try
+  char      final     interface   static     void
+  class     finally   long        strictfp   volatile
+  const     float     native      super      while
+  ```
+
+  숫자로 시작되어서는 안됨.
+
+- 특수문자는 '_' , '$'만 허용
+
+  
 
 
+
+###### 2.4 변수 타입
+
+- primitive data type : boolean, byte , short  char, int, long, float, double (기본형) 실제 값을 저장하고
+
+  
+
+  ![](https://t1.daumcdn.net/cfile/tistory/993908415A96665E19)
+
+  - 작은 크기의 변수타입을 선언해줘야 하는 이유? 저장공간을 절약해주기 위해
+
+- reference data type : 위 8개 그외. 주소값을 저장함.
+
+- 리터럴? 그 자체로의 값을 의미하는 것.
+
+  ```java
+  final int MAX_VALUE(상수) = 100(리터럴);
+  ```
+
+###### 2.5 printf()
+
+```java
+%b boolean형식으로 출력
+%d digit 정수
+%o 8진수
+%x %X 16진수형태로 출력
+%f 부동소수점
+%e,E 지수
+%c 문자로 출력
+%s 문자열로 출력
+```
+
+
+
+###### 2.6 형변환(casting)
+
+- 변수 , 상수타입의 다른 타입으로 변환하는 것.
+
+- `(타입) 피연산자` 로 선언하면서 바꿔줌.
+
+- 기본형 형변환
+
+  ```java
+  double d = 85.4;
+  int score = (int) d
+  //score = 85
+  // d= 85.4 .. 형변환해도 원래 변수값에는 변화없음.
+  ```
+
+
+
+- 정수형(int) -> 실수형(float) 변환하는 것은 별 무리 없음. 왜? 실수형이 훨씬 큰 저장범위를 가지기 때문
+
+- 그런데 실수형(float) -> 정수형(int)이면 버림이 발생 1.6666 -> 1로 **오버플로우** 가 발생하여.
+
+  
+###### 2.7 자동형변환
+
+- 형변환을 해야되는 상황에서 컴파일러가 자동적으로 해주는 것.
+
+- 어떤 규칙으로? *기존의 값을 최대한 보존할 수 있는 타입으로 자동으로 형변환 해줌.*
+
+  ![](https://t1.daumcdn.net/cfile/tistory/99142D335A095BCA27)
+
+- 묵시적 형변환은 자동으로 해주는 것이고, 명시적 형변환은 내가 선언해줘야 하는 것.
+
+
+
+### 3. 연산자
+
+- 산술(+-,,) > 비교(=..) > 논리(>,<...)> 대입 연산자 순으로 수행
+- 단항 > 이항 > 삼항 연산자.
+
+
+
+###### 3.1 산술 변환
+
+- 데이터타입이 다르면 산술 연산을 수행하지 못하므로, 형변환 연산자를 사용하여 일치시켜야함.(보다 큰타입으로)
+- 피연산자 타입이 `int`보다 작은 타입이면 `int`로 변환됨.
+
+
+
+###### 3.2 단항 연산자.
+
+- `i++` i = i +1; 과 같음.후위형, 증감자 포함된 식이 실행된 후 증감이 실행되고
+- `++i` i = i +1; 과 같은데, 전위형이고 증감자 포함식이 실행되기 **전**에 증감이 실행됨. 즉 증감이 언제 되냐?의 찿이지.
+- `i--, --i` ..
+
+
+
+###### 3.3 비트 연산자.
+
+- & | ^ ~ << >>
+
+- ^(XOR)
+
+  ![](https://kocoafab.cc/data/140811110855.jpg)
+
+###### 3.4 그 외 연산자.
+
+- 조건 연산자 `? :`
+
+  `조건식 ? 식1(참) : 식2(거짓)`
+
+  유용하니까 기억해두자.
+
+
+
+###  4. 조건문, 반복문.
+
+###### 4.1 조건문
+
+- `if, elseif , else...`
+
+```JAVA
+if (조건식1) {
+    // 조건식1이 참(0이 아닌값)일 때 수행될 문장.
+} else if(조건식2) {
+    // 조건식2이 참(0이 아닌값)일 때 수행될 문장.
+} else{
+    // 조건식이 거짓(0) 일때 수행될 문장.
+}
+```
+
+- `switch`
+
+```java
+switch (조건식){
+    case 값1:
+        //조건식 결과가 값1과 같을 때 수행될 문장.
+        break;
+    case 값2:...
+        
+        default: 
+        //위의 값들과 일치되지 않을 때 수행될 문장.
+}
+```
+
+- `while`문하고 많이 쓰임.
+- `while(true)` 하면 무한반복문 실행되고.
+- `break` 빼먹으면 안됨. 원하는 값 안나올 수 있음.
+
+
+
+###### 4.2 반복문.
+
+- `for` 문
+
+```java
+for(int i = 1; i < 5; i++){
+    //....
+}
+// int i = 1? 변수 초기화
+// i < 5 조건식
+// i++ 증감식.
+```
+
+- `for` 문 중첩도 가능.
+
+- `while` 문
+
+```java
+while (조건식){
+    // 조건식이 참일 경우, 반복될 문장.
+}
+int i = 1;
+
+while (i < 5){
+    i++;
+}//위 for문의 반복문과 같은 식. 조금 다름.
+```
+
+- `while ` 문 조건식은 생략 불가하고.
+
+
+
+- `do-while` 문
+
+```java
+do{
+    // 일단 한번은 실행하고, 밑에 조건식이 참일 경우 다시 수행함.
+}while (조건식);
+```
+
+
+
+- `break` 문
+
+  - 반복문 작성시에 변수 선은은 가능한 반복문 밖에, 왜? 변수 초기화가 계속 될 수 있으니까.
+  - `break` 문 사용시, 자신이 포함된 가장 가까운 반복문을 벗어남.
+
+- `continue` 문
+
+  - `continue` 문 사용시, 바로 자신이 포함된 반복문의 끝으로 이동하여, 다음 반복문으로 넘어감.
+
+### 5. 배열
+
+- 같은 타입의 여러 변수를 하나의 묶음으로 다루는 것.
+
+###### 5.1 배열선언
+
+  `타입 [] 변수이름;`
+
+  `int [] score; `//int 타입 배열 참조변수 score를 선언한것.
+
+- 배열의 인덱스는 0부터 시작한다.
+
+- 배열의 길이는? `배열이름.length` 로 알아볼수 있음. 
+
+  - `ArrayIndexOutOfBoundException` 오류 유효한 인덱스,배열범위를 넘어서 무언가를 하려 할때
+
+
+
+###### 5.2 배열 초기화
+
+- 배열안에 원하는 값을 저장하라면 각 요소의 값을 지정하여 초기화해줘야함.
+
+  ```java
+  int [] score = new int[5]; //  길이가 5인 int형 배열 생성
+  score[0] = 50;
+  score[1] = 60;...//이런식으로.
+      
+  //또는
+      
+  int[] score = new int[] { 50,60,70,80,90}; // 배열 생성과 초기화를 동시에 해줄수도 있음.
+  ```
+
+  
+
+######   5.3 배열의 출력
+
+- 배열에 저장된 값을 확인할때는 `for`문을 사용하면됨
+
+- 혹은 `Array.toString()`  을 사용
+
+  ```java
+  int[] iArr = {100,90,80,70,60};
+  
+  for (int i= 0; i < iArr.length; i++){
+      System.out.println(iArr[i]);
+  }
+  ```
+
+  - `iArr` 배열 자체를 출력하게 되면, '타입@주소' 형식으로 출력됨.
+
+
+
+###### 5.4 배열의 복사
+
+1. `for` 문을 사용해서 배열을 복사.
+
+   `temp`배열을 사용해서 배열을 복사하는 방식,.
+
+2. ` System.arraycopy()` 를 사용
+
+   ```java
+   System.arraycopy(num, 0 , newNum,0,num.length);
+   //num[0] 배열에서 newNum[0] 으로 num.length개의 데이터를 복사하는 것.
+   ```
+
+
+
+###### 5.5 배열의 활용
+
+1. 총합, 평균.
+   - 반복문을 사용해서 전체를 더하고, 배열의 길이를 이용해서 총합을 나누면 평균이 나오고.
+2. 최대값, 최소값
+
+   - 임시변수 `temp`, 반복문`for` 이용
+3. 섞기
+4. 임의의 값으로 배열 채우기
+5. 정렬
+6. 빈도수
+
+
+
+###### 5.6 String 배열
+
+- `String[] name = new String[3];` 3개의 문자열을 담을 수 있는 배열 생성.
+
+- char배열이 아닌 string클래스를 이용해서 문자열을 사용하는 이유는? 확장성 때문.
+
+- 주요메서드
+
+  ```
+  char charAt(int index) //해당 인덱스에 있는 문자를 반환
+  int length() // 문자열의 길이 반환
+  String substring(int from, int to) //from~ to(포함하지 않음) 범위에 있는 문자열 반환
+  boolean equals(String str) // 문자열 내용이 같은지
+  char[] toCharArray() // 문자열을 문자배열char[]로 변환해서 반환
+  ```
+  
+- char 배열, String클래스 변환
+	```java
+	char[] chArr = {'A','B','C'};
+  String str = new String(chArr); // char배열 -> String
+  char[] temp = str.toCharArray; // String -> char배열
+  ```
+  
+
+###### 5.7 다차원 배열
+
+- 2차원 배열
+
+  - 선언? `타입[][] 변수이름;` 
+
+  - `int[] [] score` = `new int [3][4]` // 3행 4열 배열 생성. ,2차원 배열
+
+  - 초기화? 
+
+    `int[] [] arr = new [] [] {{1,2,3},{4,5,6}};`
+
+    생성과 초기화 동시에, 다만 {}를 한번 더 쓰는 것을 잊지 말자.
+
+  - 가변 배열
+
+    `int [] [] score = new int[5][]`;
+
+    `score[0] = new int [4];`
+
+    `score[1] = new int [3];`
+
+    이렇게 함으로써 각 행마다 다른 배열을 생성하는 것이 가능
 
 ### 7. 객체지향프로그래밍 2
 
