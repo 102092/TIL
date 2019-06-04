@@ -571,7 +571,7 @@ select deptno, ename, job, sal from emp where  sal >=1500 and job = 'PRESIDENT' 
 
 #### 4.9. 형 변환
 
-##### 	1. Number <=> Character
+##### 	4.91. Number <=> Character
 
 - `character` to `number` ? `to_number`
 
@@ -594,7 +594,7 @@ select deptno, ename, job, sal from emp where  sal >=1500 and job = 'PRESIDENT' 
 
 
 
-##### 	2. Character <=> Date
+##### 	4.92. Character <=> Date
 
 - `to_date('기존 문자열', '변환할 날짜format 형식')`
 
@@ -913,7 +913,8 @@ Q. 사원번호중 홀수인 사원들만 출력
   ![](./Oracle_SQL.assets/date_tochar.png)
 
   ![](./Oracle_SQL.assets/date_tochar_eng.png)
->>>>>>> cc0f97dad328d594ad83f346a5277db2143e14f4
+
+
 
 - 조건처리 표현식, 표준 sql3에서 : case [표현식] when [값|조건표현식]  then 값
 
@@ -1008,16 +1009,37 @@ order by &column;
 
 #### 6.3 그룹 함수
 
-- 그루핑된 행 집합, 테이블 전체 행 집합의 커럼이 함수의 인수로 전달되고 결과는 반드시 1개를 리턴하는 함수
+- 그루핑된 **행 집합**, 테이블 전체 행 집합의 커럼이 함수의 인수로 전달되고 결과는 **반드시 1개**를 리턴하는 함수
 - `sum(number타입|expression)`
 - `avg(number타입|expression)`
 - `stddev(number타입|expression)` 표준편차
 - `variance(number타입|expression)` 분산
 - `max, min(numbe,char, date 컬럼타입|expression)`
-- `count([distinct] number, char, date 컬럼타입 | expression)` null이 아닌 값을 카운트함.
+- `count([distinct] number, char, date 컬럼타입 | expression)` 
+  - `count(*)` 테이블의 전체 행수를 리턴, 내부적으로는 `not null` 또는 `PK` 제약조건이 선언되어있는 컬럼을 가지고 카운트를 함.
+  - `distinct`를 인수로 사용 할 수 있음. 즉 보통적으로는 중복된 값도 모두 카운트한다는 말이겠네?
 - `group by` 
   - `group by `절에는 column명만 선언할 수 있음.
   - 그룹함수에 대한 조건은 `having` 절에만 선언할 수 있다.
+
+- *그룹함수는 `null` 값을 연산에 포함시키지 않습니당.*
+
+- 그룹함수를 적용한 컬럼과, 그룹함수를 적용하지 않은 컬럼이 select절에 있을 경우?
+
+  group by절에 그룹함수를 적용하지 않은 컬럼을 반드시 선언해줘야함.
+
+- 그룹함수에 조건은? `having` 절에
+
+```sql
+select --컬럼, 그룹함수 컬럼 5번
+from -- 1번
+where -- 필터조건 2번
+group by -- 컬럼 3번
+having -- 4번
+order by -- 정렬 방식 6번
+```
+
+
 
 
 
@@ -1076,7 +1098,7 @@ group by max(sal);
 
 select deptno, count(*), sum(sal)
 from emp --1
-group by deptno --2
+group by deptno --2, 컬럼명만 쓸 수 있음. , 를 이용해서 여러 컬럼을 그룹할 수 있고.
 Having count(deptno) >4; --3
 
 ```
@@ -1135,18 +1157,19 @@ from employees;
 
 
 
-### 7. 조인join
+### 7. 검색방법 - projection, selection, join
 
-- `from`절은 테이블 여러개 선언해서 가져올 수 있음. `from table1,table2...`
 
+
+#### 7.1 Join 조인
+
+- 하나 이상의 테이블에서 동일한 속성의 컬럼값이 일치할 때 테이블 테이블의 row(가로) 결합해서 결과집합으로 생성
+
+- from`절은 테이블 여러개 선언해서 가져올 수 있음. `from table1,table2...`
 - 조인 조건을 잘못 정의하거나, 조인 조건을 누락하면  *cartesian product* 현상이 일어남
-
   
-
-
-
-#### 7.1 조인 종류
-
+- catesian product? 두테이블의 모든 row가 한번씩 조인되는 경우, 조심해야함.
+  
 - `equi join` (inner join)
 
   - 사용하는 열의 일치여부를 기준으로 테이블을 조인함.
@@ -1170,6 +1193,8 @@ from employees;
 
 - `non-equi join`
 
+  - 사용하는 열이 일치하지 않을 때, 사용하는 방법
+
   - 등가조건 이외의 방식.
 
   ```sql
@@ -1189,16 +1214,8 @@ from employees;
 
 - `self - join` (자기참조가 가능한 테이블에서만)
 
-  - 자기 테이블내에서 참조를 할때
-
-  ```sql
-  --문 사원번호, 사원이름, 관리자번호, 관리자 이름을 조회 결과 출력
-  select a.empno, a.ename, a.mgr, b.ename
-  from emp a, emp b
-  where a.mgr = b.empno; --a.mgr은 FK, b.empno는 PK
-  ```
-
-
+  - 하나의 테이블에 2개 row에서 조인
+- 자기 테이블내에서 참조를 할때
 
 - 2개이상 테이블에서의 조인
 
@@ -1217,7 +1234,10 @@ from employees;
 
   
 
-- `outer-join` 조인컬럼 값이 null인경우에  결과집합에 포함시키기 위한 조인.
+- `outer-join` 
+
+  - 일치하는 컬럼값이 없거나, 조인 컬럼값이 null인 경우, 그 row도 조인결과로 생성하려면?
+  - outer연산자를 어디다가 줘야하나? *join할 row가 없는 쪽*에다가
 
   ```sql
   --문> 부서번호가 없는 사원을 포함해서 사원들의 부서이름를 함께 출력
@@ -1228,6 +1248,9 @@ from employees;
   select a.empno, a.ename, a.deptno, b.dname
   from emp a, dept b
   where a.deptno = b.deptno(+); ----8000번 hong사원 포함?
+  
+  --sql1999
+  from emp a left outer join dept d on a.emp = d.deptno; --  위와 같음.
   
   select a.empno, a.ename, a.deptno, b.dname
   from emp a left outer join dept b on a.deptno = b.deptno; --기준절이 왼쪽이기 때문에 오른쪽에서 + 해서 넣어주고
@@ -1262,7 +1285,7 @@ from employees;
   order by  b.deptno;  -- 아웃터 연산자는 둘다 못씀.
   
   
-  -- 그래서 아래와같이 써야함.
+  -- 그래서 아래와같이 써야함., sql1999
   
   select b.deptno, b.dname, a.empno, a.ename, 
   from emp a full outer join dept b on a.deptno  = b.deptno
@@ -1271,30 +1294,46 @@ from employees;
 
   
 
-- `naturla join` 
+- `natural join` 
 
   - 조인할 테이블에서 동일한 이름의 컬럼으로 자동 equi 방식 조인을 수행
-  - 조인할 테이블에서 동일한 이름의 컬럼 앞에 소유자 테이블명 또는 alias를 선언하지 않음
+  
+  - 조인할 테이블에서 동일한 이름의 컬럼 앞에 소유자 테이블명 또는 별칭(alias)를 선언하지 않음
+
   - natual join 은 동일한 속성이지만, 설계할때 부모와 자식 테이블에서 이름을 다르게 정의하면 조인 수행 안됨
-
-    ```sql
+  
+  - 동일한 이름인데, 속성이 서로 다르다? 그러면 `natural join`이 일어나지 않음.
+  
+- `equi 조인`과 차이?
+  
+    -   EQUI JOIN에서 JOIN 조건이 '='일 때 동일한 속성이 두 번 나타나게 되는데, 이 중 중복을 제거하여 같은 속성을 한번만 표기하는 방식이 natural 조인 이다.
+    
+    출처: <https://all-record.tistory.com/160> [세상의 모든 기록]  
+    
+  ```sql
     select last_name, department_id, department_name
-    from employees, departments; 
+  from employees, departments; 
     --? 애매모호한 컬럼. 왜? 겹치는게 있음. 가지고 오려는 자산이 누구의 소유인지 확실히
-
+  
     select e.last_name, e.department_id, d.department_name
     from employees e, departments d; 
-    -- 조인 조건 누락. 그래서 107*27에 해당하는 row가 만들어짐.
-
+    -- 조인 조건 누락. 그래서 107*27에 해당하는 row가 만들어짐.catesian product
+  
     select e.last_name, e.department_id, d.department_name
     from employees e, departments d
     where a.deparetmentI_id = d.department_id;
-
+    
     select b.last_name, a.department_id, b.department_name
     from employees a natural join department b;
-    ```
+    
+    from employees a join department b on a.department_id = d.department_id;
+  ```
+  
+    
 
 #### 7.2 연습문제
+
+- exercise3
 
 ```sql
 --1
@@ -1321,10 +1360,328 @@ select a.last_name, a.employee_id,b.last_name, a.manager_id
 from employees a , employees b
 where a.manager_id = b.employee_id(+);
 
---6??
+--6?? 질문
 select a.department_id, a.last_name, b.last_name
 from employees a , employees b
 where a.department_id = b.department_id
 order by a.department_id asc;
+
+--7
+select a.last_name, a.job_id, c.department_name, a.salary, b.grade_level
+from employees a inner join departments c on a.department_id = c.department_id, job_grades b
+where a.salary between b.lowest_sal and b.highest_sal;
+
+--8
+select last_name, hire_date
+from employees
+where hire_date > (select hire_date
+                            from employees
+                            where last_name ='Davies');
+
+--9
+
+
 ```
+
+
+
+### 8. 서브쿼리
+
+- SQL 내부에 사용하는 SELECT문. 왜? SQL문을 실행하는데 필요한 데이터를 추가적으로 조회하기 위해서.
+- 싱글로우 오퍼레이터, 멀티블 컬럼 서브쿼리, 페어와이즈
+  - [참고](https://ttend.tistory.com/620)
+- 서브쿼리는 먼저 수행됨을 잊지 말자.
+
+
+
+##### 8.1 연습문제
+
+  ```SQL
+  -- 문> ADAMS 보다 급여를 많이 받는 사원
+  select ename, sal
+  from emp
+  where sal > (select sal
+              from emp
+              where ename ='ADAMS');
+  -- 문> 사원번호 7839번과 동일한 직무를 담당하는 사원정보 검색
+  select ename, sal, job
+  from emp
+  where job = (select job
+              from emp
+              where empno = 7839);
+              
+  --문> emp 테이블에서 최소 월급을 받는 사원 정보 검색
+select ename, sal
+from emp
+where sal = (select min(sal)
+             from emp);
+
+ -- 문> emp 테이블에서 전체 사원 평균 월급보다 급여가 적게 받는 사원 검색
+ select ename, sal
+ from emp
+ where sal < (select avg(sal)
+              from emp);
+              
+/*문>EMP 테이블에서 사원번호가 7521인 사원과 업무가 같고 
+급여가 7934인 사원보다 많은 사원의 사원번호, 이름, 담당업무, 입사일자, 급여를 조회하라. */
+
+select empno, ename, job, hiredate, sal
+from emp
+where sal > (select sal
+            from emp
+            where empno = 7934) and
+            job = (select job
+                    from emp
+                    where empno = 7521);	
+   
+	  
+  
+/*문> EMP 테이블에서 부서별 최소 급여가 20번 부서의 최소 급여보다 많은 부서번호와 부서의 최소급여를 
+조회하라.*/
+select depno, min(sal)
+from emp
+group by deptno
+having min(sal) > (select min(sal)
+            from emp
+            where deptno = 20);
+            
+
+--문> 10번부서 사원의 월급과 동일한 월급을 받는 다른 부서의 사원을 검색하시오
+-- mutiple row subquery
+select deptno, ename, sal
+from emp
+where deptno <> 10 and sal in (select sal
+                       from emp
+                       where deptno = 10);
+
+--문>부서별로 가장 급여를 많이 받는 사원의  사원번호 , 이름, 급여, 부서번호를 조회하라
+-- pair wise비교, subquery 결과가 3줄이상이면 =,,로 비교 못함. in 써야함.
+select empno, ename, sal, deptno
+from emp
+where (deptno,sal) in (select deptno, max(sal)
+              			from emp
+              			group by deptno);
+
+-- 문>업무가 SALESMAN인 최소 한명 이상의 사원보다 급여를 많이 받는 사원의 이름,  급여, 업무를 조회하라
+select ename, sal, job
+from emp
+where sal = ANY (select sal
+                 from emp
+                 where job = 'SALESMAN') and job <> 'SALESMAN';
+--문>업무가 SALESMAN인 모든 사원이 받는 급여보다 급여를 많이 받는 사원의 이름,  급여, 업무를 조회하라
+select ename, sal, job
+from emp
+where sal >all (select sal
+                from emp
+                where job = 'SALESMAN')
+and job <> 'SALESMAN';
+
+--문> 직무별 평균 급여중에서/ 직무별 평균급여가 가장 작은 직무를 조회하시오  (직무, 평균월급)
+select job, avg(sal)
+from emp
+group by job
+having avg(sal) = (select min(avg(sal))
+                from emp
+                group by job);
+
+  
+--문> 사원들중에서 월급이 높은 3사람을 조회하시오
+select rownum, ename, sal
+from emp
+order by sal desc; -- 이러면 rownum이 생성된 후에 sal기반으로 정렬됨. 그럼 뒤죽박죽
+
+--그래서
+select rownum, ename, sal
+from (select ename, sal
+     from emp
+     order by sal desc) -- from 절의 subquery를 inline view라고 부름.
+where rownum <4; 
+
+select rownum, employee_id, department_id, last_name, salary
+from (select employee_id, department_id, last_name, salary
+        from employees
+        where department_id = 80
+        order by salary desc )
+where rownum <4;
+
+
+--문>subquery를 사용해서 관리자인 사원들만 검색
+select empno, ename
+from emp
+where empno in (select mgr from emp);
+
+-- in? =, or
+
+  
+--문>subquery를 사용해서 관리자가 아닌 사원들만 검색
+select empno, ename
+from emp
+where empno not in (select mgr 
+                    from emp
+                    where mgt is not null);
+-- subquery의 모든 값을 비교해야 하는 연산에서는 null이 포함되어 있는지 여부를 먼저 체크해서 null을 처리하거나 제외시켜야함.
+-- not in ? !=, and
+
+--문> 각 부서별로 평균급여보다 급여를 많이 받는 사원 검색 (이름, 부서, 급여)  
+select a.ename, a.deptno, a.sal
+from emp a, (select deptno, avg(sal)avgsal
+            from emp
+            group by deptno) b 
+where a.deptno = b.deptno and a.sal> b.avgsal;
+
+-- corelated subquery,
+-- 위의 조인보다 쿼리 구분이 간결, 직관적임.
+select a.ename, a.deptno, a.sal
+from emp a
+where a.sal> (select avg(sal)
+            from emp b
+            where a.deptno = b.deptno);
+            
+/* conn hr/oracle
+desc employees  --현재 근무부서와 직무
+desc job_history --과거 근무했었던 부서, 직무, 기간 
+문> 사원들 중에서 2번이상 부서 또는 직무를 변경한 이력이 있는 사원의 사번, 이름(last_name) 출력
+*/
+
+
+-- join
+select a.employee_id, a.last_name
+from employees a, (select employee_id, count(employee_id) cnt
+            from job_history
+            group by employee_id) b
+where a.employee_Id = b.employee_id and b.cnt >= 2;
+
+-- corelative 
+select a.employee_id, a.last_name
+from employees a 
+where 2 <= (select count(employee_id)
+            from job_history
+            where a.employee_id = employee_id);
+  ```
+
+   
+
+- `co-related subquery`
+
+  where exist  연산자
+
+  ```sql
+  --문>subquery를 사용해서 관리자인 사원들만 검색
+  -- in? =, or
+  
+  select empno, ename
+  from emp
+  where empno in (select mgr from emp);
+  
+  select empno, ename
+  from emp a
+  where exists (select '1'
+                       from emp
+                      where a.empno = mgr);
+  
+  
+    
+  --문>subquery를 사용해서 관리자가 아닌 사원들만 검색
+  select empno, ename
+  from emp
+  where empno not in (select mgr 
+                      from emp
+                      where mgt is not null);
+                      
+  select empno, ename
+  from emp a
+  where not exists (select '1'
+                      from emp
+                      where a.empno = mgr);
+  ```
+
+  
+
+- with절
+
+  - 굉장히 복잡한 서브쿼리에서 반복적으로 사용하고 싶은 절이 있을 경우 사용함.
+
+    ```sql
+    --부서별 총 급여가 전체 부서의 평균급여보다 큰 부서번호와 총급열르 출력.
+    
+    with
+    dept_sum as (select department_id , sum(salary) sum_sal
+                        from employees
+                        group by department_id),
+    emp_avg as (select avg(sum_sal) total_avg
+                        from dept_sum)
+    select a.department_id, a.sum_sal
+    from dept_sum a, emp_avg b
+    where a.sum_sal > b.total_avg;
+    ```
+
+    
+
+### 9. 집합 연산자
+
+- `union, union all , minus, intersect`
+- 집합연산자를 진행할때는 컬럼타입과, 컬럼갯수가 일치해야 진행할 수 있음.
+
+ ```sql
+--문> 20명 사원의 현재와 과거의 모든 부서, 직무 이력을 출력 (동일한 직무와 부서 근무 이력은 중복 데이터로 출력합니다.)
+select department_id,job_id,department_id from employees
+	UNION ALL
+select department_id,job_id,department_id  from job_history;
+  
+--문> 20명 사원의 현재와 과거의 모든 부서, 직무 이력을 출력 (동일한 직무와 부서 근무 이력은 한번만 결과 데이터로 출력합니다.)
+
+select department_id,job_id,department_id  from employees
+	UNION
+select department_id,job_id,department_id  from job_history;
+
+--문> 20명 사원중 의 현재 직무와 부서를 과거에 동일한 부서와 직무를 담당한 사원 조회 (사원번호, 직무, 부서번호)
+
+select employee_id,job_Id,department_id from employees
+	INTERSECT
+select employee_id,job_Id,department_id from job_history;
+
+--문> 입사한 이후에 한번도 직무나 부서를 변경한 적이 없는 사원번호 출력
+
+select employee_id,job_Id,department_id from employees
+	MINUS
+select employee_id,job_Id,department_id from job_history;
+
+/*문> 전체 사원들의 급여 평균과
+    부서별 사원들의 급여 평균과 
+    부서와 직무별 사원들의 급여 평균을 단일 결과 집합으로 출력합니다.*/
+select to_char(null),to_number(null),avg(salary) from employees
+    UNION ALL
+select to_char(null),department_id,avg(salary) from employees group by department_id
+    UNION ALL
+select job_id,department_id,avg(salary) from employees group by department_id, job_id;
+
+-- rollup 을 사용해라
+select deptno, job, avg(sal)
+from emp
+group by rollup (deptno, job);   
+
+
+-- 직무별 사원들의 급여 평균과 , cube
+select deptno, job, avg(sal)
+from emp
+group by cube (deptno, job);
+ ```
+
+- `rollup` n+1개
+
+  group by (A,B) -> group by (A), -> group by()
+
+  group by (A,B,C) -> group by (A,B)  -> group by (A) -> group by()
+
+- `cube`
+
+  - 어떻게 돌아가지는지 ? 2^n
+
+
+
+  
+
+
+
+
 
