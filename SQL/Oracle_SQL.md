@@ -81,6 +81,12 @@ Oracle_SQL
 
   - 원래 ```sqlplus / 계정명/비밀번호 / sysdba``` 를 해야하는데 만약 보안프로그램이 설정되어 있으면 계정명/비밀번호를 해야하고, 그렇지 않으면 스킵해도 괜찮음.
 
+    ```sql
+    sqlplus scott / oracle -- cmd에서, sqlplus실행 scott계정으로 들어감. 비번 oracle
+    ```
+
+    
+
 - 실행된 후 일반 cmd창으로 빠져 나오려면? 명령어 : ```host```
 
   - host 창에서 다시 sql창으로? ```exit```
@@ -115,6 +121,8 @@ Oracle_SQL
   비밀번호 : 처음 오라클에 설정한 비밀번호
 
   SID : orcl로 설정
+  
+- 오라클 로컬 호스트 접속 https://localhost:1158/em
 
 ### 3. 기본
 
@@ -600,9 +608,9 @@ select deptno, ename, job, sal from emp where  sal >=1500 and job = 'PRESIDENT' 
 
 - `to_char('기존 날짜','변환한 문자format 형식')`
 
-  ![](C:/Users/student/Desktop/%EC%83%88%20%ED%8F%B4%EB%8D%94/TIL/SQL/Oracle_SQL.assets/date_tochar.png)
+  ![](Oracle_SQL.assets/date_tochar-1559715856515.png)
 
-  ![](C:/Users/student/Desktop/%EC%83%88%20%ED%8F%B4%EB%8D%94/TIL/SQL/Oracle_SQL.assets/date_tochar_eng.png)
+  ![](Oracle_SQL.assets/date_tochar_eng-1559715864134.png)
 
   - 영어형식으로 날짜가 출력됨.
 
@@ -1165,12 +1173,12 @@ from employees;
 
 - 하나 이상의 테이블에서 동일한 속성의 컬럼값이 일치할 때 테이블 테이블의 row(가로) 결합해서 결과집합으로 생성
 
-- from`절은 테이블 여러개 선언해서 가져올 수 있음. `from table1,table2...`
+- `from`절은 테이블 여러개 선언해서 가져올 수 있음. `from table1,table2...`
 - 조인 조건을 잘못 정의하거나, 조인 조건을 누락하면  *cartesian product* 현상이 일어남
   
-- catesian product? 두테이블의 모든 row가 한번씩 조인되는 경우, 조심해야함.
+- *catesian product*? 두테이블의 모든 row가 한번씩 조인되는 경우, 조심해야함.
   
-- `equi join` (inner join)
+- `equi join`  = `(inner join)`
 
   - 사용하는 열의 일치여부를 기준으로 테이블을 조인함.
 
@@ -1388,13 +1396,47 @@ where hire_date > (select hire_date
 ### 8. 서브쿼리
 
 - SQL 내부에 사용하는 SELECT문. 왜? SQL문을 실행하는데 필요한 데이터를 추가적으로 조회하기 위해서.
+
 - 싱글로우 오퍼레이터, 멀티블 컬럼 서브쿼리, 페어와이즈
-  - [참고](https://ttend.tistory.com/620)
+  
+  - 단일행, 다중행, 다중 컬럼 서브쿼리 명칭은 결과에 따라 명칭이 갈리고 있고.
+  
+  - 단일행 서브쿼리에서는 단일행 비교 연산자인` =, <> <,>`등의 연산자를 사용할 수 있음,
+  
+  - 다중행 서브쿼리는 
+  
+    ```
+    IN : 같은 값을 찾음
+    > ANY : 최솟값을 반환
+    < ALL : 최솟값을 반환
+    < ANY : 최댓값을 반환
+    > ALL : 최댓값을 반환
+    EXIST : 서브쿼리 값이 있을 경우 반환
+    ```
+  
+    `in` 연산자는 단일행 비교 연산자 '='와 비슷한 용도로 사용되고 있고,
+  
+    
+  
 - 서브쿼리는 먼저 수행됨을 잊지 말자.
 
+- `rownum` 은 결과행에 순차적인 번호를 발행하는 내장 컬럼이고, orderby 전에 발행되므로, orderby후에 발행하려먼 subquery를 사용
 
 
-##### 8.1 연습문제
+
+- 서브쿼리는 어디에 올 수 있는가?
+
+  - select, from, where, having, order by절에 올 수 있음.
+
+    ​    \- SELECT문에 있는 서브쿼리 : *스칼라 서브쿼리*
+
+    ​    \- FROM절에 있는 서브쿼리 : *인라인 뷰*
+
+    ​    \- WHERE절에 있는 서브쿼리 : *서브쿼리*
+
+- [참고](https://ttend.tistory.com/620)
+
+#### 8.1 연습문제
 
   ```SQL
   -- 문> ADAMS 보다 급여를 많이 받는 사원
@@ -1597,10 +1639,12 @@ where 2 <= (select count(employee_id)
 
   
 
-- with절
+- `with절`
 
   - 굉장히 복잡한 서브쿼리에서 반복적으로 사용하고 싶은 절이 있을 경우 사용함.
 
+  - `as` 뒤에 `subquery` 명칭을 정리하여...
+  
     ```sql
     --부서별 총 급여가 전체 부서의 평균급여보다 큰 부서번호와 총급열르 출력.
     
@@ -1612,15 +1656,26 @@ where 2 <= (select count(employee_id)
                         from dept_sum)
     select a.department_id, a.sum_sal
     from dept_sum a, emp_avg b
-    where a.sum_sal > b.total_avg;
+  where a.sum_sal > b.total_avg;
     ```
-
+  
     
 
 ### 9. 집합 연산자
 
-- `union, union all , minus, intersect`
+- 서로 다른 `select`의 결과를 단일 결과집합으로 만들기 위해  사용하는 연산자
 - 집합연산자를 진행할때는 컬럼타입과, 컬럼갯수가 일치해야 진행할 수 있음.
+- 결과는 첫번째 컬럼값 기준으로 리턴됨. 다른 컬럼으로 정렬하려면 order by절을 사용해야하는데, 반드시 마지막 `select` 문에만 사용해야함.
+
+
+
+#### 9.1 union, union all , minus, intersect
+
+- 합집합 `union`, `union all` 후자는 중복을 허용하는 차이점이 있음, 
+- 차집합 `minus`  각 select의 결과 행에서 중복된 행만 결과로 생성하기 위해 sorting비교
+- 교집합 `intersect ` 첫번째 select의 결과에만 속한 행을 선택하기 위해 sorting비교
+
+
 
  ```sql
 --문> 20명 사원의 현재와 과거의 모든 부서, 직무 이력을 출력 (동일한 직무와 부서 근무 이력은 중복 데이터로 출력합니다.)
@@ -1667,20 +1722,761 @@ from emp
 group by cube (deptno, job);
  ```
 
-- `rollup` n+1개
-
-  group by (A,B) -> group by (A), -> group by()
-
-  group by (A,B,C) -> group by (A,B)  -> group by (A) -> group by()
-
-- `cube`
-
-  - 어떻게 돌아가지는지 ? 2^n
 
 
+#### 9.2 rollup,cube
+
+- 여기 다시한번 어떻게 사용되는지 알아볼것
+
+- `rollup` group by절에 의해 그룹지어진 집합결과에 대해서 좀 더 상세한 정보를 반환하는 기능.
+
+
+
+  ```sql
+select deptno, job, avg(sal)
+from emp
+group by cube (deptno, job);
+
+
+select deptno, job, mgr, avg(sal)
+from emp
+group by grouping sets ((deptno, mgr), (mgr), (job), ());
+  ```
+
+
+
+### 10. DML (데이터 조작어)
+
+- Data Manipulation Language
+
+
+
+#### 10.1 데이터 추가
+
+  - 새로운 데이터를 추가하려면 대상 테이블에 `insert` 권한 또는 테이블의 소유자
+
+    ```sql
+    insert into 테이블명 (컬럼명, 컬럼명..)
+    values (컬럼리스트의 순서대로 값)
+    ```
+
+    - 새로 추가되는 행의 데이터로 일부 컬럼값만 정의할 경우, 필수 컬럼은 반드시 
+
+    
+
+```sql
+insert into dept (deptno, dname)
+values(50,'IT');
+select *from dept;
+
+insert into dept
+values(55,'ERP',null);
+select *from dept;
+
+insert into dept
+VALUES(150,'HR',null); --에러 왜? 컬럼size가 초과했음.
+
+insert into dept
+values(50,'HR', null); --에러 왜? deptno(pk)에 중복값이 들어가기때문 무결성 제약조건!
+
+insert into emp( empno, ename, deptno)
+values(9000,'kim',70);-- 무결성 제약조건 위반, 부모키가 없음!
+
+insert into emp(empno, ename, deptno, hiredate)
+values(9000,'kim',50,sysdate); -- 함수 사용가능하니까 sysdate사용할수 있음.
+
+insert into emp(empno, ename, deptno, hiredate)
+values(9001,'lee',50,'19년3월2일'); -- 오류 리터럴이 형식 문자열과 일치하지 않음
+-- 세션에 맞는 날짜 포맷을 사용하면 되지만, 이렇게 해도 안들어가면? coversion해야함. to_date()함수를 사용
+
+insert into emp(empno, ename, deptno, hiredate)
+values(9001,'lee',50,'19/03/02'); 
+```
+
+
+
+#### 10.2 데이터 복사
+
+```sql
+create table emp10
+as select *
+from emp
+where 1=2;  -- 테이블 구조복사
+
+desc emp10
+select *from emp10; --테이블 구조를 보고
+
+insert into emp10
+select *from emp where deptno = 10; --values절 대신 subquery를 선언하면 그결만큼 행수가 추가됨.
+
+select *from emp10;
+
+insert into emp10 (empno, ename, deptno, sal)
+select empno, job,hiredate, mgr
+from emp where deptno = 20; --에러 왜? subquery에서 insert에 선언한 컬럼개수랑 타입이 일치하지 않기 때문에
+```
+
+
+
+#### 10.3 데이터 수정
+
+- 테이블에 이미 존재하는 행 데이터를 수정할때, 컬럼(세로)단위로 수정함.
+
+- `drop table 테이블명 purge; --테이블 삭제`
+
+  ```sql
+  update 테이블명
+  set 컬럼명 = new 컬럼값 [, 컬럼명 = new 컬럼값, ....];
+  
+  select empno, ename, deptno, sal from emp10;
+  update emp10
+  set sal = 1;
+  select empno, ename, deptno, sal from emp10;
+  rollback; -- 테이블 생성까지 롤백됨
+  select empno, ename, deptno, sal from emp10;
+  ```
+
+  ```sql
+  update dept
+  set deptno = 100
+  where dname = 'IT'; --에러 지정된 숫자보다 큰값
+  
+  update dept
+  set deptno = 40
+  where dname = 'IT'; -- 40번이 있음. 
+  
+  update emp
+  set deptno = 60
+  where empno = 7788; -- 참조무결성 제약 조건 위반 ,부모키가 없음, deptno60번이 있어야 업데이트할 수 있음.
+  ```
+
+
+
+- 문) SMITH사원의 급여를 KING사원의 급여와 동일하도록.
+
+```sql
+update emp
+set sal = (select sal
+                from emp
+                where ename = 'KING')
+where ename = 'SMITH';
+select * from emp
+```
+
+- `set` 절에도 `subquery` 를 사용할 수 있음! 단! `scalar subquery`문만, 즉 하나의 행만 리턴하는 서브쿼리만
+- 문)  KING사원의 동일 한 부서에 근무하는 king제외한 다른 사원의 급여를 20%인상
+
+```sql
+update emp
+set sal =  (select sal
+                from emp
+                where ename <> 'KING') *1.2
+where deptno = (select deptno
+               from emp
+               where ename = 'KING')
+               
+               --틀림
+               
+update emp
+set sal = sal*1.2
+where deptno = (select deptno from emp where ename ='KING')
+and ename <> 'KING'
+
+```
+
+
+
+#### 10.4 데이터 삭제
+
+- `delete from 테이블명;` 전체 행 삭제
+- `delete 테이블 명;` 오라클에서 from절 생략가능함. 삭제할떄
+- `delete from 테이블명 where 조건;` 조건을 만족하는 행만 삭제하고
+- `delete from 테이블명 where 컬럼 연산자(subquery)` 
+
+```sql
+delete from dept; -- 참조무결성 조건 때문에 삭제되지 않음. 즉 참조하고 있는 컬럼이 있으니까.. 부모레코드는 삭제가 불가함
+```
+
+
+
+- 문) ADAMS 사원과 동일한 직무를 담당하는 사원을 삭제(ADAMS사원은 제외)
+
+```SQL
+delete from emp 
+where job = (select job from emp where ename = 'ADAMS') and ename <> 'ADAMS';
+```
+
+
+
+#### 10.5 Merge
+
+- ETL 작업에서 많이 사용. 한꺼번에 `insert, update,delete` 를 한꺼번에 실행하는 문장
+
+- 잘못될 경우 `rollback` 을 통해 돌릴 수 있음.
+
+  ```sql
+  merge into 대상 테이블 t
+  using 소스테이블 s
+  on t.pk컬럼 = s.pk컬럼
+  when matched then
+  update set t.컬럼 = s.컬럼...
+  [delete where 조건]
+  when not matched then
+  insert (t.컬럼1, t.컬럼2)
+  values (s.컬럼1, s.컬럼2)
+  ```
+
+- 문> emp테이블로부터 30번 부서 사원정보를 emp30 테이블로 복제하시오
+  30번부서 사원은 직무와 급여를 update하고
+  급여가 2500이상이면 삭제하시오
+  20, 10번부서 사원은 사원번호와 이름과 부서번호만 입력하시오
+
+
+
+``` sql
+--emp 30에 대한 설정
+create table emp30 (empno, ename, deptno, job, sal)
+as select empno, ename, deptno, '  ' job, 0 sal
+from emp
+where deptno = 30;
+
+desc emp30
+select * from emp30; 
+
+update emp30
+set sal=null;
+
+alter table emp30 modify (job  varchar2(15), sal number(8,2));
+
+select * from emp30;
+
+-- emp30,emp merge
+
+merge into emp30 t
+using emp s
+on (t.empno = s.empno)
+when matched then
+update set t.job = s.job, t.sal = s.sal
+delete where t.sal > 2500
+when not matched then
+insert (t.empno, t.ename,t.deptno)
+values (s.empno, s.ename,s.deptno);
+
+select * from emp30;
+```
+
+
+
+
+
+### 11. 트랜잭션
+
+- 트랜잭션이란? 분리되어 수행될 수 없는 작업단위. *Trasaction - unit of work* 
+
+- 속성? ACID(원장성, 일관성, 격리성, 영속성)
+
+  - DB관점에서 Transaction은.. select에서는 포함되지 않고, 변경(DML,DDL,DCL)이 실행되면  Transaction이라 보면됨.
+
+- 트랜잭션 단위
+
+  - 1개 이상의 DML들로 구성 - 명시적으로 `commit`하거나 `rollback`해서 트랜잭션을 종료시켜야함
+    - 수행중인 DML 트랜잭션의 세션이 비정상적으로 종료하면(그냥 x클릭 눌러서 닫음) oracle 서버는 rollback을 수행함.
+    - 정상종료 하면(exit; 명령어를 통해) 오라클 서비는 commit함.
+  - 1개의 DDL -  `AutoCommit` 명시적으로 할필요없이 자동적으로 오라클서버가 `commit`해버림
+  - 1개의 DCL - `AutoCommit`
 
   
 
+#### 11.1 읽기 일관성
+
+- select하는 user들이 변경 중에 user작업이 종료될때 까지 기다리지 않고, 
+
+  변경 작업하려는 유저들은 select하는 유저들이 검색을 종료할때 까지 기다리지 않고,
+
+- **변경 작업중인 유저**들은 변경중인 값을 조회결과로 볼 수 있고
+
+- **변경 작업중이 아닌 유저**들은 DB에 저장된(COMMIT된) 데이터 값을 조회 결과로 볼 수 있는 것.
+
+  - 즉 트랜젹신이 완료(COMIT,ROLLBACK) 되기 전까지 조작 전 데이터 내용이 일관적으로 조회,출력,검색되는 특성이 **읽기 일관성**임.
+
+- 오라클 서버는 읽기 일관성을 위해서 `Lock, undo,segment`등을 지원
+
+```sql
+create table test(num number(2));
+insert into test values (1);
+insert into test values (2);
+savepoint a;
+insert into test values (3);
+insert into test values (4);
+savepoint b;
+insert into test values (5);
+insert into test values (6);
+select * from test;
+rollback -- 모두 롤백해서 남아있는 숫자가 없음
+rollback to savepoint b; -- b까지만 롤백해라 그럼 1,2,3,4,는 남아있음
+```
+
+- `savepoint`없이 그 전 변경전 데이터를 보는 방법? `flashback qusery... `
+
+  - [참고](<http://www.gurubee.net/lecture/1876>) oracle에서만 지원하는 기능..
+
+  
+
+### 12. DDL (데이터 정의어)
+
+#### 12.1 테이블 생성
+
+#### 12.2 테이블 변경
+
+#### 12.3 테이블 이름 변경
+
+#### 12.4 테이블 데이터 삭제
+
+#### 12.5 테이블 삭제
+
+- `drop table 테이블명;`
+
+  data -> undo 생성없이 물리적으로 삭제됨.
+
+  구조가 삭제
+
+  만약 복구하려면?
+
+  휴지통에 들어가있으니까, log recycle bin...으로 찾아볼 수 있음
+
+  그런데 `drop table 테이블명 purge; `로 삭제를 하면 휴지통에서 찾아볼 수 없이 바로 삭제됨.
+
+  윈도우에서 `shift` + `delete`  키로 삭제한 것과 같음,
+
+```sql
+create table copy_dept
+as select * from dept;
+desc copy_dept
+select * from copy_dept;
+
+drop table copy_dept;
+desc copy_dept;
+
+select*from copy_dept;
+
+select tname from tab;
+select *from "BIN$M6CHI0ADSvaajo1KNmkUFQ==$0"; -- BIN~이름은 각각다를 수 있음. 휴지통에 있는
+
+FLASHBACK table copy_dept to before drop; --flashback oralce에서만, 
+
+select*from copy_dept;
+```
+
+
+
+### 13. 객체 종류
+
+- **Table(객체)** = row + column
+
+  물리적으로 data를 저장하고
+
+  heap, IOT, partition..
+
+- **View(객체)** , table의 data에 대한 windwo
+
+  물리적인 data가 없고, 논리적인 table이라 말함.
+
+  select문으로 정의.
+
+  *목적? 보안, 복잡한 쿼리문을 간결하게 사용하기 위해서*
+
+- **index(객체)** 눈으로 보이지는 않지만,,, 검색을 빨리 하기 위해서 오라클 서버 자체가 만드는 객체임.
+
+- **sequence(객체)**
+
+
+
+### 14. 분석 함수
+
+**[window** 함수의 종류]
+
+- 윈도우를 근간, 정렬된 로우들의 집합 각각의 로우들에 대한 집계값을 반환
+- 윈도우 함수는 기본적으로 over절과 같이, 필요하면 `partitionby`, `orderby`절과 같이 씀
+  - `partition by` 전체 집합을 기준에 의해 소그룹으로 나눔.
+
+**1.** **그룹내 순위 함수 :** RANK, DENSE_RANK, ROW_NUMBER
+
+**2.** **그룹내 집계관련 함수 :** SUM, MAX, MIN, AVG, COUNT
+
+**3.** **그룹내 행 순서 관련 함수 :** FIRST_VALUE, LAST_VALUE, LAG, LEAD
+
+**4.** **그룹내 비율 관련 함수 :** CUME_DIST, PERCENT_RANK, NTILE, RATIO_TO_REPORT
+
+
+
+#### 14.1 그룹 내 순위함수
+
+- **RANK**
+
+Q) emp 테이블에서 사원이름, 직무, 급여 데이터와 전체 사원의 급여가 높은 순서와 JOB별로 급여가 높은 순서 출력
+
+```sql
+select ename, job, sal, 
+	rank() over(order by sal desc) sal_rank --급여로 내림차순
+	, rank() over (partition by job order by sal desc) job_rank
+from emp;
+
+--emp사원 테이블에서 사원이름, 직무, 급여 데이터와 전체 사원의 급여를 높은 순서로 출력하되,동일한 순위를 하나의 등수로 간주하여 출력하시오
+
+select ename, job, sal, 
+	dense_rank() over(order by sal desc) sal_rank 
+	, rank() over (order by sal desc) sal_rank2
+from emp;
+```
+
+- `dense_rank`와 그냥 `rank`의 차이
+
+  전자는 순위를 구하는 함수에서, 동일한 순위가 나온 것 다음 순위는 동일 순위와 상관없이 1 증가된 값을 돌려줌. 그냥 rank는 동일한 순위 갯수 만큼 그다음 순위가 더해져서 나오지만.
+
+
+
+- **ROW_NUMBER**
+  - 순위를 붙이는 데, 동일한 순위여도, 고유한 순위를 부여함. 즉 같은 순위가 두번 나올 수 없음. 그리고 이러한 순위는 rowid가 적은 행부터 붙여짐.
+
+Q)emp사원 테이블에서 사원이름, 직무, 급여 데이터와  전체 사원의 급여가 높은 순서와 동일한 순위에 대하여 고유한 순위 같이 출력
+
+```SQL
+select ename, job, sal, 
+	dense_rank() over(order by sal desc) sal_rank 
+	, rank() over (order by sal desc) sal_rank2
+	, row_number() over (order by sal desc, ename desc) sal_rank2
+from emp;
+```
+
+
+
+#### 14.2 그룹 내 집계함수
+
+- **SUM**
+
+Q사원들의 급여와 같은 매니저를두고 있는 사원들의  salary 합을구하여 출력한다.
+
+```sql
+select ename, mgr, sal, sum(sal) over (partition by mgr order by sal)
+from emp;
+```
+
+
+
+#### 14.3 그룹 내 행 순서 관련
+
+-  Range unbonded precsding
+  - 현재 행을 기준으로, 파티션내 첫번째 행까지 범위를 지정하는 것.
+
+Q) emp사원 테이블에서 사원이름, 관리자, 급여 데이터와 사원들의 급여와같은 매니저를 두고 있는 사원들의 
+salary 합을 파티션내에 현재 행을 기준으로 이전행의 salary들의 누적합을 함께 출력한다.
+
+```SQL
+select  ename, mgr, sal, 
+        sum(sal) over (partition by mgr order by sal
+                       range  unbounded preceding) 
+from emp;
+
+
+select  ename, mgr, sal, 
+        sum(sal) over (partition by mgr order by sal
+                       rows between unbounded preceding and current row)  --파티션 기준 이전행의 salary 누적함
+from emp;
+
+select  ename, mgr, sal, 
+        sum(sal) over (partition by mgr order by sal
+                       rows between 1 preceding and 1 following) --파티션 기준내앞한행,내 뒤 한행
+from emp;
+```
+
+
+
+- **First,Last value**
+
+```sql
+select ename, mgr, sal,
+first_value(sal) over (partition by mgr order by sal),
+last_value(sal) over (partition by mgr order by sal)
+from emp;
+
+select ename, mgr, sal,
+first_value(sal) over (partition by mgr order by sal),
+last_value(sal) over (partition by mgr order by sal
+range between current row and unbounded following)
+from emp;
+```
+
+
+
+![](Oracle_SQL.assets/fl_sql.png)
+
+
+
+![](Oracle_SQL.assets/fl_sql2.png)
+
+
+
+- **lead,lag**
+- LAG와 LEAD 함수는 주어진 그룹과 순서에 따라 다른 로우에 있는 값을 참조할 때 사용되는데 LAG는 선행 로우의 값을, LEAD는 후행 로우의 값을 가져와 반환한다
+
+```sql
+select  ename, mgr, sal, 
+        lag(sal) over (order by hiredate ) ,
+        lag(sal, 2, 0) over (order by hiredate ) 
+from emp;
+
+
+select  ename, mgr, sal, 
+        lead(sal) over (order by hiredate ) ,
+        lead(sal, 2, 0) over (order by hiredate ) 
+from emp;
+```
+
+
+
+### 15. 제약조건
+
+
+
+**table 또는 컬럼 이름 규칙 :**
+
+1. 영문자 또는 _, $, #로 시작해야하고, 두번째 문자부터는 숫자 허용
+2. 키워드 안되고 ex)`select`
+3. 중복된 이름은 허용안됨.
+
+**schema**  
+
+1. 서로 연관된 테이블, index등의 객체를 그룹핑하는 논리적인 개념일 일컫는말이고
+2. 객체 명을 재상용할 수 있는 namespace의 역할을 하고
+3. 오라클은 유저명을 schema명으로 사용하고
+4. 스키마 내에서 중복된 이름은 사용 불가, 길이제한은 30, db이름 길이제한 8자
+
+
+
+**컬럼타입**
+
+1. `char` 고정길이 문자열, ~2000byte
+2. `varchar2` 가변길이 문자열 ~4000byte
+3. `number(p,s)`
+4. `date` -- _세기 _년 _월 _일 _시 _분 _초
+5. `timestamp` --data타입 확장, 1/10^9의 정밀한 초값 저장하고
+6. `timestamp with timezone`
+7. `interval year to month`
+8. `interval day to second`
+9. `rowid`
+10. `CLOB (character large object)` ~4G까지 저장 가능, 2,4000 Byte를 넘어가면
+11. `rowtype` -- binary형식의로 값이 저장, 예) 지문, 증명사진 이런거
+12. `BLOB(binary large object)` ~4G까지 예)동영상
+13. `BFILE` (read only) 가능한 file을 db외부에 운영체제의 폴더에 저장, tx처리
+
+왜 이걸 하나? 컬럼타입을 알아야지 어떤 컬럼 타입으로 정의할지 알 수 있으니까.
+
+
+
+- 새롭게 테이블을 생성하고
+
+```sql
+desc user_tables
+
+select table_name, tablespace_name from user_tables;
+
+create table 테이블명(
+컬럼명 컬럼타입(size)
+컬럼명 컬럼타입(size) [default 값].  --컬럽타입에 맞는 값이 들어가야함
+컬럼명 컬럼타입(size) [제약조건]. 
+)
+
+--CTAS를 이용해서 테이블 구조만 복제, 테이블 구조+데이터 복제가능함. 어떤거?
+create table 테이블이름
+as(subquery);
+
+create table emp20
+as select empno, ename, deptno, sal*12 
+from emp
+where deptno = 20; -- error 왜? sal*12행때문. 2가지 방법으로 해결할 수 있는데
+
+--1.
+create table emp20
+as select empno, ename, deptno, sal*12 salary
+from emp
+where deptno = 20; --alias를 지정하거나
+
+--2.
+create table emp20 (empid, name, deptid, salary)
+as select empno, ename, deptno, sal*12 
+from emp
+where deptno = 20;-- 
+```
+
+
+
+- 제약조건?
+
+제약조건 constraint - table의 DML 수행시 규칙
+
+#### 15. 1 Primary Key 
+- 지정된 열이 유일한 값이면서 null을 허용하지 않음.  `pirmary key = not null+ unique`
+
+- 다른 제약 조건은 하나의 테이블에 여러개 선언가능, 그렇지만 pk는 테이블에 *하나만* 지정 가능.
+
+```sql
+create table userinfo 
+(userid  varchar2(10)  constraint userinfo_pk primary key, --제약 조건 생성하면 인덱스 자동생성 그래서 제약조건 비활성하면, 인덱스 자동삭제되고
+ username  varchar2(15)  ,
+ age  number(30)
+);
+
+desc userinfo
+insert into userinfo 
+values ('tester1', '테스터1', 20);---?
+
+insert into userinfo  (username, age)
+values ( '테스터2', 25);     --에러 왜? PK가 없어서
+
+insert into userinfo 
+values ('tester1', '테스터5', 35); --에러 왜? 무결성 제약조건 위만 즉 이미 삽입되었음
+
+select * from userinfo;
+
+select constraint_name, constraint_type
+from user_constraints
+where table_name = 'USERINFO'; -- 제약조건 확인
+
+select index_name, uniqueness
+from user_indexes
+where table_name = 'USERINFO'; -- 인덱스조건 확인
+```
+
+
+
+
+
+#### 15.2 not null 
+- 지정된 열에 null을 허용하지 않음. null을 제외한 데이터의 중복은 허용
+
+```SQL
+create table userinfo(userid varchar2(10) not null,
+username varchar2(15) constraint userinfo_nn not null,
+age number(30)
+);
+
+desc userinfo
+
+insert into userinfo
+values('tester1','테스터1' ,20);
+
+insert into userinfo (username, age)
+values('테스터1' ,20); --에러 왜? userid는 not null이기 때문에 
+
+select * from userinfo;
+
+select constraint_name, constraint_type
+from user_constraints
+where table_name ='USERINFO';
+
+insert into userinfo(userid, age)
+values('tester2',30); -- 에러
+
+alter table userinfo disable constraint userinfo_nn; --userinfo_nn의 조건을 disable함
+
+insert into userinfo(userid, age) --그러니까 삽입가능
+values('tester2',30);
+
+select*from userinfo;
+```
+
+```sql
+drop table userinfo;
+select * from userinfo;
+desc userinfo
+select constraint_name, constraint_type
+from user_constraints
+where table_name ='USERINFO'; -- 삭제되어있음 왜? 테이블이 삭제되었기 때문
+
+select * from recyclebin;
+flashback table "BIN$foMsDb2VSRi9qZIpkfW3Sg==$0" to before drop;
+
+select constraint_name, constraint_type
+from user_constraints
+where table_name ='USERINFO'; -- 해보면 constraint네임이 bin~으로 나옴. 버그. 나중에 리네임해야함.
+```
+
+
+
+#### 15.3 unique
+- 지정한 열이 유일한 값을 가져야함. 중복될 수 없고, null값은 중복에서 제외됨.
+
+```sql
+create table userinfo 
+(userid  varchar2(10)  constraint userinfo_uk  unique,--unique제약조건을 선언
+ username  varchar2(15)  ,
+ age  number(30)
+);
+
+desc userinfo
+
+insert into userinfo 
+values ('tester1', '테스터1', 20);
+
+insert into userinfo  (username, age)
+values ( '테스터2', 25);   --userid null
+
+insert into userinfo  (username, age)
+values ( '테스터3', 30); --userid null
+
+insert into userinfo 
+values ('tester1', '테스터5', 35); --에러 무결성제약조건
+
+select * from userinfo;
+
+select constraint_name, constraint_type
+from user_constraints
+where table_name = 'USERINFO';
+
+select index_name, uniqueness
+from user_indexes
+where table_name = 'USERINFO'; --unique를 선언했으니까 자동으로 unique index 생성함
+
+alter table userinfo disable constraint userinfo_uk; --userinfo의 조건을 disable함
+
+select index_name, uniqueness
+from user_indexes
+where table_name = 'USERINFO'; --존재하지 않는다..왜? 조건을 disable해서
+
+alter table userinfo enable constraint userinfo_uk;
+
+select index_name, uniqueness
+from user_indexes
+where table_name = 'USERINFO'; -- index 다시 자동 생성
+```
+
+#### 15.4 foreign key
+- 다른 테이블의 열을 참조하여 존재하는 값만
+
+#### 15.5 check
+- 설정한 조건식만 만족하는 데이터를 입력
+
+```SQL
+create table userinfo(
+userid  varchar2(10),
+username  varchar2(15),
+gender   char(1) constraint userinfo_ck  check (gender in ('F', 'M')),
+age  number(2) check (age > 0 and age < 100)
+);
+
+select constraint_name, constraint_type, search_condition
+from user_constraints
+where table_name='USERINFO';
+
+insert into userinfo  values ('a001', 'an', 'f', 20);  --위반 소문자로 되어서
+insert into userinfo  values ('a001', 'an', 'w', 20); --위반 소문자로 되어서
+insert into userinfo  values ('a001', 'an', null, 20);   --삽입
+insert into userinfo  values ('a002', 'choi', 'M', 0); --위반 나이가 0보다 커야함
+insert into userinfo  values ('a002', 'choi', 'M', 100); --위반, 지정된 자릿수보다 큰값 100보다 작아야하는데
+insert into userinfo  values ('a002', 'choi', 'M', 25);  --삽입
+
+drop table userinfo purge;
+```
 
 
 
