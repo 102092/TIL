@@ -6,7 +6,7 @@ Today I Learned. Daily commit.
 
 - 주중에 해야할 것
     - **(필수)** 배운 것, 내가 이해하는 바를 정리하기.
-    - **(필수)** [프로그래머스](https://programmers.co.kr/), [Checkio](https://checkio.org/) 보고 java, python,javascript를 이용하여 일주일 3문제씩.
+    - **(필수)** [프로그래머스](https://programmers.co.kr/), [Checkio](https://checkio.org/) 보고 java, python 이용하여 일주일 2문제씩.(Level_3목표로)
     - 풀었으면 다른 사람의 코드를 보고 배울점 찾고 못 풀었으면 왜 못 풀었는지도.
     - 도서 읽기 [헬로코딩알고리즘](http://www.hanbit.co.kr/store/books/look.php?p_code=B5896248244), [운영체제](http://www.kyobobook.co.kr/product/detailViewKor.laf?mallGb=KOR&ejkGb=KOR&barcode=9788993712476), [TCP/IP](http://www.yes24.com/Product/goods/32203210)
     - 운동! 체력이 필수! (헬스장, 주3은 가자)
