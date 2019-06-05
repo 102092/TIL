@@ -80,7 +80,7 @@
 
      - 한글도 문자열에 이용할 수 있음. 왜? 파이썬 3.x는 유니코드를 지원해서.
      
-  2. +, *연산자 사용 가능함., 곱하면 그만큼 문자열을 반복하게 됨.
+  2. 문자열은 +, *연산자 사용 가능함., 곱하면 그만큼 문자열을 반복하게 됨.
   
   
 #### 2.2 자료형
@@ -215,14 +215,332 @@
 
 ## 3. 제어문
 
+#### 3.1 if문
+
+```python
+if x >= 90:
+    print...
+```
+
+- 비교연산자 = , !=, < , > , <=, >=
+- 논리연산자 and, or, not
+
+
+
+```python
+if<조건문> :
+    <실행될문장>
+else:
+    <if문이 성립하지 않으면 실행될 문장>
+```
+
+
+
+#### 3.2 for문
+
+```python
+for <반복변수> in <반복범위> :
+    <코드블럭>        
+```
+
+- `리스트[]`는 반복범위에 사용가능
+
+- `range(start, stop, step)` 함수
+
+  ```python
+  print(list(range(0,10,1))) #같음 range(10), range(0,10)
+  #out [0,1,2,3,4,5,6,7,8,9]
+  ```
+
+- 여러개의 리스트 다루기
+
+  리스트가 한개라면 `for` 문의 반복범위를 잉해서 출력할 수 있지만 리스트가 2개면??
+
+  `len()` 함수를 이용해서(리스트,튜플,세트,딕셔너리 항복 갯수를 셀수 있는)
+
+  ```python
+  names = ['james','Robert','Lisa','Mary']
+  scores = [95,96,97,98]
+  
+  for k in range(len(names)) #names배열만큼 돔 즉 4번 돌고 k가 0~3까지
+  print(names[k],scores[k])
+  
+  ```
+
+
+
+#### 3.3 while 문
+
+```python
+while <조건문> :
+    <코드블록>
+#조건문 만족하면 코드블록 계속 실행, 아니면 빠져나옴
+```
+
+- 무한반복 시키고 싶을때는? <조건문>에 `true` 이라고 쓴다.
+
+- `break?` 반복문을 빠져나오고 싶을때
+
+- `continue` 반복분의 처음으로 돌아가서 다음 반복을 진행함.
+
+  ```python
+  k = 0
+  while True:
+      k = k+1
+      
+      if(k=2):
+          print("continue next")
+          continue
+      if(k >4):
+          break
+      print(k)
+      
+  #out?
+  #1
+  #continue next
+  #3
+  #4
+  ```
+
+
+
+#### 3.4 한줄 for 문
+
+- 리스트,세트,딕셔너리 컴프리헨션. 해당 배열구조는 한 줄 for문을 지원함.
+
+- `[반복실행문 for 반복변수 in 반복범위]`
+
+  ```python
+  numbers =[1,2,3,4,5]
+  square = []
+  
+  for i in numbers:
+      square.append(i**2)
+      
+  #위아래 같은 코드
+  
+  numbers =[1,2,3,4,5]
+  square =[i**2 for i in numbers]    
+  ```
+
+  
+
+- `[반복실행문 for 반복변수 in 반복범위 if 조건문]`]
+
+  ```python
+  numbers =[1,2,3,4,5]
+  square = []
+  
+  for i in numbers:
+  	if i>=3:
+          square.append(i**2)
+      
+  #위아래 같은 코드
+  numbers =[1,2,3,4,5]
+  square = [i**2 for i in numbers if i>=3]
+  ```
+
+  
 
 
 ## 4. 입출력
 
+- 기본출력 `print()`
+
+- `print()` 안에 `\n` 넣으면 enter 효과
+
+- `print("best", "python", "book", sep ="-:*:-")`
+
+  `best-:*:-python-:*:-book`로 아웃풋됨. sep에 원하는 인자를 지정하면. 비워두면 **빈칸**이 기본
+
+#### 4.1 형식지정출력
+
+- 문자열 %s, 정수 %d or %i, 실수 %f or %F (기본적으로 소수점 6자리까지 표시)
+
+- `print("%type %type" % (data1, data2))`
+
+- 형식 지정 문자열에서 출력 위치를 지정해주는 방법
+
+  - print("{0} {1} {2}...".format(data_0, date_1, data_2...))
+
+  ```python
+  animal_0 = "cat"
+  animal_1 = "dog"
+  
+  print("Animal : {0}".format(animal_0)) # Animal : cat
+  print("Animal : {0},{1}".format(animal_0,animal_1)) # Animal : cat,dog
+  print("Animal : {},{}".format(animal_0,animal_1)) # Animal : cat,dog
+  ```
+
+  ```python
+  name = "tomas"
+  age = 10
+  a = 0.123456798013245987
+  fmt_string ="String: {0}. Integer Number {1}. Floating Number {2}" #출력 형식을 지정해주고
+  print(fmt_string.format(name,age,a)) #순서대로 넣어라
+  
+  #String: tomas. Integer Number 10. Floating Number 0.123456798013245987
+  ```
+
+- 형식 지정 문자열에서 숫자 출력 형식 지정
+
+  ```python
+  a = 0.1234567890123456789
+  print("{0: .2f},{0: .5f}".foramt(a)) #출력형식지정
+  # 0.12, 0.12345
+  ```
+
+#### 4.2 입력
+
+- `data = input("문자열")` 기본형식
+
+  ```python
+  b = input("정사각형 한변의 길이는?")
+  area = int(a) **2
+  print("정사각형 넓이: {}".format(area)) #입려되는 숫자의 타입을 모를때는 큰거 써라float
+  ```
 
 
-## 5. 모듈,라이브러리
+
+#### 4.3 읽고 쓰기
+
+- `f = open('file_name', 'mode')` 읽기
+
+  - mode에는.. 
+
+  ![](http://1p9tpk1c3jcx2qvybv1oynit.wpengine.netdna-cdn.com/wp-content/uploads/2011/09/python_file3.png)
+
+  
+
+- ```python
+  f = open('file_name,' 'w') #읽고 쓰기 모드 같은 이름의 파일이 있으면 기존 내용 모두 삭제
+  f.write(str) #str문자열을 쓰고
+  f.close() #f객체를 없애주고
+  ```
 
 
 
-## 6. 정규표현식
+- 파일에서 문자열 한줄씩 읽으려면? `readline()`
+
+- with문을 통해
+
+  ```python
+  with open('file_name' ,'mode') as f:
+      <코드블럭>
+  ```
+
+  
+
+## 5. 함수
+
+- 기본구조
+
+  ```python
+  def 함수명 ([인자1, 인자2....]):
+      <코드블럭>
+      [return <반환값>]
+  ```
+
+  예시
+
+  ```python
+  def my_func():
+      print("my first function!")
+  # my_func() 실행시 my first function! 출력
+  
+  def my_friends(friendName):
+      print("{}는 나의 친구!".format(friendname))
+  #my_friends("영미") 영미는 나의 친구 출력
+  
+  def my_calc(x,y):
+      z = x*y
+      return z
+  # my_calc(3,4) 12 출력
+  ```
+
+- 변수의 유효범위
+
+  1. 전역변수
+
+  2. 지역변수, 함수 생성시 같이 생성되었다가 함수가 끝나면 살아지는 변수
+
+
+
+#### 5.1 람다함수
+
+- `(lamda <인자> : <인자 활용 수행 코드>) (<인자>)`
+
+  - 람다를 다른 변수에 할때는 람다 함수 전체를 소괄호로 감싸지 않아도됨.
+
+  ```python
+  (lamda x : x**2) (3)
+  # out 9
+  
+  mySquare = lamda x : x**2
+  mySquare(2)
+  # out 9
+  ```
+
+
+
+#### 5.2 유용한 내장함수
+
+- 형변환함수
+
+  1. 정수형으로 변환 `int()`, 실수에게 쓸 경우 소수점 이하는 버리게됨.
+
+     `int(0.123)` ? 0
+
+  2. 실수형으로 변환 `float()` 
+
+     `float(123)` ? 123.0
+
+  3. 문자형으로 변환 str()
+
+     `str(123)` ? '123'
+
+  4. **리스트,튜플 세트형으로 변환**
+
+     `list(), tuple(), set()`
+
+     서로서로 변환가능 리스트 -> 튜플, 세트형 / 튜플 -> 리스트 세트형 / 세트 -> 리스트 ,튜플
+
+  
+
+- bool 함수
+
+  숫자 0 이면 `false`, 0이외의 숫자(양음정수 양음실수)는 `true`
+
+  문자열인 경우, 문자열이 있으면 `true` 없으면 `false`
+
+  단! 공백문자열은 문자열이 있는 것이고, 빈문자열('') 은 문자열이 없는 것. 그리고 `none`은 아무것도 없는 것으로 간주함.
+
+
+
+- 최대,최소함수
+
+  `max(),min()`은 리스트,튜플,세트 의 항목이나 문자열 중에서 최대 최솟값을 구함.
+
+  단 로마자 알파벳 A~Z , a~z순서
+
+  숫자와 로마자 알파벳을 비교했을 때 숫자가 더 작다.
+
+
+
+- 절대값, 전체합
+
+  `abs()` 절대값
+
+  `sum()` 전체합
+
+
+
+- 항복을 수하는 함수
+
+  `len()` 문자열, 리스트[], 튜플[], 딕셔너리{}에서 사용
+
+
+
+## 6. 객체와 클래스
+
+## 7.  모듈
