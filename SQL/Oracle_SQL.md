@@ -1,6 +1,9 @@
-Oracle_SQL
+# Oracle_database
+
+### 참고사항
 
 - [DoIt오라클로 배우는 데이터베이스입문](<http://www.yes24.com/Product/goods/65849798>)
+- [데이터베이스첫걸음](<https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=94059951>)
 
 ### Database 시작
 
