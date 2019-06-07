@@ -543,4 +543,192 @@ while <조건문> :
 
 ## 6. 객체와 클래스
 
+#### 6.1 객체
+
+- 파이썬은 객체지향 언어 OOP,
+
+- 객체는 클래스의 인스턴스.
+
+  - 붕어빵을 만드는 틀이 클래스라면, 객체는 붕어빵. 다만 단팥, 크림등등..속성이 다를 수 있지
+
+  ```PYTHON
+  class 클래스명():
+  	변수1 #클래스의 변수
+      
+      def 함수() : #클래스 함수
+          코드블록
+  ```
+
+  - 클래스에서 정의한 함수를 객체 생성후 이용할 떄는 메서드라고도 함.
+
+  ```python
+  class Bicycle():
+      
+      def move(self, speed):
+          print("자전거 : 시속 {0}킬로미터로 전진".format(speed))
+      def turn(self, direction):
+          print("자전거 : {0}회전".format(direction))
+      def stop(self):
+          print("자전거({0},{1}) : 정지".format(self.wheel_size, self.colr))
+          
+  my_bicycle = Bicycle() #객체 생성
+  #객체의 속성을 설정하려면?
+  my_bicycle.wheel_size = 26
+  my_bicycle.color = 'black'
+  
+  #객체의 변수에 접근해서 객체의 속성을 가져오려면?
+  print("바퀴크기는?",my_bicycle.wheel_size) # 바퀴크기는?26
+  
+  #객체의 매서드를 호출하려면?
+  my_bicycle.move(30) #자전거 : 시속 30킬로미터로 전진.
+  my_bicycle.stop() #자전거(26,black) : 정지 self인자만 들어감.
+  ```
+
+
+
+- 객체 초기화
+
+```python
+def __init__(self,wheel_size,color):
+	self.wheel_size = wheel_size
+    self.color = color
+#__init__이용, 받는 인자들로 초기화.    
+```
+
+
+
+#### 6.2 클래스
+
+- 클래스에서 사용하는 변수
+  - 사용하는 위치에 따라, 클래스 변수와 인스턴스 변수로 구분.
+  - 클래스변수는 *클래스.변수*로 접근하고
+  - 인스턴스변수는 *객체.변수*로 접근
+
+- 클래스에 사용하는 함수
+
+  - **인스턴스메서드, 정적메서드, 클래스 메서드**
+
+  
+
+  1. 인스턴스 메서드
+
+     - 각 객체에서 개별적으로 동작하는 함수를 만들고자 할 때 사용함.
+
+     - 인스턴스 메서드는 `self` 를 이용해 인스턴스 변수를 만들고 사용
+
+       ```python
+       class 클래스명():
+       	def 함수명(self,[인자...]):
+               self.변수명1 = 인자1
+               self.변수명2 = 인자2...
+               
+       # 객체 생성후 호훌 할 수 있음.
+       객체명 = 클래스명()
+       객체명.메서드명([인자1,인자2...])
+                         
+       ```
+
+  2.  정적 메서드
+
+     - 클래스와 관련있음. 클래스 안에 두긴 하지만, 클래스나 클래스의 인스턴스와는 무관하게 독립적으로 동작하는 함수를 만들고 싶을 때 사용.
+     - `staticmethod`를 선언
+
+     ```python
+     class 클래스명():
+     	@staticmethod
+         def...
+     ```
+
+  3. 클래스 메서드
+
+     - 클래스변수를 사용하기 위한 함수. 첫번째 인자로 `cls` 를 받고
+     - `classmethod`선언
+     - 생성된 객체의 갯수를 반환하는 등의 클래스 전체를 관리해야할 기능을 여기에 선언함
+
+     ```python
+     class 클래스명():
+         @classmethod
+         def...
+     ```
+
+  4. 클래스 상속
+
+  ```python
+  class 자식클래스 이름(부모 클래스 이름):
+      코드블록
+  ```
+
+  ```python
+  class Bicycle():
+      
+      def __init__(self,wheel_size,color):
+          self.wheel_size = wheel_size
+          self.color = color
+      
+      def move(self, speed):
+          print("자전거 : 시속 {0}킬로미터로 전진".format(speed))
+      def turn(self, direction):
+          print("자전거 : {0}회전".format(direction))
+      def stop(self):
+          print("자전거({0},{1}) : 정지".format(self.wheel_size, self.colr))
+  
+          
+  class FoldingBicycle(Bicycle): #상속받았음.
+      
+     def __init__(self,wheel_size,color,state): #초기화
+      Bicycle.__init__(self,wheel_size,color) #Bicycle 초기화 기능 재사용
+      #super()...으로도 사용가능
+      self.state = state #자식 클래스에서 새로 추가된 인자
+      
+      def fold(self):
+  		self.state ='folding'
+          print("자전거 : 접기,state ={0}".format(self.state))
+          
+      def unfold(self):
+  		self.state ='unfolding'     
+          print("자전거 : 펴기,state ={0}".format(self.state))
+  ```
+
+  ```python
+  fb = FoldingBicycle(27,'white','unfolding') #객체 생성
+  
+  fb.move(20) #부모클래스에서 함수를 호출 한것
+  fb.fold() #자식클래스에서 정의한 함수를 호출한것.
+  ```
+
+
+
 ## 7.  모듈
+
+- 상수, 변수,함수,클래스를 포함한 코드가 저장된 파일을 일컫음.
+
+```python
+%%writefile 주소\my_first_module.py
+
+def my_function():
+    print("this is my first module")    
+```
+
+- 모듈은 `import`를 이용해서 불러옴.
+- `import my_first_module`
+- `from 모듈명 import *` 모듈 내 모든 변수,함수,클래스를 불러옴.
+- `import 모듈명 as 별명` 
+
+
+
+#### 7.1 내장 모듈
+
+1. 난수 발생 모듈
+
+   - `import random`
+   - `ramdom.ramdon()` 0.0 <= 실수 <1.0 범위 임의의 실수를 반환
+     - `randint(a,b)` a<=정수 <=b 범위의 임의의 정수를 반환
+     - `randrange(start, stop, step)` 
+     - `sample(population, k)` 모집단에서 중복되지 않는 k개 인자를 반환
+
+
+2. 날찌,시간관련 모듈
+
+   - `import datetime`
+   -  date = year, month, day , time = hour,minute, second 가 있음.
+   - `now = datetime.datetime.now()` 현재시각을 구하는..
