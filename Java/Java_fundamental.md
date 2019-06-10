@@ -11,14 +11,10 @@
 
 ### 1. 시작
 
-![](C:\Users\student\Downloads\687474703a2f2f77696b69646f63732e6e65742f696d616765732f706167652f3235372f6a646b2e6a7067.jpg)
-
 - JVM 자바 가상 머신?
 
   - 자바바이트 코드를 실행시킬 수 있는 기계.
   - 서로 다른 운영체제에 맞춰서 실행시키기 위해 사용하는 것.
-
-  ![](C:\Users\student\Downloads\img_java_jvm.png)
 
   -  Garbage collector가 있는 곳. 더 이상 사용하지 않는 메모리를 자동으로 회수해주는 역할
 
@@ -28,8 +24,6 @@
   - 자바를 동작시킬때 필요한 라이브러리,기타파일들을 가지고 있음.
 
   
-
-![](C:\Users\student\Downloads\javacomplie.png)
 
 - `javac`를 통해 `java`를 컴파일(컴퓨터언어로바꿔주고), 이 형태가 `.class`
 - `java`는 `.class`파일을 실행시킬 수 있음.
