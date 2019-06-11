@@ -229,8 +229,6 @@
 
 - `select` 행단위로 조회
 
-  
-
 
 
 #### 4.1 변수
@@ -419,7 +417,7 @@
 
 ​		1. `select ename, sal from emp where sal >= 3000 and sal <=5000;`
 
-​			이대신에 `between 하한값 and 상한값`을 사용해도됨.
+​			대신에 `between 하한값 and 상한값`을 사용해도됨.
 
 ​	 Q. 직무가 clerk 또는 analyst인 사원을 검색?
 
@@ -619,10 +617,8 @@ select deptno, ename, job, sal from emp where  sal >=1500 and job = 'PRESIDENT' 
 
   - 영어형식으로 날짜가 출력됨.
 
-  
-
-  ```
-  alter session set nls_language=english;
+  ```sql
+alter session set nls_language=english;
   
   select '2019-05-30 5:43 PM' 
          , to_date('2019-05-30 5:43 PM' 'HH12:MI AM YYYY-MM-DD')
@@ -633,12 +629,8 @@ select deptno, ename, job, sal from emp where  sal >=1500 and job = 'PRESIDENT' 
          , to_date('2019-05-30 5:43 PM', 'YYYY-MM-DD HH12:MI PM')
   from dual; 
   ```
-
   
-
-
-
-
+  
 
 ### 5. 기본 함수
 
@@ -667,21 +659,13 @@ select deptno, ename, job, sal from emp where  sal >=1500 and job = 'PRESIDENT' 
 
   
 
-
-
 - [Database SQL Language Reference](<https://docs.oracle.com/cd/E11882_01/server.112/e41084/toc.htm>)
   - `Function` 으로 들어가면 함수에 대한 reference를 볼 수 있음.
   - `chr`
 
 
 
-![](C:\Users\student\Downloads\chr.gif)
-
-  - `n`정수값이 들어가면 이걸 이용해서.... char
-
-
-
-#### 5.1 문자함수 lower등, length, cocat
+#### 5.1 문자함수 lower등, length, concat
 
 - [참고](<https://mine-it-record.tistory.com/57>)
 
@@ -881,7 +865,9 @@ Q. 사원번호중 홀수인 사원들만 출력
 - `nullif(expression1, expression2)` : expression1과  expression2 동일한 타입이어야 함 동일한 타입이 아니면 에러.
 
   expression1과 expression2의 **값**이 동일하면 null을 리턴하고, **값**이 다르면 expression1을 리턴
-  
+
+
+
 ##### 6.11 연습문제
 
 1. 사원들 중 커미션을 받지 않는 사원들은 -1로 출력 (이름, 급여)
@@ -918,16 +904,9 @@ Q. 사원번호중 홀수인 사원들만 출력
 
 
 
-<<<<<<< HEAD
 #### 6.2 조건처리 함수
 
-- `decode`(column, 표현식1, 리턴값1, 표현식2, 리턴값 2......)
-=======
-  ![](./Oracle_SQL.assets/date_tochar.png)
-
-  ![](./Oracle_SQL.assets/date_tochar_eng.png)
-
-
+- `decode`(column, 표현식1, 리턴값1, 표현식2, 리턴값 2.....
 
 - 조건처리 표현식, 표준 sql3에서 : case [표현식] when [값|조건표현식]  then 값
 
@@ -954,6 +933,8 @@ Q. 사원번호중 홀수인 사원들만 출력
   				else sal+100 end "Increase"
   from emp;				
   ```
+
+
 
 ##### 6.21 연습문제
 
@@ -2231,6 +2212,19 @@ heap, IOT(index구조, 빠른검색을 위해 사용됨), partition. clustered�
    - 하나 이상의 테이블에 대한 select문으로 정의, 컬럼표현식 , group by  , 그룹함수  , 조인, rowid  , rownum 컬럼 등 포함된 경우
    - DML이 불가능한 View
 
+- 일반적인 생성방법 // [참고](<https://cailisin.tistory.com/147>)
+
+```sql
+create [ OR REPLACE ] [ FORCE | NOFORCE ] VIEW 뷰이름 [ (alias, alias, .....) ]
+
+as select....
+
+[ WITH CHECK OPTION [CONSTRAINT 제약조건] ]
+[ WITH READ ONLY ]
+```
+
+
+
 - `Create` 하는데는 권한이 있어야함.
 
 ```sql
@@ -2250,120 +2244,129 @@ as select empno, ename, deptno, job, sal*12 salary
 
 ```
 
-- `create or replace view` => alter view 역할읋 하는 것이고 alter view는 없음
+- `create or replace view` => alter view 역할을 하는 것이고 alter view는 없음
 
 - base가 되는 테이블이 있어야 view를 생성할 수 있는데, force옵션을 주면 강제로 view를 생성할 수 있음.
 
-  ```sql
-  create or replace view dept_vu --같은 이름의 뷰가 이미 존재하면 현재 생성할 뷰로 대체하는 방식
-  as select * 
-  from dept10; --error 왜? dept10이라는 테이블이 없으니까. 그래서.
+```sql
+create or replace view dept_vu --같은 이름의 뷰가 이미 존재하면 현재 생성할 뷰로 대체하는 방식
+as select * 
+from dept10; --error 왜? dept10이라는 테이블이 없으니까. 그래서.
   
-  create or replace force view dept_vu
-  as select *
-  from dept10; -- 컴파일 오류와 함께 view가 생성
+create or replace force view dept_vu
+as select *
+from dept10; -- 컴파일 오류와 함께 view가 생성
   
   
-  select object_name, object_type, status
-  from user_objects
-  where object_name = 'DEPT_VU';--dept_vu가 생성되었으나 유효하지 않음.
-  ```
+select object_name, object_type, status
+from user_objects
+where object_name = 'DEPT_VU';--dept_vu가 생성되었으나 유효하지 않음.
+```
+
+
 
   ```sql
-  create or replace force view dept_vu
-  as select * 
-  from dept10;
+create or replace force view dept_vu
+as select * 
+from dept10;
   
-  select * from dept_vu;
+select * from dept_vu;
+ 
+select * from emp20_vu;
+insert into emp20_vu values(9005,'SONG',20,'SALSEMAN',2000); --ERROR 왜? 가상열은 사용할 수 없음. 
   
-  select * from emp20_vu;
-  insert into emp20_vu values(9005,'SONG',20,'SALSEMAN',2000); --ERROR 왜? 가상열은 사용할 수 없음. 
+create or replace view emp20_vu
+as select empno, ename, deptno, job, sal
+from emp
+where deptno = 20;
+insert into emp20_vu values(9005,'SONG',20,'SALSEMAN',2000);
+select * from emp20_vu;
   
-  create or replace view emp20_vu
-  as select empno, ename, deptno, job, sal
-     from emp
-     where deptno = 20;
-  insert into emp20_vu values(9005,'SONG',20,'SALSEMAN',2000);
-  select * from emp20_vu;
+update emp20_vu set sal = 1900 where empno = 9005;
+select * from emp20_vu;
+select empno, ename, deptno, job, sal
+from emp
+where deptno = 20;
   
-  update emp20_vu set sal = 1900 where empno = 9005;
-  select * from emp20_vu;
-  select empno, ename, deptno, job, sal
-  from emp
-  where deptno = 20;
+delete from emp20_vu where empno = 9005;
+select * from emp20_vu;
+select empno, ename, deptno, job, sal
+from emp
+where deptno = 20;
   
-  delete from emp20_vu where empno = 9005;
-  select * from emp20_vu;
-  select empno, ename, deptno, job, sal
-  from emp
-  where deptno = 20;
+drop view emp20_vu; --view 객체 삭제하면, base테이블에 영향을 주는가? view에 삽입된 목록삭제되었음.
+select * from emp20_vu;
+select empno, ename, deptno, job, sal
+from emp
+where deptno = 20;
   
-  drop view emp20_vu; --view 객체 삭제하면, base테이블에 영향을 주는가? view에 삽입된 목록삭제되었음.
-  select * from emp20_vu;
-  select empno, ename, deptno, job, sal
-  from emp
-  where deptno = 20;
+create or replace view emp20_vu
+as select empno, ename, deptno, job, sal
+from emp
+where deptno = 20
+with  check option; --check 제약조건, 부서본번호가 20인 경우에만 사용하도록
   
-  create or replace view emp20_vu
-  as select empno, ename, deptno, job, sal
-  from emp
-  where deptno = 20
-  with  check option; --check 제약조건, 부서본번호가 20인 경우에만 사용하도록
+select constraint_name, constraint_type
+from user_constraints
+where table_name = 'EMP20_VU';
   
-  select constraint_name, constraint_type
-  from user_constraints
-  where table_name = 'EMP20_VU';
+insert into emp20_vu values(9005,'SONG',30,'SALESMAN',2000);
+select * from emp20_vu;
+select empno, ename, deptno, job, sal
+from emp
+where deptno = 20;
   
-  insert into emp20_vu values(9005,'SONG',30,'SALESMAN',2000);
-  select * from emp20_vu;
-  select empno, ename, deptno, job, sal
-  from emp
-  where deptno = 20;
+create or replace view emp20_vu
+as select empno, ename, deptno, job, sal
+from emp
+where deptno = 20
+with  read only; --제약조건 설정, select만 가능함.
+select constraint_name, constraint_type
+from user_constraints
+where table_name = 'EMP20_VU';
   
-  create or replace view emp20_vu
-  as select empno, ename, deptno, job, sal
-  from emp
-  where deptno = 20
-  with  read only; --제약조건 설정, select만 가능함.
-  select constraint_name, constraint_type
-  from user_constraints
-  where table_name = 'EMP20_VU';
-  
-  insert into emp20_vu values(9005,'SONG',30,'SALESMAN',2000);
-  
+insert into emp20_vu values(9005,'SONG',30,'SALESMAN',2000);
   ```
 
-  
+ 
 
-
+- `user_views, all_views, dba_views ` text 컬럼
+- `alter view 라는 구문 없음`
+- drop view 뷰이름 -테이블에 영향을 주지 않음
+  - 테이블 삭제하면 구조,데이터 ,제약조건, 인덱스도 삭제됨
+  - 그럼 테이블에 대한 view가 존재하는 데 테이블을 삭제drop하면? 뷰는 status는 invalid상태, 즉 객체는 남아있으나 사용은 불가능한 상태로 변함.
 
 
 
 
 #### 13.3 **index(객체)** 
 
-  눈으로 보이지는 않지만,,,
+눈으로 보이지는 않지만,,,  내부적으로 oracle서버가 select수행시에 사용하는 객체임.
 
-  내부적으로 oracle서버가 select수행시에 사용하는 객체임.
+검색도 향상, 즉 `select` 수행 성능향상을 위해서 사용하는 객체
 
 ```sql
 create index 인덱스 이름
-on 테이블 이름(열 이름1 asc or desc,
+on 테이블 이름(열 이름1 asc or desc,  --기본적으로 asc오름차순
           	열이름2 asc or desc,
          );
+alter index 인덱스 이름 --인덱스 변경
+on....
+drop index 인덱스 이름 -- 인덱스 삭제
+on 테이블 이름
 ```
 
 
 
-  ``` sql
-  select *
-  from emp
-  where ename = 'SMITH'; -- 인덱스가 없어서 풀스캔
-  
-  select *
-  from emp
-  where empno = 7788; --인덱스가 있어서, 인덱스 스캔
-  ```
+- 풀스캔, 인덱스 스캔
+```sql
+select *
+from emp
+where empno = 7788; --인덱스가 있어서, 인덱스 스캔
+select *
+from emp
+where ename = 'SMITH'; -- 인덱스가 없어서 풀스캔
+```
 
   - PK, UK 설정시에 Index 자동생성됨. 왜? 중복값 체크를 빠르게 하기 위해서 그리고 정확성 체크가 주목적.
 
@@ -2393,7 +2396,7 @@ on 테이블 이름(열 이름1 asc or desc,
 
     기본적으로는 오름차순으로 인덱스가 생성되는데, dec 옵션을 줘서 컬럼값을 내림차순으로 생성할 수 있음.
 
-  - 비트맵 인덱스
+  - 비트맵 인덱스, 비트리 인덱스..
 
     OLAP환경에서, 빠른 And Or연산을 사용할 때 유리함.
 
@@ -2407,25 +2410,31 @@ on 테이블 이름(열 이름1 asc or desc,
 
     
 
-#### 13.4 **sequence(객체)** 
+ #### 13.4 **sequence(객체)** 
 
 - 순차적으로 숫자값이 저장되어야 하는 컬럼(주문번호, 게시판의 글번호등)의 값을 자동으로 발행해주는 객체.
 
   생성할때, `최소값, 최대값, 증감값` 을 설정해줌
   
+
+
   ```sql
-  create sequence emp-seq
-  select *
-  from user_sueuqence;
+create sequence ~
+[start with ~]
+[increment by ~]
+[minvalue ~ | nominvalue]
+[maxvalue ~ | nomaxvaule]
+[cache n | nocache]
+[cycle | nocycle]
   ```
+
   
-  
-  
+
   - 객체를 생성하면 자동으로시퀀스의 내장 컬럼 currval,nextval
   
     - `curval` 현재 시퀀스 값을 보여줌. 
     - `nextval` 시퀀스값이 1증가
-  
+    
     ```sql
     create sequence emp_seq;
     select *
@@ -2453,7 +2462,7 @@ on 테이블 이름(열 이름1 asc or desc,
     select deptno, dname
     from dept;
     
-    alter sequence 시퀀스명 -- 변경가능 단 
+    alter sequence 시퀀스명 -- 변경가능 단 start with는 변경하지 못함.
     increment by
     maxvalue 
     minvalue
@@ -2462,7 +2471,7 @@ on 테이블 이름(열 이름1 asc or desc,
     ```
   
   - `drop sequence 시퀀스명` 메타 정보만 data dictionary로부터 삭제됨.
-  
+
   
 
 #### 13.5 **Synonym(객체)** 
@@ -2473,7 +2482,7 @@ on 테이블 이름(열 이름1 asc or desc,
   
   데이터,뷰,시퀀스등 객체이름대신 사용할 수 있는 다른 이름을 부여하는 객체.
   
-- `select * from user_synonyms` 에서 확인할 수 있음. 뭘? synonym에 대해서
+- `select * from user_synonyms` 에서 확인할 수 있음. 뭘? `synonym`에 대해서
 
 - 대소문자를 구분하지는 않음.
 
