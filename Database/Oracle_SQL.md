@@ -106,8 +106,9 @@
 
   <https://jeong-pro.tistory.com/157> // SQL 내부 처리방식 참고할 것.
 
-  - Soft parsing : SQL 실행계획이 캐시에 있으면 바로 실행되고,
+  - Soft parsing : SQL 실행계획이 **캐시**에 있으면 바로 실행되고,
   - had parsing : 캐시에 없으면 **최적화** 과정을 거친 후 , 실행되도록 하는 방식
+    - SQL문이 **캐시** 에 있느냐 없느냐 차이네
 
 - Symantic checking
 
@@ -201,7 +202,7 @@
 
     - char(size)
     - varchar2(size)
-    - number(p,s
+    - number(p,s)
     - date
     - timestamp
     - timestamp with timezone
@@ -222,7 +223,6 @@
 - sql문은 명령어가 축약이 불가하고, 반드시 세미콜론으로 끝나야함.
 
 - **sql문장의 키워드와 테이블명, 컬럼명등은 대소문자 구별안함.**
-  
   - <u>**단 컬럼값은 대소문자 구별함.</u>**
   
 - 주석은 단일`--주석문`, 멀티 `/* */` 
@@ -322,7 +322,7 @@
 	- null을 포함하는 컬럼들은 null아닌 값으로 변환 후에, 산술연산을 수행해야 됨.
 
   - 모든 DBMS는 <u>NULL 아닌 값으로 변환해주는 내장함수</u>가 존재한다!
-  - `nvl(column, null일때 리턴값)`
+      - `nvl(column, null일때 리턴값)`
 
 
 
@@ -343,8 +343,8 @@
 - Q) 'A' 를 출력하려면?
 
   ```
-  select '''A''' from dual; //가독성 너무 떨어짐. 그래서..
-  select q'['A']' from dual; // 현재 이 방식 지원하고 있음
+  select '''A''' from dual; --가독성 너무 떨어짐. 그래서..
+  select q'['A']' from dual; --현재 이 방식 지원하고 있음
   ```
   
 - Q) `select 10||10 from dual;`
@@ -432,14 +432,12 @@
 ​	
 
   * character pattern matching 연산자 : `like '%, _'`
-    		* % 문자 종류는 모든 문자, 갯수는 0~m개!
-        		* _ 는 문자 종류는 모든 문자, 개수는 1개!
+    		* % 문자 종류는 모든 문자, 갯수는 0~m개!		
+      * _ 는 문자 종류는 모든 문자, 개수는 1개!
+      
 
-1. 사원 이름 중에서 두번째 문자가 'D' 인 사원만 검색할때는?
-
-   `select ename from emp where ename like '_D%';`
-
-
+​	Q. 사원 이름 중에서 두번째 문자가 'D' 인 사원만 검색할때는?
+​      `select ename from emp where ename like '_D%';`
 
 ​	Q. 사원 이름 중에서 첫번째 문자가 'S' 시작하는 사원
 
@@ -477,7 +475,7 @@ select deptno, ename, job, sal from emp where  sal >=1500 and job = 'PRESIDENT' 
 
 - `select~from [where 필터조건] [group by 컬럼] [having 조건] [order by 정렬기준컬럼 정렬방식]`
 
-  - [] 는 선택조건. 넣어도 되고 안해도 되고.
+  - <u>[] 는 선택조건. 넣어도 되고 안해도 되고.</u>
   - 정렬방식 `asc`  오름차순, `default, desc` 내림차순, *적질않았을 경우 오름차순으로 됨.*
 
   Q. 월급의 오름차순으로 사원정보 출력
@@ -661,7 +659,6 @@ alter session set nls_language=english;
 
 - [Database SQL Language Reference](<https://docs.oracle.com/cd/E11882_01/server.112/e41084/toc.htm>)
   - `Function` 으로 들어가면 함수에 대한 reference를 볼 수 있음.
-  - `chr`
 
 
 
@@ -686,9 +683,9 @@ select concat(concat(ename, ' is '), job) from emp;
 
 ```sql
 select substr('today is 2015년 4월 26일', 1, 5),
-       substr('today is 2015년 4월 26일', 10, 5), - 10부터 15까지 추출
-       substr('today is 2015년 4월 26일', 15), - 15부터 나머지 모두
-       substr('today is 2015년 4월 26일', -3, 2) - 맨뒤? -1, -3부터 -1까지
+       substr('today is 2015년 4월 26일', 10, 5), -- 10부터 15까지 추출
+       substr('today is 2015년 4월 26일', 15), -- 15부터 나머지 모두
+       substr('today is 2015년 4월 26일', -3, 2) -- 맨뒤? -1, -3부터 -1까지
 from dual;
 --substr 부분추출. 1부터 5까지. 여기 index시작은 1부터됨.
 
@@ -1035,8 +1032,6 @@ order by -- 정렬 방식 6번
 
 
 
-
-
 ##### 6.31 연습문제
 
 ```sql
@@ -1076,8 +1071,6 @@ group by 절에는 column명만 선언할 수 있음.
 select deptno, job, avg(sal) from emp group by deptno, job;
 ```
 
-
-
 ```sql
 문>각 부서별로 인원수, 급여의 평균, 최저 급여, 최고 급여, 급여의 합을 
 구하여  급여의 합이 많은 순으로 출력하여라.
@@ -1096,8 +1089,6 @@ group by deptno --2, 컬럼명만 쓸 수 있음. , 를 이용해서 여러 컬�
 Having count(deptno) >4; --3
 
 ```
-
-
 
 ```sql
 문> EMP 테이블에서 급여가 최대 2900 이상인 부서에 대해서 부서번호, 평균 급여, 
@@ -1119,7 +1110,9 @@ having avg(sal) >3000;
 
 
 
-- from exercise2
+
+
+- **from exercise2**
 
 ```sql
 select max(salary), min(salary), sum(salary),avg(salary)
@@ -1153,8 +1146,6 @@ from employees;
 
 ### 7. 검색방법 - projection, selection, join
 
-
-
 #### 7.1 Join 조인
 
 - 하나 이상의 테이블에서 동일한 속성의 컬럼값이 일치할 때 테이블 테이블의 row(가로) 결합해서 결과집합으로 생성
@@ -1162,7 +1153,7 @@ from employees;
 - `from`절은 테이블 여러개 선언해서 가져올 수 있음. `from table1,table2...`
 - 조인 조건을 잘못 정의하거나, 조인 조건을 누락하면  *cartesian product* 현상이 일어남
   
-- *catesian product*? 두테이블의 모든 row가 한번씩 조인되는 경우, 조심해야함.
+  - *catesian product*? 두테이블의 모든 row가 한번씩 조인되는 경우, 조심해야함.
   
 - `equi join`  = `(inner join)`
 
@@ -1171,19 +1162,17 @@ from employees;
   ```sql
   --문 copy_emp와 dept테이블에서 사번,이름,부서번호,부서명 출력
   select a.empno, a.ename, b.deptno, b.dname
-  from copy_emp a join dept b on a.deptid = b.deptno;
+  from copy_emp a join dept b on a.deptid = b.deptno --copy_emp a에다가 dept b 테이블을 조인하는데 ,기준은 a.deptid = b.deptno가 같다고 생각하고임
   
-  drop table copy_emp purge;  --테이블 삭제
+  drop table copy_emp purge;  --테이블 영구히 삭제
   
   select a.empno, a.ename, b.deptno, b.dname
   from emp a  inner join  dept b  on a.deptno = b.deptno;
   ```
 
+  - 동일한 조건의 속성(`a.deptid = b.deptno)`이 없으면 `equi join`을 쓰지 못한다.
+
   
-
-  동일한 조건의 속성이 없으면 `equi join`을 쓰지 못한다.
-
-
 
 - `non-equi join`
 
@@ -1202,9 +1191,10 @@ from employees;
   
   select a.ename, a.sal, b.grade
   from emp a join salgrade b on a.sal between b.losal and b.hisal;
+  -- a.sal이 b.losal과 b.hisal사이에 
   ```
 
-  
+  *--복습여기서부터*
 
 - `self - join` (자기참조가 가능한 테이블에서만)
 
