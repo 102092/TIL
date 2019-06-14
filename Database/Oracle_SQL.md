@@ -292,6 +292,7 @@
   - ```date- date, date+-n```
   
 - `where` 타입
+  
   - `in` 여러값의 리스트에서 값들을 비교하할때는 `=,or`
   - `like ` 문자 패턴을 비교, `_ ,%` 만능문자를 함께 사용
   - `between ~ and ~` 범위연산자로, 하한값, 상한값을 포함해서 범위를 비교하는 연산자
@@ -423,7 +424,7 @@
 
 ​		1.`select ename, job from emp where job = 'clerk' or job =' analyst';`
 
-​			-`error` 왜? clerk , analyst로 검색했기 때문. 대소문자 컬럼값은 대소문자 구별하니까?
+​			-`error` 왜? clerk , analyst로 검색했기 때문. **대소문자 컬럼값은 대소문자 구별**하니까?
 
 ​		2.`select ename, job from emp where job in ('CLERK','ANALYST');`
 
@@ -432,8 +433,8 @@
 ​	
 
   * character pattern matching 연산자 : `like '%, _'`
-    		* % 문자 종류는 모든 문자, 갯수는 0~m개!		
-      * _ 는 문자 종류는 모든 문자, 개수는 1개!
+    		* **%** 문자 종류는 모든 문자, 갯수는 **0~m**개!		
+      * **_** 는 문자 종류는 모든 문자, 개수는 **1**개!
       
 
 ​	Q. 사원 이름 중에서 두번째 문자가 'D' 인 사원만 검색할때는?
@@ -510,7 +511,7 @@ select deptno, ename, job, sal from emp where  sal >=1500 and job = 'PRESIDENT' 
 
   
 
-#### 4.8 연습문제
+#### 4.8 연습문제 1
 
 ```
 [연습문제]
@@ -658,6 +659,7 @@ alter session set nls_language=english;
   
 
 - [Database SQL Language Reference](<https://docs.oracle.com/cd/E11882_01/server.112/e41084/toc.htm>)
+  
   - `Function` 으로 들어가면 함수에 대한 reference를 볼 수 있음.
 
 
@@ -1032,7 +1034,7 @@ order by -- 정렬 방식 6번
 
 
 
-##### 6.31 연습문제
+##### 6.31 연습문제 2
 
 ```sql
 문1 전체 사원 급여 합계, 평균, 최대값, 최소값 결과 출력?
@@ -1315,7 +1317,7 @@ from employees;
   
     
 
-#### 7.2 연습문제
+#### 7.2 연습문제 3
 
 - exercise3
 
