@@ -6,14 +6,15 @@ Today I Learned. Daily commit.
 
 - 주중에 해야할 것
     - **(필수)** 배운 것, 내가 이해하는 바를 정리하기.
-    - **(필수)** [프로그래머스](https://programmers.co.kr/), [Checkio](https://checkio.org/) 보고 java, python 이용하여 일주일 2문제씩.(Level_3목표로)
+    - **(필수)** [프로그래머스](https://programmers.co.kr/), [Checkio](https://checkio.org/),[백준](https://www.acmicpc.net/) 보고 java, python 이용하여 일주일 2문제씩.(Level_3 혼자 목표로)
     - 풀었으면 다른 사람의 코드를 보고 배울점 찾고 못 풀었으면 왜 못 풀었는지도.
     - 도서 읽기 [헬로코딩알고리즘](http://www.hanbit.co.kr/store/books/look.php?p_code=B5896248244), [운영체제](http://www.kyobobook.co.kr/product/detailViewKor.laf?mallGb=KOR&ejkGb=KOR&barcode=9788993712476), [TCP/IP](http://www.yes24.com/Product/goods/32203210)
     - 운동! 체력이 필수! (헬스장, 주3은 가자)
 
 - 주말에 해야 할것
     - **(필수)** 포스팅 한 것 다시 한번 살펴보기, 모르는 것 공부해야할 것 찾기.
-    - **(필수)** ADsP 준비.. 8월 목표.
+    - **(필수)** SQLD 준비.. 8월 목표.
+    - 간단한 프로젝트 진행.. (배웠으면 뭐라도 만들어보자)
 
 ## 2. 다짐
 - 어뷰징 하지 말고
