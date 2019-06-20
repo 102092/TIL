@@ -1,6 +1,7 @@
 # Javascript_fundamental	
 
 - [모던자바스크립트입문](<http://www.yes24.com/Product/goods/59410698>)
+  - 책 좋음. 고급 예제도 있음.
 
 
 
@@ -301,6 +302,22 @@ with(student){
 
 - 함수 선언
 
+  1. **함수 선언문으로 정의**
+
+     `function square(x) { return x*x;}`//square(5)
+
+  2. **함수 리터럴(익명 함수)로 정의**
+
+     `var square = function(x) {return x*x;}`//square(5)
+
+  3. **Fuction 생성자로 정의**
+
+     `var square = new Function ("x","return x*x");`// square(5)
+
+  4. **함수 표현식(람다식)으로 정의**
+
+     `var square = x => x*x` 호출??? `square(5)` 
+
 ```javascript
 //func1(); 왜 안되지? 아직 변수가 메모리에 안올라가서
 func2(); // 왜 됨? 호이스팅 때문에
@@ -419,20 +436,32 @@ function square(width, height, hypotenuse){
 
 #### 4.6 함수리터럴
 
-- `function(x){.,...}`  함수 리터럴이라 함. 그리고 이름이 없으니까 익명함수 또는 무명함수라고 이야기하고.
+- `function(x){.,...}`  함수 리터럴이라 함. 그리고 이름이 없으니까 *익명함수* 또는 *무명함수*라고 이야기하고.
 
 #### 4.7 생성자
 
 - 객체 생성할 것이 많다? 동일한 속성이다? 그럼 생성자를 만들자!
 
   ```javascript
-  function Student (파라미터1, 파라미터2....){// 함수명 첫번째는 반드시 대문자로 시작해야함
-      this.파라미터1 = 파라미터1;
-      this.파라미터2 = 파라미터2;
+  function Student (name, age....){// 함수명 첫번째는 반드시 대문자로 시작해야함
+      this._name = name;
+      this._age = age; //접근 못함 왜? private속성을 가지고 있어서
+      return{//객체를 리턴한다.
+          getName : function() {return _name;},
+        getAge : function() {return _age;}.
+          setAge : function(n) {_age = n;}
+      }; //get,set메서드를 설정해줌으로, 해당 객체의 이름,나이 그리고 나이를 설정할 수 있게해줌.
   }
+  
+  var p = New Student("kim", 30);; //p변수에 새로운 객체 생성
+  console.log(p._name); //오류 접근못함
+  console.log(p._age);//오류 접근못함
+  console.log(p.getName())//,,
   ```
-
+  
   `this` 값은 객체 내부의 데이터(프로퍼티 값) 상태를 바꾸거나 혹은 접근할때 사용함을 알 수 있지.
+  
+  - 함수가 호출되어 실행되는 시험에서 `this`값이 결정됨.
 
 ```javascript
     function Student(name, ko, math, en, sci ){
@@ -533,6 +562,8 @@ array[6] => 70
 */
 
 ```
+
+#### 4.10 클로저
 
 
 
@@ -715,6 +746,66 @@ msgObj.codePointAt(0): 69
         
 ```
 
+### 8. 함수
+
+#### 8.1 함수 기초
+
+- [참고](<https://beomy.tistory.com/9>)
+
+#### 8.2 재귀 함수
+
+```javascript
+function factorial(n){
+    if(n<=1)
+        return 1; //base case
+    else
+        return n*factorial(n-1); //recursion case
+}
+```
+
+- 반드시 멈춰야함.
+
+  
+
+#### 8.3 클로저
+
+- 은닉과 관련된 내용.
+
+
+
+#### 8.4 객체로서의 함수
+
+- 함수적 프로그래밍 특성
+  - **콜백함수?** 인수로 전달되는 함수를 일컫는 말.
+  - 변수에 함수를 저장할 수 있고
+  - 배열의 요소로 함수를 저장할 수 있고
+  - 함수 내부에 함수 정의 가능하고
+  - **고차함수?** 내부에 함수를 정의하거나, 함수를 반환하는 함수를 고차함수라 함
+
+- 자바스크립트 객체분류
+
+  - 내장 객체 - `object, String, Boolean, Number, Array(중요) , Date, Regexp...`
+
+  - 브라우저 객체 - `Window`
+
+    - `window method` ? close(), open(url, name, option...), moveBy, moveTo, alert(), confirm(),prompt(), setTimeout(function(){}, time(milisecond), clearTimeout(id)), setInterval(function(){}, time), clearInterval(id)
+
+      - Window 객체의 속성. document 는 HTML요소관련 처리하는 객체
+
+        getElementById(), getElementsByName(), getElementsByTagName(), getElementsByClassName(), querySelector("css의 select형식"), querySelectorAll()
+
+        createElement(), createComment(), **createDocumentFragement()**
+
+        createAttribute(), createTextNode()
+
+        setAttribute(), getAttribute(), removeAttribute()
+
+        parentNode(), childNode, **body**(dot을 통해 내려갈수 있음),appendChile()
+
+  - ECMAScript 객체
+
+
+
 ### 13. 웹브라우저의 객체
 
 - `DOM` 
@@ -765,6 +856,205 @@ msgObj.codePointAt(0): 69
 
 
     
+</body>
+</html>
+```
+
+
+
+#### 13.2 Location
+
+#### 13.3 History 객체
+
+- 웹 페이지 열람 이력을 관리.![](https://images.slideplayer.com/26/8778432/slides/slide_25.jpg)
+
+#### 13.4 Navigator 객체
+
+- 브라우저, 기기가 무엇인지.
+  - 즉 반응형 웹콘텐츠같이 처리해줄 수 있는 객체임.
+
+#### 13.5 Screen 객체
+
+- 모니터 정보 확인
+- `console.dir(screen)` 으로 확인 가능
+
+### 14. DOM
+
+- Document Object Model의 줄임말
+- 노드? DOM트리를 구성하는 객체 하나를 일컫는 말.
+
+![](https://parrot-tutorial.com/images/html_dom_tree.png)
+
+- 공백 노드도 있음.
+
+- **노드의 주요 객체**
+
+![](http://www.ktword.co.kr/img_data/2506_2.JPG)
+
+#### 14.1 노드 객체 가져오기
+
+- id, tagname,class속성..
+- `getElements` 일때는 집합객체로 가져오니까 하나씩 출력하려면? `for` 문을 돌려야겠네
+
+```javascript
+document.getElementByid("id값");
+document.getElementsByTagName();
+document.getElementsByClassName();
+```
+
+- CSS 선택자를 통해, 
+
+```JAVASCRIPT
+document.querySelector("선택자"); //p.subtitle > span 
+document.querySelectorAll();
+```
+
+#### 14.6 HTML요소 위치
+
+문서의 위치를 표현할때 두개의 좌표계가 있음
+
+1. 뷰 포트 좌표계
+2. 문서 좌표계
+
+- [-참고](<https://mommoo.tistory.com/85>)
+
+#### 14.7 HTML form
+
+- form
+  - 유사 배열 객체임
+  - Method_POST,GET, Action...
+- 프로퍼티 접근은??
+  - ` document.forms[0]`인덱스..
+  - `document.forms.form1 ` id속성
+  - `document forms.questions` name속성
+
+### 15. 이벤트
+
+#### 15.2 이벤트 리스너
+
+#### 15.3 이벤트 전파
+
+- 브라우저는 버블링만 지원이 되고, 캡처링이 되지 않음.
+
+1. 이벤트 캡처링
+
+   부모 -> 자식으로 이벤트가 전파되는것. 예를 들면 한번클릭하면 자식것 까지 모두실행됨
+
+2. 이벤트 버블링
+
+   자식 -> 부모로 전파되는 것.
+
+- **전파를 취소하러면?**
+
+1. `stopPropagation` W3 표준.. IE에서는 다른 것을 사용해야함.
+
+   `stopImmediatePropagation` 일시적으로 전파를 멈추는 메서드..
+
+
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>이벤트</title>
+<style>
+div, h1, p { border:2px solid black;
+             padding : 10px;
+             margin : 10px; }
+</style>
+<script>
+ window.addEventListener("load", function(){
+	document.getElementById("outerDiv").onclick= function(){
+		this.style.backgroundColor='gray';
+	}
+	document.getElementById("innerDiv").onclick= function(){
+		this.style.backgroundColor='cyan';
+	}
+	document.getElementById("header1").onclick= function(evt){
+        var event = evt;
+        if(event.stopPropagation){
+            event.stopPropagation();
+        }
+
+		this.style.backgroundColor='magenta';
+	}
+	document.getElementById("p1").onclick= function(evt){		 
+        var event = evt;
+
+        if(event.stopPropagation){
+            event.stopPropagation();
+        }
+        this.style.backgroundColor='orange';
+        
+	}
+}, false);
+</script>
+</head>
+<body>
+ <h3> 자바스크립트 버블링과 캡처링 </h3>
+자바스크립트 버블링 : html문서내에서 자식 태그객체에서 발생된 이벤트가 부모 태그 객체로 이벤트 전파되는 것 <br>
+자바스크립트 캡처링 : html문서내에서 부모 태그객체에서 발생된 이벤트가 자식 태그 객체로 이벤트 전파되는 것 <br>
+<div id="outerDiv">
+  <div id="innerDiv">
+    <h1 id="header1">
+       <p id="p1">이벤트 전파</p>
+    </h1>
+  </div>
+</div>
+</body>
+</html>
+```
+
+```javascript
+	document.getElementById("p1").onclick= function(evt){	
+		var event = evt || window.event; //var event = evt가 null이 아니면 할당되고 null이면 false니까, window.event가 실행됨.
+		if(event.stopPropagation){
+			event.stopPropagation();
+		}else{
+			event.cancelBubble=true;
+		}		
+		this.style.backgroundColor='orange';
+	}
+}, false);
+```
+
+- 이벤트 실행을 취소하려면?
+  1. `return false`  //아예 이동을 안하는 거고.
+  2. `preventDafult();` 를 이용함
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>이벤트</title>
+<script>
+window.addEventListener("load", function(){
+    var anchor = document.getElementById("link1");
+    anchor.onclick = function(e){
+        //return false;
+        if( !confirm("페이지를 이동하시겠습니까?")) e.preventDefault();
+        
+    }
+
+    var search = document.getElementById("searchForm");
+    search.onsubmit = function(e){
+        //return false;
+        if( !confirm("검색 결과로 이동하겠습니까?")) e.preventDefault();
+    }
+ 
+}, false);
+</script>
+</head>
+<body>
+ <h3> 브라우저에 정의된 기본 이벤트 취소 </h3>
+ 브라우저에서 자동으로 처리해주는 기본 이벤트 핸들러를 취소하려면 이벤트 핸들러 함수를  override해서 false를 리턴합니다.<br>
+<a id="link1" href="http://www.google.com">구글</a><br>
+<form id="searchForm" action="data.jsp" method="GET">
+찾기 <input type="search">
+<input type="submit" value="검색">
+</form>
 </body>
 </html>
 ```

@@ -18,4 +18,10 @@
 
    <https://rpubs.com/raulUbiqum/append>
 
-   
+
+
+19.06.20
+
+1. 자바스크립트 노드.
+
+   음 `setAttribute` 랑... .style이렇게 진행되는거...
