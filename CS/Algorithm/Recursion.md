@@ -7,7 +7,7 @@
 
 
 
-### 1. Recursion 순환
+### 1.1 Recursion 순환
 
 - 항상 무한루프에 빠지진 않는다.
   - 왜? 적절한 제한문을 주면 됨.
@@ -55,7 +55,7 @@ public static int func(int n){
 
 
 
-**Q1) Factorial을 recursion을 통해서 만들어보자.**
+#### **Q1) Factorial을 recursion을 통해서 만들어보자.**
 
 1. 0! =1 -- basecase
 2. n! = n*(n-1)! 단! n>0일떄 -- 2번 조건식이 성립한다면
@@ -85,7 +85,7 @@ public static int factorial(int n){
 
      
 
-**Q2) X^n을 계산하는 함수를 만들어보자**
+#### **Q2) X^n을 계산하는 함수를 만들어보자**
 
 1. X^0 = 1
 2. X^n = x*x^n-1 (n은 음이아닌 정수)
@@ -108,7 +108,7 @@ public static dobule power(double n, int k){
 
 
 
-**Q3) fibonacci Number을 계산하는함수는??**
+#### **Q3) fibonacci Number을 계산하는함수는??**
 
 1. f0 = 0
 2. f1 = 1
@@ -173,3 +173,268 @@ public static int gcd(int m , int n){
 }
 ```
 
+
+
+### 1.2 Recursive thinking
+
+- `for`, `while` 문으로 해결해야할것은 **순환** 을 통해서.. 해결해보자
+
+
+
+#### **Q1 문자열 길이계산**
+
+1. 일반적으로는 세면 되겠음.  앞에서 하나씩 카운트해 나간다.
+2. 첫번째 문자열을 뺀 나머지 문자열의 길이를 구한 다음에, 1을 더하면 된다.
+
+```JAVA
+public static int length(String str){
+    if(str.equals(""))
+        return 0;
+    else
+        return 1+length(str.substring(1));
+}
+```
+
+- 정의된 2번 방식을 `java` 코드를 통해 표현한것.
+
+
+
+#### **Q2 문자열을 차례대로 출력**
+
+```java
+public static void printChars(String str){
+    if(str.length() == 0)
+        return;
+    else{
+        System.out.print(str.charAt(0));
+        printChars(str.substring(1)); //substring(1) 첫글자를 제외한 나머지 문자 recursion으로 다시 돌아가고 있음 문자열 하나하나씩 출력되겠네?
+    }
+}
+```
+
+
+
+#### **Q3 문자열을 뒤집어서 출력**
+
+1. 먼저 첫번째 문자열을 제외한 나머지를 뒤집어서 프린트 한후에,
+2. 첫번째 문자열을 프린트하면 되겠네
+3. 어떻게 순환을 통해서??
+
+```java
+public static void printCharsReverse(String str){
+    if(str.length() == 0)
+        return;
+    else{ // 문자열의 길이가 1이상이라면
+        printCharsReverse(str.substring(1));
+        System.out.print(str.charAt(0));
+    }
+}
+```
+
+
+
+#### **Q4 정수를 2진수로 출력하는 방법**
+
+- 이진수에서 마지막비트가 0이라는 것은 짝수
+  - 1이라는 것은 홀수.
+
+- 맨마지막 비트를 제외한 나머지 앞에 부분은 **2로 나눈 몫**과 같다.
+
+```java
+public void printInBinary(int n){
+    if(n<2)
+        System.out.print(n);
+    else{
+        printInBinary(n/2);
+        System.out.print(n%2);
+    }
+}
+```
+
+- 와우 대단히 신기 :)
+
+
+
+####  Q5) 배열의 합 구하기
+
+- 일반적으로는 `for` 문을 돌려서 구함.
+
+- n개의 배열이 들어올때, 배열의 합 구하기
+- *data[0] 에서 data[n-1]까지 합을 구하여 변환*
+
+```java
+public static int sum(int n, int[] data){
+    if(n<=0) //base case
+        return 0;
+    else{
+        return sum(n-1, data) + data[n-1];
+            //n-2까지 합을 구한다음에, n-1값을 더하면 0~n-1까지의 합
+    }
+    
+}
+```
+
+​	1. 우선 `data[0] + data[n-1]` 까지의 합을 구한 후 마지막 데이터를 더해주면 된다.
+
+​	2. 배열의 index는 0부터 시작함
+
+
+
+#### 06) 데이터 파일로부터 n개의 정수 읽어오기
+
+- Scanner in이 참조하는 파일로 부터 n개의 정수를 입력받아서, 배열 data에 저장함
+- data[0] ~ data[n-1]까지 저장
+
+```java
+public void readFrom(int n, int[] data, Scanner in){
+    if(n==0)
+        return;
+    else{
+        return readFrom(n-1, data, in);//0~n-2까지 받아오고
+        data[n-1] = in.nextInt(); //n-1번째는 여기서 받아오고        
+    }
+}
+```
+
+
+
+#### 07) Recursion vs Iteration
+
+- 모든 순환함수는 반복문으로 변경가능하고
+- 그 역인 *모든 반복문은 순환함수로 변경가능*
+
+
+
+### 1.3 Designing Recursion
+
+* 적어도 하나의 `base case` 가 있어야함. 즉 순환되지 않고 직접적으로 종료되는 케이스가 있어야함. 
+
+  없으면? 무한루프!
+
+* 모든 case는 결국 `base case` 에 수렴되어야함.
+
+- Implicit 암시적 -> explicit 명시적인 매개변수를 사용해라
+
+#### 순차검색을 순환으로
+
+- 데이터들이 정렬되어 있지 않는다, 
+- 데이터들에 대해서 특별한 조건이 없다.
+- 그 배열안에 원하는 조건이 있는지 없는지 찾는 것은 하나하나 보는 수밖에 없음.
+- <u>즉 순차적으로 보다가, 있으면 ok 없으면 원래 없는 것으로 판단하는 것</u>
+
+```java
+int search(int []data, int n, int target){
+    for(int i =0; i < n; i++)
+       	if(data[i] == target)
+            return i;
+    return -1;
+}
+```
+
+- data[0] ~ data[n-1] 사이에서 target변수가 있는지 확인함.
+- 명시적으로 표현되었는 가?
+  - `int n` 을 통해서 [0, n-1]까지 data배열에서 찾는 다는 점에서 명시적으로 표현되었다고 보여지지만
+  - 인덱스 0은? 아마 시작지점이 0부터 겠지 라고 생각함. 암시적인 매개변수
+  - 그렇지만 `recursion` 으로 프로그래밍할 떄는 일반적으로 **위와 같이** 하면 안좋음
+
+```java
+int search(int []data, int begin,int end, int target){
+	if(begin > end)
+        return -1;
+    else if(taget ==data[begin])
+        return begin;
+    else
+        return search(data, begin+1, end, target);
+}
+
+int search(int []data, int begin,int end, int target){
+	if(begin > end)
+        return -1;
+    else if(taget ==data[end])
+        return begin;
+    else
+        return search(data, begin, end-1, target);
+}
+```
+
+- **시작점, 끝날 지점을 명시적으로 표현되었음**
+- 자기자신이 자기자신을 호출할때 어떻게 될 것인지의 매개변수까지 생각해야함
+  - 만약` search(data, 0, n-1, target)`  으로 순환함수를 만들어 호출한다면, 위의 `for`  문과 똑같은 역할을 함.
+
+```java
+int search(int []data, int begin,int end, int target){
+	if(begin > end)
+        return -1;
+    else{
+        int middle = (begin+end)/2;
+        if(data[middle] = target)
+            return middle;
+        int index = search(data, begin, middle-1,target);
+        if(index 1= 1)
+            return index;
+        else
+            return search(data,middle+1, end,target);
+    }
+
+}
+```
+
+- 반으로 나눠서 좌즉은 작아지면서, 우측은 커지면서 찾는 것.
+
+
+
+#### Q)1 배열의 최대값 찾기(매개변수 명시화)
+
+- 첫번째 배열을 제외한 나머지 배열들 중에서의 최대값과, 첫번재 배열의 값과 비교해서 더 큰 값이 그 배열의 최대값이다 라는 컨셉을 이용
+
+```JAVA
+int findMax(int [] data, int begin, int end){
+	if(begin==end) //데이터 갯수가 1개일때, base case
+        return data[begin];
+    else
+        return Math.max(data[begin], findMax(data, begin+1, end));
+    //데이터 구간이 계속 바뀜. begin이 계속 +1씩 증가하니까.
+}
+```
+
+```java
+int findMax(int [] data, int begin, int end){
+	if(begin==end) 
+        return data[begin];
+    else
+        int middle = (beign+end)/2;
+    	int max1 = findMax(data,begin, middle);
+    	int max2 = findMax(data,middle, end);
+        return Math.max(max1, max2);
+
+}
+```
+
+
+
+#### Binaray Search 이진검색
+
+- 이진검색을 순환으로.
+- 이진검색?
+  - 데이터가 크기 순으로 정리되어서 배열로 저장되어있을 때 사용할 수 있는 방법
+
+
+
+```java
+public static int binarySearch(String[] items, String target, int begin, int end){
+    if(begin > end ) //데이터의 갯수가 0인 경우
+        return -1;
+    else{
+        int middle = (begin+end)/2;
+        int comResult = target.compareTo(items[middle]); //중간값과 비교하자
+        if(compareTo == 0) //딱 맞다면
+            return middle;
+        else if(compareTo <0)// middle의 왼쪽에 target이 있다는 말이니까
+            return binarySearch(data,target,begin,middle-1);//중간값에서 하나씩 줄여가면서 찾고
+        else//그게 아니라면 middle값 오른쪽에 있다는 말이니까.
+            return binarySearch(data,target,middle+1,end); //중간값에서 하나씩늘려가면서 찾으면 되겠네
+    }
+}
+```
+
+- `String` 이 사용할 수 있는 `compareTo` 에 대해서 알아보자
