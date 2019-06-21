@@ -723,6 +723,16 @@ msgObj.codePointAt(0): 69
 
   `window.confirm`을 이용함.
 
+#### 6.2 console
+
+- `console.log`
+
+- `console.dir`
+
+- `console.time`
+
+  
+
 ### 7. 제어구문
 
 - 대부분 자바형식과 비슷하지만,
@@ -806,11 +816,164 @@ function factorial(n){
 
 
 
+#### 8.11 이터레이션
+
+- 데이터들의 집합을 반복적으로 처리할 때, `이터레이션` 한다고 함.
+- `이터레이터` ? 반복 처리 가능한 객체를 일컫는말.
+- 모든 자바스크립트에서는 `Symbol.iterator()`가 있음.
+- `iter` 는 `next` 로 호출할때 마다 ,이터레이터 리절트(iterator result) 라는 객체로 리턴됨.
+
+
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    function makeIterator(array){
+        var index = 0;
+        return {
+            next: function(){//next 프로퍼티를 가지게 해줌.
+                if(index < array.length){
+                    return {value: array[index++], done: false};
+                }else{
+                    return {value: undefined, done: true};
+                }
+            }
+        };
+    }
+    
+    var iter= makeIterator(["A","B","C"])
+    
+    
+    </script>
+</body>
+</html>
+```
+
+- `for(var i of a)` for~of문을 통해서 , iterator하게 할 수 있음.
+
+#### 8.12 제너레이터
+
+- 이터레이터 처럼 반복처리를 지원하고
+  - 그 와중에 중간에 일시정지, 재 시작을 할 수 있음.
+  - 이터레이터 보다 더 유연하게 표현할 수 있음.
+- 제너레이터는 자동으로 `next`프로퍼티를 가짐.
+- `yield` = `return` 과 비슷
+- `yield*` 배열이나 여러개 인자를 반환하려고 할때 
+
+### 11. 버그, 예외처리
+
+#### 11.1 버그에 대처하기
+
+- Strict
+
+  ```javascript
+  "use strict...
+  ```
+
+- 스타일 가이드
+
+  버그를 피하면서 가독성을 높히기 위해서 권장하는 규칙을 의미함.
+
+  [Airbnb style guide](https://github.com/airbnb/javascript)
+
+- 단위 테스트, 통합테스트, 시스템 테스트, 운용 테스트
+
+
+
+#### 11.2 예외처리
+
+- `throw 표현식` 표현식에는 어떠한 값이라도 가능함.
+
+- **타입의 판정**
+
+  인수가 원시값(number...object..function)인지 함수 타입이 판별할때는? `typeof`
+
+  `instanceof`
+
+  [참고](https://unikys.tistory.com/260)
+
+
+
+#### 11.3 try/catch/finally 문
+
+```HTML
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    
+    
+    function permutation(a){
+        if( !(a instanceof Array)){
+            throw new Error(a+" is not an array");
+        }
+        return a;
+    }
+    //permutation("ABC");
+    
+    var a = ['a','b','c'];
+    try {
+        var p = permutation(a);
+        //var p = permutation("ABC"); 오류.. ARRAY가 아니다
+        p.forEach(element => {
+            console.log(element);
+        });
+    } catch (error) {
+        alert(error);
+    }
+    
+    
+    
+    </script>
+</body>
+</html>
+```
+
+- `javascript`에서는 `catch` 문을 많이 쓰지 않는다. 
+
+  ```javascript
+  try{
+      
+  }catch{
+      if( e instanceof TypeError){
+          
+      }else if(...){
+          
+      }else{
+          
+      }
+  }
+  ```
+
+  - `catch`문 아래, if문을 넣어서 해결함.
+
+
+
+- 예외의 전파
+
+  예외는 호출 스택을 거슬러 올라가며 전파됩니다.
+
+- **콜백함수?** 다른 함수의 인수로전달되는 함수가 콜백함수
+
 ### 13. 웹브라우저의 객체
 
 - `DOM` 
 
-- 488페이지 ... 웹페이지를 읽어들이는 순서.
+- 488페이지 웹페이지를 읽어들이는 순서.
 - `window 객체` 
   - `window.onload`
   - `window.open, window.close` 
@@ -862,11 +1025,19 @@ function factorial(n){
 
 
 
-#### 13.2 Location
+#### 13.2 Location 객체
+
+- 브라우저 창에 표시되는 문서의 url을 관리
+
+- `assign(url)`
+
+- `replace(url)`
+
+  문서를 읽어 들일 때, 이력을 남기지 않으려면 replace 메서드를 사용함.
 
 #### 13.3 History 객체
 
-- 웹 페이지 열람 이력을 관리.![](https://images.slideplayer.com/26/8778432/slides/slide_25.jpg)
+- 웹 페이지 방문 했었던 열람 이력을 관리.![](https://images.slideplayer.com/26/8778432/slides/slide_25.jpg)
 
 #### 13.4 Navigator 객체
 
@@ -909,14 +1080,70 @@ document.querySelector("선택자"); //p.subtitle > span
 document.querySelectorAll();
 ```
 
+
+
+#### 14.4 HTML 요소 내용 읽고 쓰기
+
+1. `InnerHTML`
+
+   코드를 문자열로 다뤄야함. 즉 복잡한 구조를 가진 코드를 편집할떄는 어려움.
+
+   ```html
+   <p id ="cards"> &hearts;하트는 <em>승려</em> 라는 뜻입니다.</p>
+   
+   var para = document.getElementId("cards");
+   para.innerHTML = "&diams;다이아는 <strong>상인</strong>이라는 뜻입니다."
+   console.log(para.innerHTML);
+   //&amp;diams;다이아는 &lt;string&gt;상인&lt;/strong&gt;이라는 뜻입니다.
+   ```
+
+   
+
+2. `textContent`
+
+   텍스트를 대입하면 &,<,>등의 HTML특수문자가 변환되어 표시될 수 있는 문자열로 바뀜
+
+   ```html
+   console.log(para.textContent);
+   //diams;다이아는 <strong>상인</strong>이라는 뜻입니다.
+   ```
+
+   두개 차이?
+   `InnerHTML` 로 가져오면 태그 포함 가져오고,
+
+- `textContent`로 가져오면  해당하는 텍스트만 가져옴
+
+
+
 #### 14.6 HTML요소 위치
 
 문서의 위치를 표현할때 두개의 좌표계가 있음
 
-1. 뷰 포트 좌표계
+1. 뷰 포트 좌표계(윈도우 좌표계) **웹브라우저에서 문서의 내용이 표시되는 영역**
+
+   ![](https://developer.tizen.org/sites/default/files/users/user-1451/raph_0030.png)
+
+   문서의 요소 객체는 박스모델이 적용되며, 뷰포트 원점은 왼쪽 상단 (0,0)
+
+   ​	왼쪽 x좌표는 `left속성` 
+
+   ​	왼쪽 y좌표는 `top속성`
+
+   ​	오른쪽 아래 x좌표는 `right 속성`
+
+   ​	오른쪽 아래 y좌표는 `bottom 속성`
+
+   ​	너비는 `width` 
+
+   ​	높이는 `height`
+
+   뷰포트의 너비 속성은? `clientWidth, innerWidth` (스크롤 막대 포함)
+
+   뷰포트의 높이 속성은?` clientHeght, innerHeight` (스크롤 막대 포함)?
+
 2. 문서 좌표계
 
-- [-참고](<https://mommoo.tistory.com/85>)
+- [참고](<https://mommoo.tistory.com/85>)
 
 #### 14.7 HTML form
 
@@ -930,19 +1157,40 @@ document.querySelectorAll();
 
 ### 15. 이벤트
 
-#### 15.2 이벤트 리스너
+#### 15.1 이벤트 처리기 등록
+
+1. `이벤트소스객체.on이벤트 = function(){}` //  이벤트 핸들러 함수.. 그러나 특정요소 이벤트에 대해서는 단 하나만 등록할 수 있는 단점이 있음.
+
+2. `이벤트소스객체.addEventListener(type, listener, userCapture)` 
+
+   type? "click", "mouseup.."
+
+   listener? 이벤트 발생했을 때 처리를 담당하는 콜백함수!
+
+   userCapture? 이벤트 단계 true(캡처링:부모->자식), **false(버블링:자식->부모) = 기본값!**
+
+   장점 : 같은 요소의 같은 이벤트에 이벤트 리스너를 여러개 사용할 수 있음. 
+
+   ​			버블링 캡처링에도 사용가능.
+
+   삭제는..? `이벤트소스객체.removeEventListener(type, listener, userCapture)`
+
+#### 15.2 이벤트 객체
+
+- 공통 프로퍼티, 마우스 이벤트 객체
+- [참고](https://webclub.tistory.com/490)
 
 #### 15.3 이벤트 전파
 
 - 브라우저는 버블링만 지원이 되고, 캡처링이 되지 않음.
 
-1. 이벤트 캡처링
+1. **이벤트 캡처링**
 
-   부모 -> 자식으로 이벤트가 전파되는것. 예를 들면 한번클릭하면 자식것 까지 모두실행됨
+   **부모 -> 자식**으로 이벤트가 전파되는것. 예를 들면 한번클릭하면 자식것 까지 모두실행됨
 
-2. 이벤트 버블링
+2. **이벤트 버블링**
 
-   자식 -> 부모로 전파되는 것.
+   **자식 -> 부모**로 전파되는 것.
 
 - **전파를 취소하러면?**
 
@@ -1059,3 +1307,182 @@ window.addEventListener("load", function(){
 </html>
 ```
 
+### 19.APT
+
+#### 19.1 드래그 앤 드롭 
+
+```HTML
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+<script>
+    var dropbox;
+    window.addEventListener("load",function(){
+        dropbox = document.getElementById("dropbox");
+
+        dropbox.addEventListener("drop",drop,false);
+        dropbox.addEventListener("dragenter",dragEnter,false);
+        dropbox.addEventListener("dragover",dragOver,false);
+    },false);
+
+    function dragEnter(event){
+        event.stopPropagation(); //이벤트가 상위로 전달되지 않도록 정지
+        event.preventDefault(); // 현재 이벤트 기본동작을 정지
+    }
+    function dragOver(event){
+        event.stopPropagation();
+        event.preventDefault();
+    }
+    function drop(event){
+        event.stopPropagation();
+        event.preventDefault();
+
+        var files =event.dataTransfer.files;
+        var count = files.length;
+
+        if(count > 0){
+            var file = files[0];
+            document.getElementById("droplabel").innerHTML = "Processing ...." + file.name;
+            var reader = new FileReader();
+            reader.onloadend = function(event){
+                var img = document.getElementById("preview");
+                img.src = this.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+</script>	
+</head>
+<body>
+<h1>Drag and Drop Demo</h1>
+	<div id="dropbox"
+		style="width: 360px; height: 80px; border: 1px solid #aaa;">
+		<span id="droplabel"> 이곳에 파일을 드랍해 주세요... </span>
+	</div>
+	<img id="preview" alt="[ preview will display here ]" />
+</body>
+</html>
+```
+
+```html
+
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="utf-8">
+<title>Insert title here</title>
+<style>
+div#Red {border:2Px solid #F00;}
+div#Blue {border:2Px solid #00F;}
+div {width:400px;height:266px;}
+a {margin:50px;display:block;}
+</style>
+<script>
+function drag(source, event){
+	//event.preventDefault();
+	event.stopPropagation();
+	event.dataTransfer.setData("text", source.id);
+}
+
+function drop(source, event){
+	//event.preventDefault();
+	event.stopPropagation();
+	var imgId = event.dataTransfer.getData("text");
+	console.log(event.dataTransfer.getData("text"));
+	source.appendChild(document.getElementById(imgId));
+}
+</script>
+</head>
+<body>
+<div id="Red" ondrop="drop(this, event);" 
+     ondragenter="return false;" 
+     ondragover="return false;"></div>
+<div id="Blue" ondrop="drop(this, event);" 
+	ondragenter="return false;" 
+	ondragover="return false;"></div>
+<img draggable="true" id="textlink" 
+     ondragstart="drag(this, event);" 
+     src="images/red_dragon1.jpeg"></img>
+</body>
+</html>
+```
+
+
+
+
+
+#### 19.2 Blob
+
+- Blob? 원시데이터(raw data)를 나타내는 객체!  , `slice()`가 리턴하는 것이 **blob**
+
+- **FileReader**
+
+  동기,비동기 방식있음.
+
+  **동기 방식은, 변수로 리턴을 받아야한다.**
+
+  **비동기 방식은**. `result`  **를 통해 바로 알아볼 수 있음**
+
+  `var reader = new FileReader();` 파일 객체 생성
+
+  - 오류
+
+    ![](https://image.slidesharecdn.com/fileapi-140718000313-phpapp01/95/fileapi-10-638.jpg?cb=1405641815)
+
+
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+//1. new FileReader()
+//2. onload, onloadend이벤트에 대한 핸들러 : result속성에 저장낸 내용을 textarea에..
+//3. readAsText()사용  내용 읽기
+function readFile(){
+    //file가져오기
+
+    var file = document.getElementById("file").files[0];
+    document.getElementById("fileName").innerHTML = file.name;
+    document.getElementById("fileSize").innerHTML = file.size;
+
+	//reader객체 생성
+    var reader = new FileReader();
+    reader.onloadend = function(){
+        document.getElementById("content").innerHTML = reader.result;
+    }
+    //인코딩관련문제도 있을 수 있으니까..
+    var encodinglist = document.getElementById("encoding");
+    var encoding = 
+    encodinglist.options[encodinglist.selectedIndex].value;
+    reader.readAsText(file,encoding);//선택된 인코딩 방식으로 파일을 읽는다.
+	
+}
+</script>
+</head>
+<body>
+ <h1> FileReader Interface : readAsText()</h1>
+       <input id="file" type="file">
+       <select id="encoding">
+           <option>UTF-8</option>
+		   <option>euc-kr</option>
+        </select>
+        <button onclick="readFile()">읽기</button><br />
+        <div>
+            <span id="fileName">File Name</span>
+            <span id="fileSize">File Size</span>
+        </div>
+        <textarea id="content" readonly style="width:600px; height:400px;"></textarea>
+</body>
+</html>
+```
+
+
+
+- **Canvas**

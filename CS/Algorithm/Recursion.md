@@ -422,7 +422,7 @@ int findMax(int [] data, int begin, int end){
 
 ```java
 public static int binarySearch(String[] items, String target, int begin, int end){
-    if(begin > end ) //데이터의 갯수가 0인 경우
+    if(begin > end ) //데이터의 갯수가 0인 경우 정의
         return -1;
     else{
         int middle = (begin+end)/2;
