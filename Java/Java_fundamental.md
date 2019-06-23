@@ -3,7 +3,7 @@
 #### 정리목록
 
 1. [Java의 정석](<http://www.yes24.com/Product/goods/24259565>) - 기본
-2. [생활코딩_자바](<https://opentutorials.org/course/1223>) - 참고
+2. [생활코딩_자바](<https://opentutorials.org/course/1223>),[비전공자를 위한 자바..](http://www.hanbit.co.kr/store/books/look.php?p_code=E9160460418) - 참고
 - **반드시 내가 이해한바를 적는다.** 
 - **그냥 교재나 코드가 써있는 바를 적지 않는다.**
 
