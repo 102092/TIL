@@ -698,4 +698,4 @@ div { border: 1px solid black;
 
 - 결과
 
-![](./JQuery.assets/제목 없음.png)
+![](Javascript/JQuery.assets/제목 없음.png)
