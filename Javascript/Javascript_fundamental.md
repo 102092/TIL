@@ -1307,6 +1307,211 @@ window.addEventListener("load", function(){
 </html>
 ```
 
+### 16. AJax
+
+#### 16.1 HTTP
+
+- GET POST PUT DELETE 등이 요청 메서드 ->
+- <- 응답(응답 행 + 헤더 + 공백행 + 메세지 본문)
+
+
+
+#### 16.2 Ajax
+
+- Asynchronous javascript + XML
+
+- Ajax 특징은 html페이지에 대한 **비동기 + 부분 갱신**
+
+- 자바스크립트의 XMLHttpRequests 객체를 이용함
+
+- 최근에는 JSON + 텍스트 데이터를 사용하고 있음.
+
+- 비동기방식
+
+  즉 필요한 부분만 요청하고 갱신하기 때문에 고속 렌더링이 가능하다.
+
+- 기본적인 실행은 `$.ajax()` 를 통해서.
+- ajax 기본 프로퍼티
+
+![](http://www.nextree.co.kr/content/images/2016/09/jhkim-140121-Ajax-03.png)
+
+1. 
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script>
+        window.onload = function(){ //이벤트발생
+            var req = new XMLHttpRequest(); //1. 객체 생성
+            req.onloadstart = function(){
+                console.log("loadstart : 요청을 보낼때");
+            }
+            req.onload = function(){
+                console.log("load : 요청 성공, 응답 가져 올 수 있을 때");
+            }
+            req.onloadend = function(){
+                console.log("loadend : 요청 완료");
+            }
+            req.onprogress = function(){
+                console.log("onprogress : 데이터를 주고 받을 때");
+            }
+
+            req.onreadystatechange = function(){
+                if(req.readyState ==4){
+                    if(req.status ==200){
+                        document.getElementById("view").innerHTML = req.responseText;
+                    }
+                }
+                
+            }// 응답 처리 함수
+            req.open("GET","data.txt") // 2. 요청 보낼 준비
+            req.send(null); // 3. 요청을 보냄 그런데 보내는 방식이 get이니까 null을 작성한다.
+        }
+    
+    </script>
+    <title>ajax 1</title>
+
+</head>
+<body>
+    <p id="view"></p>
+</body>
+</html>    
+```
+
+
+
+2. 
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){ 
+            $.ajax({
+                url : "data.txt",
+                success : function(data){ //성공했을 때 이벤트를 실행한다.
+                    $("#view").html(data); 
+
+                }
+            });
+        }); 
+    </script>
+    <title>ajax 1_jq</title>
+</head>
+<body>
+    <p id="view"></p>
+</body>
+</html>    
+```
+
+
+
+- 1,2번 같은 결과를 받지만, 2번이 훨씬 간결한 코드이다.
+- 참고
+  1. [nextree](http://www.nextree.co.kr/p4771/)
+  2. [tcp](http://tcpschool.com/ajax/ajax_intro_works)
+
+#### 16.3 XMLHttpRequest
+
+
+
+1. 이벤트 발생! -> 자바스크립트는 DOM을 사용해서 필요한 정보를 구하고
+2. XMLHttpRequest 객체 생성 -> 웹서버에 요청 보냄
+3. 웹서버는 응답을 XML, JSON으로 전송
+4. 클라이언트 브라우저로 응답이 도착하면, 객체는 그 사실을 자바스크립트에 알려주고
+5. 자바스크립트는 응답데이터를 통해서 DOM을 조작하여, 사용자 화면에 반영함
+
+
+
+- readyState 
+
+![](https://images.slideplayer.com/23/6640416/slides/slide_18.jpg)
+
+#### 16.4 응답 받기
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script>
+        //cross1.html, url해당페이지와 크로스로 통신함
+        function show(data){
+            document.body.innerHTML = "name :"+data.name+ "<br>"+"price :"+data.price; ;
+           
+        }
+        window.onload = function(){
+            var url = "http://70.12.50.130:9000/jsonp.js";
+            var script = document.createElement("script");
+            script.setAttribute("src",url);
+            document.getElementsByTagName("head")[0].appendChild(script);
+        }
+    
+    </script>
+    <title>Document</title>
+</head>
+<body>
+</body>
+</html>
+```
+
+
+
+#### 16.5 크로스 오리진
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script>
+        window.onload = function(){
+            setInterval(Send,1000); //1초마다 Iframe에 메세지를 보냄
+        }
+
+        function Send(){
+            var ifrm = document.getElementById("ifrm");
+            var MyOrigin = location.protocol +"//" + location.host;
+            //console.log(MyOrigin);
+            var date = new Date();
+            var dateStr = date.getFullYear() + "/" + (date.getMonth() +1 ) + "/"+ date.getDate()+" "+
+             date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+            var number = Math.floor(Math.random() * 100);
+
+            ifrm.contentWindow.postMessage({date:dateStr , number:number}, "http://70.12.50.130:9000");
+            document.getElementById("msg").innerHTML = dateStr + " 생성된 값은 => "+ number;
+        }
+    </script>
+    <title>cross2</title>
+</head>
+<body>
+    <div id="msg">
+        8080</br>
+        MyOrigin</br>
+    </div>
+    <iframe id="ifrm" src="http://70.12.50.130:9000/receive.html" frameborder="0" width="500" height="200">
+       
+    </iframe>
+    
+</body>
+</html>
+```
+
+
+
 ### 19.APT
 
 #### 19.1 드래그 앤 드롭 
