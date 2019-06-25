@@ -20,7 +20,7 @@
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
      ```
 
-  2. 직접 다운
+  2. or 직접 다운
 
 
 
@@ -248,7 +248,7 @@ search : <input type="search"><br>
 
 - `$.noConflict()` // 더이상 $ 식별자를 사용할 수 없게 됨.
 
-##### 
+
 
 ### 2. 객체 탐색
 
@@ -696,6 +696,366 @@ div { border: 1px solid black;
 </html>
 ```
 
-- 결과
+- 결과 
 
-![](/JQuery.assets/제목 없음.png)
+![](JQuery.assets/append.png)
+
+#### 3.6 clone()
+
+
+
+### 3. 이벤트
+
+#### 3.1 이벤트 시작
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            //h1클릭시에 별이 추가 됨.
+            $('h1').click(function(){
+                $(this).html(function(index, html){
+                    return html + '★';
+                });
+            })
+            //마지막 h1에 클릭을 시작함 동시에, 별이 1초마다 추가됨.
+        	setInterval(function(){
+                $('h1').last().trigger('click');
+            },1000);
+        });
+    </script>
+</head>
+<body>
+    <h1>Start: </h1>
+    <h1>Start: </h1>
+</body>
+</html>
+```
+
+
+
+#### 3.2 이벤트 중단
+
+- 이벤트제거, 전달을 막는 메서드
+- `stopPropagation` 전달을 막는 메서드
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>javascript:event</title>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $('a').click(function(event){
+        event.preventDefault(); //이벤트 제거
+    });
+    $('#f1').submit(function(event){
+        event.preventDefault();
+    });
+	
+});
+</script>
+</head>
+<body>
+<a href="http://www.multicampus.co.kr">www.multicampus.co.kr</a><br>
+<form  id = "f1" method="get" action="data.jsp">
+email : <input type=email name="email" id="email"><br>
+<input type="submit">
+</form>
+</body>
+</html>
+```
+
+
+
+#### 3.3 이벤트 한정
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>javascript:event</title>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    //한정이벤트
+$(document).ready(function(){
+    $('#wrap').on('click','h1', function(){//h1태그에 이벤트가 한정됨
+        var len = $('h1').length;
+        var targetText = $(this).text();
+        $('#wrap').append("<h1>"+len+"-"+targetText+"</h1>");
+    })
+});
+ 
+</script>
+</head>
+<body>
+ 
+    <div id="wrap">
+        <h1>Header</h1>    
+    </div>
+</body>
+</html>
+```
+
+- `on()` 이벤트에 연결
+
+  `bind(), live(), delegate()`
+
+- `off()`  이벤트 연결 제거
+
+  `unbind(), die(), undelgate()`
+
+#### 3.4 키보트 이벤트
+
+##### 3.41 keyup
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>javascript:event</title>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(event){
+    $('textarea').keyup(function(){
+        //남은 글자의 수를 구하고
+        var inputLength = $(this).val().length;
+        var remain = 150 - inputLength;        
+
+        //h1객체의 그 남은 내용을 입력하는데
+        $('h1').html(remain);
+
+        if(remain >= 0){
+            $('h1').css('color','Yellow');
+        }else{
+            $('h1').css('color','black');
+        }
+    });
+	 
+});
+ 
+</script>
+</head>
+<body>
+<div>
+        <p>지금 내 생각을</p>
+        <h1>150</h1>
+        <textarea cols="70" rows="5"></textarea>
+    </div>
+</body>
+</html>
+```
+
+- keyup? 이벤트가 발생하면 글자 개수를 받아오는..
+
+
+
+##### 3.42 scroll
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>javascript:event</title>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> 
+<script>
+
+$(document).ready(function(){
+    for(var i =0; i< 20; i++){
+        $('<h1>처음 입력</h1>').appendTo('body');
+    }
+    
+    //scroll 이벤트 발생시에
+    $(window).scroll(function(){
+        var scrollHeight = $(window).scrollTop()+$(window).height();
+        var documentHeight = $(document).height();
+
+        if(scrollHeight == documentHeight){
+            for(var i = 0; i<10; i++){
+                $('<h1>추가 입력</h1>').appendTo('body'); //끝에 도달 하자마자 10개 확보
+            }
+        }
+    })
+})
+
+</script>
+</head>
+<body>
+
+</body>
+</html>
+```
+
+- 스크롤을 문서 끝가지 내리자 마자,'추가 입력' 부분이 10개 추가되면서 그만큼 스크롤이 위로 올라감.
+
+
+
+### 4. 애니메이터
+
+#### 4.1 animate()
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+div{ width:50px;
+     height:50px;
+     background:orange;
+     position:relative;
+     }
+</style>
+<meta charset="utf-8">
+<title>Insert title here</title>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+$(document).ready(function () {
+    $('div').hover(function(){
+        $(this).animate({left:500},'slow');
+    }, function(){
+        $(this).animate({left:0},'slow');
+    });
+    
+});
+// $(document).ready(function () {
+//     $('div').click(function(){ 클릭하면
+//         var width = $(this).css('width');
+//         var height = $(this).css('height');
+
+//         $(this).animate({
+//             width : parseInt(width)+50,
+//             height : parseInt(height)+50
+
+//         },'slow');
+//     }); 
+    
+// });
+</script>
+</head>
+<body>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+</body>
+</html>
+```
+
+#### 4.2 clearQueue();
+
+- jquery메서드는 계속해서 누적된다. 큐에 누적되어 실행된다.
+
+```html
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+    <style>
+        div {
+            width:100px; height:100px;
+            background-color:Orange;
+            position:relative;
+        }
+    </style>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {          
+            $('button') .click(function(){
+                var html = $(this).html();
+                var evalText = "$('div')."+html;
+                eval(evalText);
+            })
+            $('div').animate({
+                left: '500'
+            }, 5000).animate({
+                left : '0'
+            },5000);
+            
+        });
+    </script>
+</head>
+<body>
+    <button>stop()</button> 
+    <!-- 멈추고 다시 돌아옴 첫번째 left는 멈추고, 두번쨰 left는 실행함 -->
+    <button>stop(true)</button>
+    <!-- 이대로 멈춤 -->
+    <button>stop(false, true)</button>
+    <!-- 끝까지 가서, que에 남아있는 내용이 있으니 그걸을 처리하려고 함 -->
+    <button>stop(true, true)</button>
+    <!-- 끝까지 가서, que도 비운다.  -->
+    <div></div>
+</body>
+</html>
+```
+
+- `stop()`메서드
+
+  stop(clearQueue, goToEnd);
+
+  clearQueue는 `true` or `false` 
+
+  goToEnd 또한  `true` or `false`  기본이 false라서, false는 처음부터시작
+
+  `true` 이면 맨 마지막으로
+
+
+
+#### 4.3 delay()
+
+- 큐에 있는 메서드를 잠시 중지하는 것.
+- 밀리초 단위,
+- 입력하면 차근차근 오른쪽으로 이동하는 효과
+
+```html
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+div{ width:50px;
+     height:50px;
+     background:orange;
+     position:relative;
+     }
+</style>
+<meta charset="utf-8">
+<title>Insert title here</title>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+$(document).ready(function () {
+	$('div').each(function (index) {
+         // (index * 500)초 후 animate() 메서드를 실행합니다.
+         $(this).delay(index * 500).animate({
+                     left: 500
+              }, 'slow');
+          });
+});
+</script>
+</head>
+<body>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+</body>
+</html>
+```
+
+
+
+=======
+![](Javascript/JQuery.assets/제목 없음.png)
+>>>>>>> 9ac3af1cd34349fa08f8adb1013d2bd860c28513

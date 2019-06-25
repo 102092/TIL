@@ -1,0 +1,93 @@
+
+<!DOCTYPE html >
+<html>
+<head>
+	<meta  charset="UTF-8">
+	<title></title>
+	<style>
+		body{
+			font-size:9pt;
+		}
+		#panel1{
+			border:1px #000000 solid;
+			line-height:400px;
+			font-size:100px;
+			width:400px;
+			height:400px;
+			text-align:center;
+			vertical-align:middle;		
+		}
+	
+    </style>
+	<script>
+        var inter;  
+
+        function createNumber (){            
+            var input = Number(document.getElementById("lab_total").value);
+            var num = Math.floor(Math.random()*input) + 1;
+            var font = document.getElementById("panel1");
+            font.style.fontSize = 100+(Math.random()*100)+"px";
+            font.style.color = "#ff0000";
+
+            return num;                
+        }
+       
+
+   
+        function startNumber(){   
+            inter = setInterval(() => {
+                    document.getElementById("panel1").innerHTML = createNumber();
+                }, 20);
+        }
+
+        function stopNumber(){
+            clearInterval(inter);
+        }
+
+        function initial(){
+            var panel1 = document.getElementById("panel1");
+            panel1.style.color = "#000000";
+            panel1.style.fontSize = "200px";
+
+            var btn_start = document.querySelector("#btn_start");
+            var btn_stop = document.querySelector("#btn_stop");
+
+        }
+
+
+        
+        window.addEventListener("load",function(){
+            initial();
+    
+            btn_start.onclick = function(){
+                startNumber();
+            }
+            btn_stop.onclick = function(){                          
+                stopNumber();
+            }  
+        });
+        
+        
+
+
+        
+
+	</script>
+</head>
+
+<body>
+	<div> 
+		<h4>경품추첨기-ver 0.1</h4>
+	
+		<div id="panel1" > 1
+			<!-- 이곳에 숫자가 출력됩니다. -->
+		</div>
+	
+		<div id="nav">
+			참여인원 : <input type="text" id="lab_total" value="100">
+			<button id="btn_start">시작</button>
+			<button id="btn_stop">멈춤</button>
+		</div>
+	</div>
+</body>
+</html>
