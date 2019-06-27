@@ -56,3 +56,19 @@ console.log(sum) // logs 6
 - initialValue를 제공한 경우, accumulator는 initialValue와 같고 currentValue는 배열의 첫 번째 값과 같습니다
 
 - accumulator =0 , currentvalue = 1로 시작한다는 말.
+
+### * navigator 객체.
+
+```javascript
+navigator.geolocation.getCurrentPosition(success콜백, error콜백, options);
+
+function success(pos){ //pos객체가 인자로 넘어옴
+    pos.coords.latitude;//위도
+    pos.coords.longtitude;//경도..이외도 많음.
+}
+function error(error){
+	error.message...
+    error.code...
+}
+```
+
