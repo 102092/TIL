@@ -123,6 +123,8 @@ public class HelloServlet extends HttpServlet{
 
 #### Q1) Servlet을 통해 HTTP 헤더구조 가져오기.
 
+예<u>)http://ip:poart/web1/header</u> 로 요청하면.. ? -----> @webServlet("/header") 선언된 서블릿에서 처리하게 됨.
+
 ```java
 package lab.web.controller;
 
@@ -161,12 +163,14 @@ public class HeaderInfo extends HttpServlet {
 		out.print("<body>");
 		out.print("<h3>Requset Header정보</h3>");
 		out.print("<ul>");
+        //httpsServletRequest객체에 getheaderName()이라는 메서드를 통해
 		Enumeration<String> headerName = request.getHeaderNames();
 		while(headerName.hasMoreElements()) {
 			String name = headerName.nextElement();
 			out.print("<li>"+name+" : ");
+            
 			Enumeration<String> values = request.getHeaders(name);
-			while(values.hasMoreElements()) {
+			while(values.hasMoreElements()) {//return type boolean
 				out.print(values.nextElement()+", ");
 			}
 			out.print("</li>");
@@ -182,13 +186,106 @@ public class HeaderInfo extends HttpServlet {
 }
 ```
 
+- `HttpsServletRequest.getHeader()` : header이름으로 저장된 value를 반환(String)
+- `HttpServeltRequest.getHeaders()` : header이름으로 저장된 value가 하나 이상이면 사용
+- `HttpServletRequest.getRemotheAddr()` : http요청 메세지를 전송한 클라이언트 ip 정보 추출
+- `request.getMethod()` : http 요청 메세지 전송 방식 정보 추출.
 - 결과
 
 ![](Servlet,JSP.assets/getHeader.png)
 
+#### Q2) 체크박스 전송
+
+1. **Join.html**
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h3>회원 가입 페이지</h3>
+    <form id="f1" method="post" action="join" >
+        userid : <input type="text" name="userid"><br>
+        password : <input type="password" name="userpwd"><br>
+        
+        관심사항 : <input type="checkbox" name="interest" value="영화">영화
+                    <input type="checkbox" name="interest" value="운동">운동
+                    <input type="checkbox" name="interest" value="여행">여행
+                    <input type="checkbox" name="interest" value="공부">공부
+                    <input type="checkbox" name="interest" value="음악감상">음악감상<br>
+                    
+        <input type="hidden" name="address" value="서울"><br>            
+        <input type="submit" value="회원가입">
+        <input type="reset" value="취소">
+    </form>
+</body>
+</html>
+```
 
 
-#### Q2) Servlet을 통해 Multiple한 파일 업로드 웹페이지 만들기
+
+2. **join.java**
+
+```java
+package lab.web.controller;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Enumeration;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+
+@WebServlet("/join")
+public class Join extends HttpServlet {
+	private static final long serialVersionUID = 1L;       
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		out.print("<html>");
+		out.print("<head><title>Request 파라미터 처리</title></head>");
+		out.print("<body>");
+		out.print("<h3>Requset 파라미터 처리</h3>");
+		out.print("<ul>");
+		out.print("<li> userid "+request.getParameter("userid")+"</li>");
+		out.print("<li> password : "+request.getParameter("userpwd")+"</li>");
+		out.print("<li> address : "+request.getParameter("address")+"</li>");
+		String interest[] =request.getParameterValues("interest");
+		out.print("<li> 관심사항 : ");
+		for(String inter : interest) {
+			out.print(inter +", ");
+		}
+		out.print("</ui></body></html>");
+	}
+}
+```
+
+- checkbox는? (여러개 체크하여 보내는..)
+
+  checked 요소의 value들을 String[] 값으로 반환받고, 이걸 Sevlet에서는 어떤방식으로 처리해아할까?
+
+  `HttpServletRequset.getParameterValues("input요소의 name속성값")` 을 통해..
+
+
+
+3. **결과**
+
+![](../../../%EC%83%88%20%ED%8F%B4%EB%8D%94/TIL/Java/Servlet,JSP.assets/join1.png)
+
+![](../../../%EC%83%88%20%ED%8F%B4%EB%8D%94/TIL/Java/Servlet,JSP.assets/join2.png)
+
+#### Q3) Servlet을 통해 Multiple한 파일 업로드 웹페이지 만들기
 
 1. **html**
 
@@ -234,24 +331,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-/**
- * Servlet implementation class UploadServlet
- */
 @WebServlet("/upload")//html action에 따른 주소
 @MultipartConfig (location = "c:/uploadtest", maxFileSize = 1024*1024*5, maxRequestSize = 1024*1024*5*5)//업로드 되는파일사이즈 5mb, 요청데이터사이즈25mb
 public class UploadServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public UploadServlet() {
-        super();
-    }
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=utf-8");
@@ -282,13 +366,29 @@ public class UploadServlet extends HttpServlet {
 }
 ```
 
+- 클라이언트가 form태그내에 data를 서버 웹 컴포넌트로 전송, 서버 웹 컴포넌트에서 클라이언트가 보낸 form 데이터 추출하려면?? `HttpSevletRequest.getParameter("input 요소의 name속성값")`
+- `@MultipartConfig ` 파일이 저장될 장소가 추가됨을 잊지 말 것.
+- `Collection<Part> parts = request.getParts();`  업로드된 파일의 메타정보, 스트림들을 추출하기 위한 반환 객체
+
 3. **결과**
 
 ![](Servlet,JSP.assets/upload.png)
 
-#### Q3)  Resquest Dispatcher
+#### Q4)  Resquest Dispatcher
 
-- form에서 메세지를 받고, request 추가적인 정보을 설정하여, jsp를 통해 그 2가지 결과를 출력하기,
+- 요청을 통일한 웹 콘텍스트의 다른 `Servlet` 또는 `jsp` 에 전송하기위해!
+
+- `ServletContext sctx = requset.getServletContext();` // 요청 웹 콘텍스트 객체 반환
+
+- `RequestDispatcher rd = sctx.getRequestDispatcher`("/다른 servlet 또는 jsp "); // 요청을 전송할 다른 서블릿 jsp의 경로에 해당하는 객체
+
+  `/` 의미는 현재 웹콘텍스트 아래.. 라는 의미
+
+- `rd.forward(request, response)` 현재 요청하는 request를 넘길때..
+
+  추가적인 정보를 넘기고 싶다? `requset.setAttribute("키",객체);` **map**구조
+
+  가져올때는? `requset.getAttribute("키") ` 반환이 object로 되므로 , 실제 저장한 타입으로 downcasting으로 해야함.
 
 1. **Message.jsp**
 
@@ -306,7 +406,7 @@ public class UploadServlet extends HttpServlet {
 	<form action = "./message" method="post">
 		메세지 입력하세요 : <input type="text" name = "msg" size= 50><br>
 		<br>
-		<input type="submit" value="전숭">	
+		<input type="submit" value="전송">	
 	</form>
 
 </body>
@@ -395,7 +495,13 @@ public class ForwardServlet extends HttpServlet {
 ```
 
 - 일반적인 `get`으로 접근했을 때는 `message.jsp`로 가게 해주고
-- `post`방식으로 접근했을 때는, `msg2` 에 새로운 속성을 추가한다음 그 결과를 `result.jsp` 에 넘겨준다
+- `post`방식으로 접근했을 때는, `msg2` 에 새로운 속성을 추가한다음 그 결과를 `result.jsp` 에 넘겨준다.
+
+- WAS가 서비스하는 웹콘텍스트를 생성하면 이를 추상화한 객체(ServletContext)를 생성하는 데 이는 하나만 생성됨. 이를 얻기 위해서는 ? --> `request.getServletContext();` 
+
+  
+
+
 
 4. **결과**
 
@@ -407,9 +513,50 @@ public class ForwardServlet extends HttpServlet {
 
 ![](Servlet,JSP.assets/forward2.png)
 
-#### Q4 Cookies 활용하여, 아이디 저장칸 만들기
+#### Q5) Cookies 활용하여, 아이디 저장칸 만들기
+
+- Http 특성은 요청시 Connection 되며, 응답이 전송되면 disconnect됨. => *비연결형 protocool*
+
+  계속 연결되어 있는 것이 아님
+
+  매번 누구인지 알려면 귀찮으니까..
+
+  상태정보를 저장하게 해줌. 4가지 방법
+
+  1. 클라이언트 브라우저에 저장(key =value) : **Cookie**
+
+     유효기간 설정할 수 있음. `setMaxAge()`
+
+  2. url의 쿼리 스트링으로 요청시마다 전송하는 방법
+
+  3. 요청을 전송하는 페이지 `<input type='hidden' name='' value=''>` 이용
+
+  4. 웹 서버에 객체로 저장함 : **Session**
+
+     유효기간은 클라이언트의 브라우저가 종료되는 순간까지.
+
+  
 
 - 쿠키가 저장되어있다면, 자동으로 로그인 id에 작성되도록 만들어보자
+
+- 흐름
+
+```
+1. http://ip:port/web1/cookieLogin 요청 (GET방식)
+2. @WebServet("/cookieLogin") 서블릿의 doGet() 요청 처리
+    - 쿠키 정보 추출 request.getCookies(), userid키로 저장된 값 검색
+    - 추출한 쿠키 정보를 request.setAttribute("userid" 쿠키값);
+    - RequestDispatcher를 사용해서 "/cookie_login.jsp"로 전달
+3. form태그 전송 ( action="cookieLogin" method="post")
+4.  @WebServet("/cookieLogin") 서블릿의 doPost() 요청 처리
+    - 로그인 처리
+    - 아이디 저장 checkbox 선택된 경우 userid를 쿠키로 저장
+    - RequestDispatcher를 사용해서 "/main.jsp"로 전달
+5. main.jsp에서 로그아웃(/cookieLogout) 요청 (GET 방식)
+6. @WebServet("/cookieLogout") 서블릿  의 doGet() 요청 처리
+    -쿠키 정보 삭제  request.getCookies(), 쿠키 정보 추출해서 cookie.setMaxAge(0)으로 삭제
+    - RequestDispatcher를 사용해서 다시 로그인 페이지로 전송       
+```
 
 
 
@@ -461,7 +608,7 @@ public class ForwardServlet extends HttpServlet {
 <body>
 	<script>
 		alert("로그아웃되었습니다.\n 쿠키 정보 삭제되었습니다");
-		location.href ="./login.jsp";
+		location.href ="./login.jsp"; 
 	
 	</script>
 
@@ -489,7 +636,8 @@ public class ForwardServlet extends HttpServlet {
 </html>
 ```
 
-- `login` 에 성공하였을 때 보여줄 페이지. 로그아웃 선택하면 `cookieLogout` servlet을 실행하도록 만들었다.
+- `login` 에 성공하였을 때 보여줄 페이지. 로그아웃 선택하면 `cookieLogout` servlet을 실행하도록 만들었음
+- `<a href ='.xxx?paraName=paraValue&.....'>` get방식으로 요청이 전달됨
 
 
 
@@ -521,7 +669,7 @@ public class CookieLoginServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
-		uid = request.getParameter("userid");
+		uid = request.getParameter("userid"); //파라미터,name속성을 받고.
 		passwd = request.getParameter("passwd");
 		String userCookie = request.getParameter("cookie");
 		
@@ -544,14 +692,12 @@ public class CookieLoginServlet extends HttpServlet {
 		}
 
 	}
-
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=utf-8");
 //		PrintWriter out = response.getWriter();
 		
-		Cookie cookies[] = request.getCookies();
+		Cookie cookies[] = request.getCookies(); //쿠키를 얻기위한 메서드
 		if(cookies!=null) {
 			for(int i =0; i < cookies.length; i++) {
 				String name = cookies[i].getName();
@@ -565,11 +711,16 @@ public class CookieLoginServlet extends HttpServlet {
 		sctx = request.getServletContext();
 		rd = sctx.getRequestDispatcher("/login.jsp");
 		rd.forward(request, response);
-
 	}
-
 }
 ```
+
+- **location.href vs location.replace**
+  - [출처](https://blog.naver.com/yiuse78/50100213667)
+
+![](Servlet,JSP.assets/location,replace.png)
+
+
 
 ```java
 package lab.web.controller;
@@ -601,7 +752,7 @@ public class CookieLogoutServlet extends HttpServlet {
 			for(int i =0; i<cookies.length; i++) {
 				if(cookies[i].getName().equals("userid")){
 					cookies[i].setMaxAge(0);
-					response.addCookie(cookies[i]);
+					response.addCookie(cookies[i]);//쿠키를 응답해주는 메서드
 				}
 			}
 		}
@@ -609,15 +760,14 @@ public class CookieLogoutServlet extends HttpServlet {
 		rd = sctx.getRequestDispatcher("/logout.jsp");
 		rd.forward(request, response);
 	}
-
 }
 ```
-
-- **cookieloginservlet을 실행하여 확인한다.**
 
 
 
 4. **결과**
+
+- **cookieloginservlet을 실행하여 확인한다.**
 
 - login
 
@@ -627,11 +777,146 @@ public class CookieLogoutServlet extends HttpServlet {
 
 ![](Servlet,JSP.assets/loginsuccess.png)
 
+- cookies_add
+
+![](Servlet,JSP.assets/cookies_add.png)
+
 - cookies_delete
 
 ![](Servlet,JSP.assets/deletecookies.png)
 
 - 쿠키삭제는 개발자 도구 - > application -> cookies에서 확인..
+
+
+
+#### Q6) Ajax이용한 계산기 만들기
+
+1. **calc.jsp**
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>사용자 로그인</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+	$(document).ready(function(){
+		$("#f1").submit(function(event){
+			event.preventDefault();
+			var n1 = $("#num1").val();
+			var n2 = $("#num2").val();
+			var op = $("#operator option:selected").val();
+			$.ajax({
+				url : "./calc",
+				data : {"num1": n1, "num2":n2, "operator":op},
+				success : function(data){
+					console.log(data);
+					$("#result").html("<mark>결과 : "+n1+op+n2+" = "+data+"</mark>")
+				}
+			})
+		})
+	})
+</script>
+</head>
+	<body>
+	<h3 id='header'>계산기</h3>
+	<div id='main' style='text-align:center'>
+		<br><br> 
+		<form id="f1">
+		<table style='border:1px #0000FF dotted;text-align:center' id="table">
+		<tr><td>Number1 </td>
+			<td><input type="text" name=num1 id="num1"></td></tr>
+		  <tr><td>Operator </td>
+		    <td><select name="operator" id="operator">
+				<option value="+">+</option>
+				<option value="-">-</option>
+				<option value="*">*</option>
+				<option value="/">/</option>
+			</select></td></tr>
+		  <tr><td>Number 2 </td>
+		    <td><input type="text" name=num2 id="num2"></td></tr>			
+		  <tr><td colspan=2 style='text-align:mid'>
+			<input type=submit value='계산'>
+			<input type=reset value='리셋'></td></tr>
+	</table>
+	<br>
+</form>
+</div>
+<p id="result">결과: </p>
+</body>
+</html>
+```
+
+2. **calcServlet.java**
+
+```java
+package lab.web.controller;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class CalcServlet
+ */
+@WebServlet("/calc")
+public class CalcServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	int num1 =0;
+	int num2 =0;
+	String operator = null;
+	int result = 0;
+       
+     public CalcServlet() {
+        super();
+    }
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html;charset=utf-8");
+		num1 = Integer.parseInt(request.getParameter("num1"));
+		num2 = Integer.parseInt(request.getParameter("num2"));
+		operator = request.getParameter("operator");
+		PrintWriter out = response.getWriter();
+		
+		if(operator.equals("*")) {
+			result = (num1 * num2);
+		}else if(operator.equals("+")) {
+			result = (num1 + num2);
+		}else if(operator.equals("/")) {
+			result = (num1 / num2);
+		}else {
+			result = (num1 - num2);
+		}
+		out.print(result);
+		//SevletContext sc = requset.getServletContext();
+		//RequestDispatcher rd = sc.getRequestDispatcher("/...jsp");
+		//requset.setAttribute = ("result",result);
+		//rd.forward(request, response);
+	}
+
+}
+```
+
+3. **결과**
+
+- jsp
+
+![](Servlet,JSP.assets/calc.png)
+
+- 계산
+
+![](Servlet,JSP.assets/calc_result.png)
+
+
 
 ## JSP
 
@@ -709,7 +994,90 @@ public class CookieLogoutServlet extends HttpServlet {
 1. **JSP 준수사항**
    - 정적페이지 선언 `<%@ page .....%>` 
 
-### JSP vs Servlet
+view 페이지는 jsp
+
+Controller는 Servlet
+
+data영속성과 비즈니스 로직은 javaobject로
+
+
+
+- **JSP MVC**
+
+[https://gmlwjd9405.github.io/2018/11/05/mvc-architecture.html](https://gmlwjd9405.github.io/2018/11/05/mvc-architecture.html)
+
+![](https://t1.daumcdn.net/cfile/tistory/995D11335A1BB0C603)
+
+- 기본요소
+
+  자바코드를 직접적으로 넣는 것을 권장하지 않는다.
+
+- 정적 지시자 <%@ page ~~~%>
+
+  ​					 <%@ include ~~%>
+
+  ​					<%@ taglib ~~%>
+  
+- 동적 지시자 <jsp:include ~></jsp:include>
+			<jsp:useBean, setProperty..
+
+```
+declare scriptlet <%!
+public void method(){
+
+문장;
+}%>
+
+scriptlet <% 자바실행문장... %>
+expression <%= 출력내용 %>
+```
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+ <%! 
+    //delcare scriptlet
+ 	int global = 100;
+ 	public int method(int num){
+ 		int local = num;
+ 		return local + global;
+ 	}
+ 
+ %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+    <!--expression-->
+<%= 3+4 %><br>
+<%="jdk"+8 %><br>
+global 변수 값 : <%=global %> <br>
+method(3)호출 결과 : <%=method(3) %> <br>
+<hr>
+<%
+    //scriptlet
+	out.print((3+4)+"<br>");
+	out.print("jdk"+8+"<br>");
+	out.print("global 변수 값 :"+global+"<br>");
+	out.print("method(3)호출 결과 :"+method(3)+"<br>"); //scriptlet은
+%>
+
+</body>
+</html>
+```
+
+- 현재 이 방법은 권장하지 않는다.
+
+
+
+​    
+
+  
+
+## JSP vs Servlet
 
 - [https://gmlwjd9405.github.io/2018/11/04/servlet-vs-jsp.html](https://gmlwjd9405.github.io/2018/11/04/servlet-vs-jsp.html)
 
