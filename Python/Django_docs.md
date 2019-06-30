@@ -1,5 +1,6 @@
-- [Django_docs](<https://docs.djangoproject.com/ko/2.2/intro/tutorial01/>)
+### 0. 참고
 
+- [Django_docs](<https://docs.djangoproject.com/ko/2.2/intro/tutorial01/>)
 - [Djangogirls_tutorial](<https://tutorial.djangogirls.org/ko/>)
 
 
@@ -248,11 +249,12 @@ published_date(게시일)
    virtualenv --python=python3.6 myvenv
    source myvenv/bin/activate
    pip install django~=2.0 //django 설치
+   ```
 ```
    
 3. 데이터베이스 생성.
 
-   ```
+```
    python manage.py migrate
    python manage.py createsuperuser
    ```
@@ -286,7 +288,7 @@ published_date(게시일)
   from django.core.wsgi import get_wsgi_application
   from django.contrib.staticfiles.handlers import StaticFilesHandler
   application = StaticFilesHandler(get_wsgi_application())
-  ```
+   ```
 
   - 띄어쓰기 조심, syntax error..
 
