@@ -233,3 +233,64 @@ published_date(게시일)
 
 - 이메일은 본인 이메일을 쓰자.
 
+### 5. 배포하기
+
+- git, [pythoneverywhere](https://www.pythonanywhere.com/) 이용
+
+#### 5.1 Pythoneveywhere
+
+1. 해당 사이트에 프로젝트 폴더 `clone`
+
+2. 가상환경(virtualenv) 생성.
+
+   ```
+   cd my-first-blog
+   virtualenv --python=python3.6 myvenv
+   source myvenv/bin/activate
+   pip install django~=2.0 //django 설치
+```
+   
+3. 데이터베이스 생성.
+
+   ```
+   python manage.py migrate
+   python manage.py createsuperuser
+   ```
+
+#### 5.2 Webapp배포
+
+1. 도메인 확정(그냥 next)
+2. manual configuration -> Python3.6
+3. 가상환경(virtualenv)설정
+
+![](Django_docs.assets/pythoneverywherevirtualvenv.png)
+
+4. WSGI 파일 설정.
+
+- 장고는 WSGI 프로토콜을 사용하여 작동함. 
+
+- 상단페이지에 없음 
+
+  **WEB** -> Code: ..
+
+  ```python
+  import os
+  import sys
+  
+  path = '/home/<your-PythonAnywhere-username>/my-first-blog'
+  if path not in sys.path:
+      sys.path.append(path)
+  
+  os.environ['DJANGO_SETTINGS_MODULE'] = 'mysite.settings'
+  
+  from django.core.wsgi import get_wsgi_application
+  from django.contrib.staticfiles.handlers import StaticFilesHandler
+  application = StaticFilesHandler(get_wsgi_application())
+  ```
+
+  - 띄어쓰기 조심, syntax error..
+
+#### 5.3 페이지 배포
+
+[http://102092.pythonanywhere.com/](http://102092.pythonanywhere.com/)
+
