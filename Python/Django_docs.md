@@ -250,11 +250,9 @@ published_date(게시일)
    source myvenv/bin/activate
    pip install django~=2.0 //django 설치
    ```
-```
-   
 3. 데이터베이스 생성.
 
-```
+   ```
    python manage.py migrate
    python manage.py createsuperuser
    ```
@@ -288,11 +286,11 @@ published_date(게시일)
   from django.core.wsgi import get_wsgi_application
   from django.contrib.staticfiles.handlers import StaticFilesHandler
   application = StaticFilesHandler(get_wsgi_application())
-   ```
+  ```
 
   - 띄어쓰기 조심, syntax error..
 
 #### 5.3 페이지 배포
 
-[http://102092.pythonanywhere.com/](http://102092.pythonanywhere.com/)
+- 완성!  : [http://102092.pythonanywhere.com/](http://102092.pythonanywhere.com/)
 

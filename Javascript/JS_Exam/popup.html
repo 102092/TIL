@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        .search{
+            background-color: yellow;
+        }
+        .dropdown-content{
+            background-color: white;
+        }  
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $(".dropdown-content").hide()
+            $(".search").hover(function(){
+                $(".dropdown-content").show();
+            })
+        })    
+    
+    </script>
+    
+
+    <title>popup</title>
+</head>
+<body>
+    
+    <span class="search">검색
+    <ul class="dropdown-content">
+        <li><a href="www.naver.com">naver</a></li>
+        <li><a href="www.daum.net">daum</a></li>
+        <li><a href="www.google.com">google</a></li>
+    </ul> 
+    
+
+   
+</body>
+</html>

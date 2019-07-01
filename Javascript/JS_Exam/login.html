@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="login.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script>
+      $(document).ready(function(){
+
+          $("#loginsubmit").click(function(){
+            var n1 = $("#userid").val().length;
+            var n2 = $("#mbpw").val().length;
+
+              if(n1 <4){
+                  alert("아이디를 4글자 이상 입력해주세요");
+              }else if(n2 <4){
+                alert("비밀번호를 4글자 이상 입력해주세요");
+              }
+              else{
+                  alert("로그인에 성공하셨습니다.")
+              }
+          })
+      })
+        
+  </script>
+  <title>1) 로그인</title>
+ </head>
+ <body>
+ <h3>1) 로그인 </h3>
+ <form>
+   <table id="table1">   
+      <tr>
+         <th>아이디</th>
+         <td>
+         <input type="text" name="userid" id="userid"> 
+          
+         </td>
+       </tr>
+       <tr>
+         <th>비밀번호</th>
+         <td><input type="password" name="mbpw" id="mbpw"></td>
+       </tr>
+       <tr>    
+           <th></th>  
+           <td><button id="loginsubmit">로그인 요청</button><span id="result"></span>    </td>
+        </tr>
+       
+    </table>
+    </form>
+
+ </body>
+</html>
+ 

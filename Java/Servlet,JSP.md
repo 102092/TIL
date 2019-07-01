@@ -920,16 +920,17 @@ public class CalcServlet extends HttpServlet {
 
 ## JSP
 
-- 웹 콘텍스트 표준 구조
-
 - 참고
 
   1.[https://gmlwjd9405.github.io/2018/10/28/servlet.html](https://gmlwjd9405.github.io/2018/10/28/servlet.html)
 
   2.[https://technet.tmaxsoft.com/upload/download/online/jeus/pver-20150722-000001/web-engine/chapter_context_web_application.html](https://technet.tmaxsoft.com/upload/download/online/jeus/pver-20150722-000001/web-engine/chapter_context_web_application.html)
   
-  ![](https://technet.tmaxsoft.com/upload/download/online/jeus/pver-20150722-000001/web-engine/resources/sample_war_file_contents.png)
   
+  
+#### 1. 웹 콘텍스트 표준 구조
+![](https://technet.tmaxsoft.com/upload/download/online/jeus/pver-20150722-000001/web-engine/resources/sample_war_file_contents.png)
+
 - WEB-INF(보안폴더)
 
   ​	 lib(외부 자바 library)
@@ -940,13 +941,15 @@ public class CalcServlet extends HttpServlet {
 
 - 웹페이지 콘텐츠의 정적인 내용은 `HTML` or `XML` 기술로 작성하고 동적인 내용은 `JSP,스크립트` 코드로 작성하는 기술.
 
-  정적? 클라이언트가 서버에 요청하면, **미리** 준비된 문서를 전달하는 방식.
+  
 
+  정적? 클라이언트가 서버에 요청하면, **미리** 준비된 문서를 전달하는 방식.
+  
   동적? 클라이언트가 서버에 요청하면, **가공처리후 생성된**   문서를 전달하는 방식.
 
 ![](http://i0.wp.com/lh3.googleusercontent.com/-mFaOm0EGIvA/VqeJYe_b_yI/AAAAAAAAADA/FDiCN9Zp_hg/w720-o/static-vs-dynamic-web-inside.png?w=734&ssl=1)
 
-- JSP 컴파일 순서
+#### 2. JSP 컴파일 순서
 
 ![](https://t1.daumcdn.net/cfile/tistory/2250A34E541E7D6602)
 
@@ -977,17 +980,22 @@ public class CalcServlet extends HttpServlet {
 
 - 이클립스를 이용해서 JSP를 생성한다.
 - `HTML` 내부에 자바 코드가 삽입됨
-
 - 접속은? `http://localhost:8080/../hello.jsp`
-
 - 가능한 인코딩은 `utf-8`로..
 - 알아둬야할 표현
   1. 지시자 `<%@...%>`
   2. 스트립틀릿 `<% 자바코드..%>`
   3. 선언문 `<%!.... %>`
   4. 표현식` <%=....%>`
-
 - 수정된 경우 WAS가 알아서 처리함. 쉽게 배포됨.
+
+
+
+#### 3. **JSP MVC**
+
+[https://gmlwjd9405.github.io/2018/11/05/mvc-architecture.html](https://gmlwjd9405.github.io/2018/11/05/mvc-architecture.html)
+
+![](https://t1.daumcdn.net/cfile/tistory/995D11335A1BB0C603)
 
 
 
@@ -999,14 +1007,6 @@ view 페이지는 jsp
 Controller는 Servlet
 
 data영속성과 비즈니스 로직은 javaobject로
-
-
-
-- **JSP MVC**
-
-[https://gmlwjd9405.github.io/2018/11/05/mvc-architecture.html](https://gmlwjd9405.github.io/2018/11/05/mvc-architecture.html)
-
-![](https://t1.daumcdn.net/cfile/tistory/995D11335A1BB0C603)
 
 - 기본요소
 
@@ -1028,7 +1028,7 @@ public void method(){
 문장;
 }%>
 
-scriptlet <% 자바실행문장... %>
+scriptlet <% 자바실행문장; %>
 expression <%= 출력내용 %>
 ```
 
@@ -1071,11 +1071,466 @@ method(3)호출 결과 : <%=method(3) %> <br>
 
 - 현재 이 방법은 권장하지 않는다.
 
+#### 4. JSP 기초문법
+
+#### 5. JSP 내장객체
+
+​    ![](Servlet,JSP.assets/jspinnerobject.png)
+
+- `exception` 이라는 객체는 JSP 선언자에 `isErrorPage="true"` 로 작성되어 있어야 사용할 수 있음.
+
+```jsp
+<%@page import="java.util.Enumeration"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<%
+	Enumeration<String> headers = request.getHeaderNames();
+
+	while(headers.hasMoreElements()){
+		String name = headers.nextElement();
+		out.print("<li>"+name+ " : ");
+		Enumeration<String> values = request.getHeaders(name);
+		while(values.hasMoreElements()){
+			out.print(values.nextElement() +", ");
+		}
+		out.print("</li> ");
+	}
+
+%>
+<br>
+<li>요청 메소드 : <%= request.getMethod() %></li>
+<li>요청 클라이언트 IP : <%= request.getRemoteAddr() %></li>
+<li>ContextPath : <%= request.getContextPath() %></li>
+<li>RequestURI : <%= request.getRequestURI() %></li>
+<li>RequestURL : <%= request.getRequestURL() %></li>
+<li>ServletPath : <%= request.getServletPath() %></li>
+```
+
+- `request` 객체를 이용하여 headerinfo 받아오기
 
 
-​    
 
+#### Q)1 Ajax 이용하여 ID vaild check
+
+1. **member.html**
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <style>
+   h3 { width: 740px; 
+       text-align : center; }
+      
+  </style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script>
+  $(document).ready(function(){	  
+	  $("#idCheck").click(function(e){
+		  if(e === undefined) {
+			  window.event.cancelBubble = true;
+		  } else {
+			  e.stopPropagation();
+			  e.preventDefault(); 
+		  }
+		  
+	          var n1 = $("[name='userid']").val();
+	          console.log(n1);
+	          $.ajax({            
+	            url : "idCheck.jsp",	          
+	            data : {"userid" : n1},
+	            success : function(data){
+	               $("#result").html(data);
+	            }
+	          });
+	        });
+  });
+	
   
+  </script>
+  <title>회원 가입</title>
+ </head>
+ <body>
+ <h3> 회원가입 정보 입력</h3>
+ <form name="write_form_member" method="post">
+   <table width="740" style="padding:5px 0 5px 0; ">
+      <tr height="2" bgcolor="#FFC8C3"><td colspan="2"></td></tr>
+      <tr>
+         <th> 이름</th>
+         <td><input type="text" name="mbname"></td>
+      </tr>
+      <tr>
+         <th>주민등록번호</th>
+         <td><input type="text" name="jumin_1"> -
+        <input type="password" name="jumin_2"></td>
+       </tr>
+       <tr>
+         <th>아이디</th>
+         <td>
+         <input type="text" name="userid"> <button id="idCheck">중복ID체크</button><span id="result"></span>
+          
+         </td>
+       </tr>
+       <tr>
+         <th>비밀번호</th>
+         <td><input type="password" name="mbpw"> 영문/숫자포함 6자 이상</td>
+       </tr>
+       <tr>
+         <th>비밀번호 확인</th>
+         <td><input type="password" name="mbpw_re"></td>
+       </tr>
+       <tr>
+          <th>비밀번호 힌트/답변</th>
+          <td><select name='pwhint' size='1' class='select'>
+          <option value=''>선택하세요</option>
+          <option value='30'>졸업한 초등학교 이름은?</option>
+          <option value='31'>제일 친한 친구의 핸드폰 번호는?</option>
+          <option value='32'>아버지 성함은?</option>
+          <option value='33'>어머니 성함은?</option>
+          <option value='34'>어릴 적 내 별명은?</option>
+          <option value='35'>가장 아끼는 물건은?</option>
+          <option value='36'>좋아하는 동물은?</option>
+          <option value='37'>좋아하는 색깔은?</option>
+          <option value='38'>좋아하는 음식은?</option>
+        </select>
+        </tr>
+        <tr>
+        </td>
+           <th>답변</th>
+           <td><input type='text' name='pwhintans'></td>
+        </tr>
+        <tr>
+          <th>이메일</th>
+          <td>
+            <input type='text' name="email">@
+            <input type='text' name="email_dns">
+              <select name="emailaddr">
+                 <option value="">직접입력</option>
+                 <option value="daum.net">daum.net</option>
+                 <option value="empal.com">empal.com</option>
+                 <option value="gmail.com">gmail.com</option>
+                 <option value="hanmail.net">hanmail.net</option>
+                 <option value="msn.com">msn.com</option>
+                 <option value="naver.com">naver.com</option>
+                 <option value="nate.com">nate.com</option>
+              </select>
+            </td>
+         </tr>
+         <tr>
+           <th>주소</th>
+           <td>
+             <input type="text" name="zip_h_1"> - 
+             <input type="text" name="zip_h_2">
+             <input type="text" name="addr_h1"><br>
+             <input type="text" name="addr_h2">
+           </td>
+         </tr>
+         <tr>
+         <th>전화번호</th>
+           <td><input type="text"name="cel1"> -
+               <input type="text" name="cel2_1" title="전화번호"> -
+               <input type="text" name="cel2_2">
+            </td>
+        </tr>
+        <tr>
+          <th>핸드폰 번호</th>
+           <td><input type="text"name="tel_h1"> -
+               <input type="text" name="tel_h2_1"> -
+               <input type="text" name="tel_h2_2">
+           </td>
+          </tr>
+         <tr>
+           <th>직업</th>
+           <td>
+           <select name='job' size='1'>
+                 <option value=''>선택하세요</option>
+                 <option value='39'>학생</option>
+                 <option value='40'>컴퓨터/인터넷</option>
+                 <option value='41'>언론</option>
+                 <option value='42'>공무원</option>
+                 <option value='43'>군인</option>
+                 <option value='44'>서비스업</option>
+                 <option value='45'>교육</option>
+                 <option value='46'>금융/증권/보험업</option>
+                 <option value='47'>유통업</option>
+                 <option value='48'>예술</option>
+                 <option value='49'>의료</option>
+           </select>
+          </td>
+        </tr>
+       <tr>
+         <th>메일/sns 정보 수신</th>
+           <td class="s">
+               <input type="radio" name="chk_mail" checked> 수신
+               <input type="radio" name="chk_mail" value="4"> 수신거부
+            </td>
+         </tr>
+         <tr>
+           <th> 관심분야 </th>
+           <td>
+              <input type='checkbox' name='interest[]' value='17'> 생두
+              <input type='checkbox' name='interest[]' value='18'> 원두
+              <input type='checkbox' name='interest[]' value='19'> 로스팅
+              <input type='checkbox' name='interest[]' value='20'> 핸드드립
+              <input type='checkbox' name='interest[]' value='21'> 에스프레소
+              <input type='checkbox' name='interest[]' value='22'> 창업
+            </td>
+         </tr>
+         <tr>
+           <th>가입경로</th>
+           <td>
+             <select name='location' size='1'>
+                 <option value=''>선택하세요</option>
+                 <option value='23'>네이버검색</option>
+                 <option value='24'>다음검색</option>
+                 <option value='25'>기타검색엔진</option>
+                 <option value='26'>카페or동호회를 통해</option>
+                 <option value='27'>지인의소개</option>
+                 <option value='28'>기타</option>
+             </select>
+           </td>
+         </tr>
+ 
+         <tr>
+           <th>정보공개여부</th>
+           <td>
+           <select name='chk_open' size='0'>
+                 <option value=''>선택하세요</option>
+                 <option value='5'>모두공개</option>
+                 <option value='6'>비공개</option>
+                 <option value='7'>1단계공개</option>
+                 <option value='8'>2단계공개</option>
+             </select>
+            </td>
+           </tr>
+ 
+           <tr height="2" bgcolor="#FFC8C3"><td colspan="2"></td></tr>
+           <tr>
+             <td colspan="2" align="center">
+               <input type="submit" value="회원가입">
+               <input type="reset" value="취소">
+            </td>
+           </tr>
+           </table>
+          </td>
+          </tr>
+          </form>
+ </body>
+</html>
+ 
+```
+
+2. **idCheck.jsp**
+
+```jsp
+<%@ page contentType="text/plain;charset=utf-8"%>
+<%
+  String[] ids = new String[]{"test", "admin", "guest"};
+  String uid = request.getParameter("userid");
+  String result = "valid";
+  for(int i=0;i<ids.length;i++){
+	  if(ids[i].equals(uid)){
+		  result ="invalid"; 
+		  break;
+	  }
+  }
+  out.println(result); 
+%>
+```
+
+#### Q2) MVC 구조를 이용한 login page
+
+- oracle db 이용
+- login,loginfail,loginsuccess.jsp + LoginDAO,LoginServlet.java로 구성되어있음.
+
+1. **Jsp**
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>MVC구조 login</title>
+</head>
+	<body>
+	<h3 id='header'>MVC구조 login</h3>
+	<div id='main' style='text-align:center'>
+		<br><br> 
+		<form method=post action="Login" >
+		<table style='border:1px #0000FF dotted;text-align:center'>
+		<tr><td>사용자 ID </td>		  
+		   	 <td><input type=text name="userid" id="userid"></td></tr>		  
+		  <tr><td>사용자 암호 </td>
+		    <td><input type=password name="userpwd" id="userpwd"></td></tr>
+		  <tr><td colspan=2 style='text-align:right'>
+			<input type=submit value='로그인'>
+			<input type=reset value='취소'></td></tr>
+		</table>
+	</form>
+	</div>
+</body>
+</html>
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<Style>
+	p{color : red;}
+</Style>
+<title>loginFail.jsp</title>
+</head>
+<body>
+<p>아이디가 존재하지 않거나 비밀번호가 일치하지 않습니다.</p>
+<a href="./login.jsp">다시 로그인하기</a><br>
+
+</body>
+</html>
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+	p {color:blue;}
+</style>
+<meta charset="UTF-8">
+<title>loginSucess.jsp</title>
+</head>
+<body>
+<p>${userid}님 환영합니다!!</p>
+<br>
+
+</body>
+</html>
+```
+
+
+
+2. **java**
+
+```java
+package lab.web.model;
+
+import java.io.FileInputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.Properties;
+
+public class LoginDAO {
+	public Connection dbCon() {
+		Connection con = null;
+		try {
+			Properties prop = new Properties();
+			prop.load(new FileInputStream("C:/workspace2/web2/WebContent/WEB-INF/dbinfo.properties"));
+			Class.forName(prop.getProperty(("driver")));
+			con = DriverManager.getConnection(prop.getProperty("url"),prop.getProperty("user"),prop.getProperty("pwd"));
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return con;
+	}
+	public void dbClose(Connection con, Statement stat,ResultSet rs) {
+		try {
+			if(rs!=null) rs.close();
+			if(stat!=null) stat.close();
+			if(con!=null) con.close();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+	public boolean loginProc(String uid, String upwd) {
+		boolean success = false;
+		Connection con = null;
+		PreparedStatement stat = null;
+		String sql = "select * from userinfo where userid=? and userpwd =?";
+		ResultSet rs = null;
+		try {
+			con = dbCon();
+			stat = con.prepareStatement(sql);
+			stat.setString(1, uid);
+			stat.setString(2, upwd);
+			rs = stat.executeQuery();
+			if(rs.next()) {
+				success = true;
+				
+			}
+		}catch (Exception e) {
+				e.printStackTrace();
+		}finally{
+				dbClose(con, stat, rs);
+		}
+		return success;	
+	}
+}
+
+package lab.web.model;
+
+import java.io.IOException;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+
+@WebServlet("/Login")
+public class LoginServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+    
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/htmll;charset=utf-8");
+		response.sendRedirect("./login.jsp");
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/htmll;charset=utf-8");	
+		String uid = request.getParameter("userid");
+		String upwd = request.getParameter("userpwd");
+		LoginDAO dao = new LoginDAO();
+		ServletContext sc = request.getServletContext();
+		RequestDispatcher rd = null;
+		
+		if(dao.loginProc(uid, upwd)) {
+			rd = sc.getRequestDispatcher("/loginSucess.jsp");
+			request.setAttribute("userid",uid);
+			rd.forward(request, response);
+		}else {
+			rd = sc.getRequestDispatcher("/loginFail.jsp");
+			rd.forward(request, response);
+		}
+	}
+}
+```
+
+
+
+**3.properties**
+
+```
+driver=oracle.jdbc.OracleDriver
+url=jdbc:oracle:thin:@localhost:1521:orcl
+user=hr
+pwd=oracle
+```
+
+
+
+
 
 ## JSP vs Servlet
 
