@@ -1,4 +1,4 @@
-# Servlet, JSP
+# `Servlet, JSP
 
 ### 참고
 
@@ -389,6 +389,46 @@ public class UploadServlet extends HttpServlet {
   추가적인 정보를 넘기고 싶다? `requset.setAttribute("키",객체);` **map**구조
 
   가져올때는? `requset.getAttribute("키") ` 반환이 object로 되므로 , 실제 저장한 타입으로 downcasting으로 해야함.
+  
+- requsetDispatcher 방식 vs redirect 방식
+
+  1. `requsetDispatcher` 
+
+     - 동일한 웹 콘텍스트의 `JSP` 나 `Servlet` 에게 요청 재지정 가능
+     - url 주소 표현은 **처음 요청한** Servlet이나 jsp
+
+     ```java
+     ServletContext sc = request.getServletContext();
+     RequestDispatcher rd = sc.getRequsetDispatcher;("/요청 재지정 자원경로")//반드시 '/'로 시작
+     requset.setAttribute(key,value); //추가적인 정보를 설정할때
+     rd.forward(request, response); //전송.
+     //즉 동일한 웹 컨텍스트의 JSP나 Servlet에게 request를 이용해서 정보 공유 가능
+     ```
+
+   2. `rediret `
+
+      - 동일한 웹 콘텍스트의 `JSP` 나 `Servlet` 에게 요청 재지정 가능
+      - 다른 웹 콘텍스트의 `JSP` 나 `Servlet` 에게 요청 재지정 가능
+      - 다른 웹 서버로 요청 재지정 가능
+      - URL주소 표현은 **최종 표현이 전달된** Servlet이나 jsp또는 웹서버의 주소
+      
+      ```java
+      response.sendRedirect("url의 path형식"); // http://~로 시작  , ./ 상대경로 ,  root conntext로부터 시작하는 /~ 절대경로 방식
+      ```
+      
+      - 최초 요청시에 컨테이너가 생성한 request와 response는 소멸되고, 새로운 request와 response객체가 redirect된 자원으로 `get` 방식으로 전달. **(requsetDispatcher와 다른점!)**
+      
+      - 그럼 동일한 웹서버내 동일한 웹콘텍스트에 클라이언트의 상태정보를 보존하여 전달하려고 하면 어떻게 해야할까?
+      
+        *Session*을 이용한다
+      
+        `HttpSession.setAttribute(key, value)` 또는 `ServletContext.setAttriute(key, value)`를 사용
+      
+        
+  
+     
+  
+     
 
 1. **Message.jsp**
 
@@ -515,6 +555,8 @@ public class ForwardServlet extends HttpServlet {
 
 #### Q5) Cookies 활용하여, 아이디 저장칸 만들기
 
+- 접속시 웹 컨테이너에서 생성된 `Jsession id`, 로그인 정보,쇼핑 카트에 저장된 상품정보등 상태정보를 유지하는 방법
+
 - Http 특성은 요청시 Connection 되며, 응답이 전송되면 disconnect됨. => *비연결형 protocool*
 
   계속 연결되어 있는 것이 아님
@@ -523,17 +565,63 @@ public class ForwardServlet extends HttpServlet {
 
   상태정보를 저장하게 해줌. 4가지 방법
 
-  1. 클라이언트 브라우저에 저장(key =value) : **Cookie**
+  1. 클라이언트 브라우저에 저장*(key =value)* : **Cookie**
 
      유효기간 설정할 수 있음. `setMaxAge()`
 
+     ```java
+     //쿠키 객체 생성
+     Cookie c = new Cookie(key, value);
+     
+     //쿠키 전송, 요청
+     HttpServletResponse.addCookie(); //클라이언트에게 전송
+     HttpServletRequset.getCookies(); //클라이언트 요청으로부터 쿠키를 가져오기
+     //쿠키 유효기간 설정
+     setMaxAge(); //초단위
+     setMaxAge(0); // 쿠키 정보 삭제하는 방법    
+     ```
+
+     
+
   2. url의 쿼리 스트링으로 요청시마다 전송하는 방법
+
+     `http://ip:port/웹콘텍스트/xxx.jsp?jsessionid=......`
 
   3. 요청을 전송하는 페이지 `<input type='hidden' name='' value=''>` 이용
 
-  4. 웹 서버에 객체로 저장함 : **Session**
+  
+
+  4. 웹 콘테이너의 메모리에 객체로 저장함 : **Session**
 
      유효기간은 클라이언트의 브라우저가 종료되는 순간까지.
+
+     객체명 ? `HttpSession` 
+
+     요청시에 생성된 `Session` 을 받아오려면 `HttpServlet.getSession();`
+
+     추가적인 정보를 저장하려면? `setAttribute(key,value)`
+
+     특정 정보를 삭제하려면? `removeAttribute(key)`
+
+     웹콘테이너가 생성한 Jsessionid를 받아오는 메소드? `getId()`
+
+     세션이 요청한 마지막 시간을 받아오는 메소드? `getLastAcessTime()`
+
+     클라이언트 요청이 없어도, httpSession을 웹 콘테이너의 메모리에 유지하는 시간을 설정? `setMaxInactiveInterval(초단위)`
+
+     혹은 `web.xml` 에서 아래와 같은 코드를 추가
+
+     ```xml
+     <session-config>
+     	<session-timeout>30</session-timeout> <!--분단위-->
+     </session-config>
+     ```
+
+     세션에 저장된 상태정보를 삭제하고 세션 객체를 만료시키려면? `invalidate()`
+
+     
+
+     
 
   
 
@@ -926,8 +1014,13 @@ public class CalcServlet extends HttpServlet {
 
   2.[https://technet.tmaxsoft.com/upload/download/online/jeus/pver-20150722-000001/web-engine/chapter_context_web_application.html](https://technet.tmaxsoft.com/upload/download/online/jeus/pver-20150722-000001/web-engine/chapter_context_web_application.html)
   
-  
-  
+- Java server page
+
+  Html 또는 XML 기반의 동적인 웹 콘텐츠를 개발하는 스크립트
+
+  MVC 중 View의 역할
+
+  자바 코드 로직을 가능한 포함하지 않고, 태그 el로만 콘텐츠를 생성하는 것을 권장함.
 #### 1. 웹 콘텍스트 표준 구조
 ![](https://technet.tmaxsoft.com/upload/download/online/jeus/pver-20150722-000001/web-engine/resources/sample_war_file_contents.png)
 
@@ -939,12 +1032,10 @@ public class CalcServlet extends HttpServlet {
 
   
 
-- 웹페이지 콘텐츠의 정적인 내용은 `HTML` or `XML` 기술로 작성하고 동적인 내용은 `JSP,스크립트` 코드로 작성하는 기술.
-
-  
+- 웹페이지 콘텐츠의 **정적인 내용**은 `HTML` or `XML` 기술로 작성하고 **동적인 내용**은 `JSP,스크립트` 코드로 작성하는 기술.
 
   정적? 클라이언트가 서버에 요청하면, **미리** 준비된 문서를 전달하는 방식.
-  
+
   동적? 클라이언트가 서버에 요청하면, **가공처리후 생성된**   문서를 전달하는 방식.
 
 ![](http://i0.wp.com/lh3.googleusercontent.com/-mFaOm0EGIvA/VqeJYe_b_yI/AAAAAAAAADA/FDiCN9Zp_hg/w720-o/static-vs-dynamic-web-inside.png?w=734&ssl=1)
@@ -999,37 +1090,85 @@ public class CalcServlet extends HttpServlet {
 
 
 
-1. **JSP 준수사항**
-   - 정적페이지 선언 `<%@ page .....%>` 
 
-view 페이지는 jsp
 
-Controller는 Servlet
+#### 4. JSP 기초문법
 
-data영속성과 비즈니스 로직은 javaobject로
+​	**JSP 준수사항**
+
+- 정적페이지 선언 `<%@ page .....%>` 
+- view 페이지는 jsp
+- Controller는 Servlet
+- data영속성과 비즈니스 로직은 javaobject로
+
+
 
 - 기본요소
 
   자바코드를 직접적으로 넣는 것을 권장하지 않는다.
 
-- 정적 지시자 <%@ page ~~~%>
+##### 4.1 정적 지시자 
 
-  ​					 <%@ include ~~%>
-
-  ​					<%@ taglib ~~%>
+  ```
+  <%@ page 
+  text/html : html를 응답해주고 싶을때, text/plain, image/jpeg. text/json...
+  application/vnd.ms... ppt등으로 응답해주고 싶을때
+  session
+  buffer
+  isThreadSafe
+  errorPage
+  isErrorPage
+  info
+  language //default가 java임
+  import // package클래스 
+  extends
+  isELIgored
+  defferedSyntaxAllowedAsLiteral %>
   
-- 동적 지시자 <jsp:include ~></jsp:include>
-			<jsp:useBean, setProperty..
+  ${}
+  #{} 템플릿 컨텐츠. JSF 지원하는 것
+  ```
 
-```
+  ```
+#jsp페이지 내에 다른 jsp 페이지를 포함시키려고 할때 사용하는 것
+<%@ include 
+file=""  //경로%>
+포함될 JSP페에서 <html>,<head>,<body>제외하고 <body>태그의 내용의 콘텐츠만 작성해야함
+  ```
+
+  ```
+<%@ taglib  prefix="" uri="http://java.sun.com/jsp/jstl/~" %>
+ JSP페이지내에 HTML 이 아닌 태그를 만나면 태그에 매핑된 Java class를 실행시켜서 실행 결과를 페이지의 컨텐츠로 처리
+ JSTL(Java Standard Tag Library)을 사용하기 위한 선언 , core, sql, xml, 국제화 format처리 라이브러리등을 사용하기 위해 선언
+  ```
+
+  
+
+##### 4.2 동적 지시자
+
+ <jsp:include ~></jsp:include>
+
+<jsp:useBean, setProperty..
+
+- 최초 JSP 요청 -> 컨테이너가 변환된 서블릿 java파일을 검색 -> 존재하지 않으면 서블릿 java파일 변환 -> 컴파일 -> 클래스를 메모리 로딩 -> 서블릿 객체 생성 -> lifecycle 메서드 호출
+
+```jsp
 declare scriptlet <%!
 public void method(){
 
 문장;
 }%>
 
-scriptlet <% 자바실행문장; %>
-expression <%= 출력내용 %>
+scriptlet <% 자바실행문장; %> 
+세미콜론과 함께! _jspService()메서드의 문장으로 포함
+//자바 주석 사용
+
+expression <%= 출력내용 %> 
+변수, 연산식, 값을 리턴. 세미콜론 쓰면 안됨 실제 웹페이지에 출력할 내용
+<% out.println(출력내용) %> , ${출력내용}
+
+주석?
+<%-- 주석 --%>
 ```
 
 ```jsp
@@ -1070,14 +1209,36 @@ method(3)호출 결과 : <%=method(3) %> <br>
 ```
 
 - 현재 이 방법은 권장하지 않는다.
-
-#### 4. JSP 기초문법
+- [https://doublesprogramming.tistory.com/64](https://doublesprogramming.tistory.com/64)
 
 #### 5. JSP 내장객체
+
+- 동적인 요청을 처리하는 JSP 요청과 응답을 처리하기 위해서 JSP 컨테이너가 서블릿으로 변환하면서 내장 객체들을 생성해서 `_jspService()`로 전달 추가.
 
 ​    ![](Servlet,JSP.assets/jspinnerobject.png)
 
 - `exception` 이라는 객체는 JSP 선언자에 `isErrorPage="true"` 로 작성되어 있어야 사용할 수 있음.
+
+- 위의 10가지 정도는 변수타입까지 기억하자(웹에서 사용하는 주객체)
+
+- 내장 객체들의 유효 범위 - 콘테이너 메모리에 유지되는 범위를 의미함
+
+  page는 요청된 JSP가 수행되는 동안만
+
+  request 요청이 종료 될때 까지
+
+  session 세션 만료 될때까지 또는 inactive상태에서는 30분동안
+
+  application 웹 콘텍스트가 웹 콘테이너로부터 삭제될때 까지 또는 웹 컨테이너가 종료될때 까지
+
+- page,request, session, application에 정보를 저장, 삭제 반환 메서드
+
+  `set,get,remove+Attribute()`
+
+  `getAttributeNames()`
+
+  
+
 
 ```jsp
 <%@page import="java.util.Enumeration"%>
@@ -1108,6 +1269,17 @@ method(3)호출 결과 : <%=method(3) %> <br>
 ```
 
 - `request` 객체를 이용하여 headerinfo 받아오기
+
+
+
+- 자주 구현하는 기능을 태그로 정의
+
+1. 표준 액션 태그 
+2. 커스텀 액션 태그
+
+
+
+#### 6. EL
 
 
 
@@ -1529,6 +1701,463 @@ pwd=oracle
 ```
 
 
+
+#### Q3) Q2번 지시자를 이용하여 개선하기
+
+#### Q4) 지시자를 이용하여 기본 페이지 만들기
+
+1. **content.jsp**
+
+```JSP
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h3>include 지시자 예제</h3>
+	<table border="1">
+		<tr>
+		<td colspan="2" align="center">
+		<jsp:include page="header.jsp">
+			<jsp:param name="company" value="PUBG" />
+		</jsp:include>
+		</td></tr>
+		
+		<tr>
+		<td>
+		<jsp:include page="menu.jsp" />		
+		<td width="400"><img src="./images/playerunknowns.png" width="300" height="200"></td>
+		</tr>
+		<tr>
+		<td colspan="3" align = "center">
+		<jsp:include page="footer.jsp">
+		<jsp:param name ="address" value="서울 광화문" />
+		</jsp:include>
+		</td></tr>
+	</table>
+
+</body>
+</html>
+```
+
+2. **header,footer, menu.jsp**
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<% request.setCharacterEncoding("utf-8"); %>
+<style>
+h3 {text-align:center;}
+</style>
+<h3> ${param.company} </h3>
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+ <% request.setCharacterEncoding("utf-8"); %>
+<style>
+h5 {text-align: center;}
+</style>
+<h5>copywrite | 연락처 | help@help.com </h5>
+<h5>${param.address}</h5>
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<% request.setCharacterEncoding("utf-8"); %>
+<style>
+p {text-align:center;}
+</style>
+<p>1. 로그인</p>
+<p>2. 로그아웃</p>
+```
+
+
+
+#### Q5) 기본 회원가입 페이지
+
+1.member.html
+
+```html
+<!DOCTYPE html>
+<html lang="kor">
+ <head>
+  <meta charset="UTF-8">
+  <style>
+   h3 { width: 740px; 
+       text-align : center; }
+      
+  </style>
+  <title>회원 가입</title>
+ </head>
+ <body>
+ <h3> 회원가입 정보 입력</h3>
+ <form name="write_form_member" method="post" action="Join">
+   <table width="740" style="padding:5px 0 5px 0; ">
+      <tr height="2" bgcolor="#FFC8C3"><td colspan="2"></td></tr>
+      <tr>
+         <th> 아이디 </th>
+         <td><input type="text" name="userid"></td>
+      </tr>
+      <tr>
+         <th>이 름</th>
+         <td><input type="text" name="username">  </td>
+       </tr>        
+       <tr>
+         <th>비밀번호</th>
+         <td><input type="password" name="userpwd"> 영문/숫자포함 6자 이상</td>
+       </tr>   
+      
+        <tr>
+        </td>
+           <th>연락처</th>
+           <td><input type='text' name='phone'></td>
+        </tr>
+        <tr>
+          <th>이메일</th>
+          <td>
+            <input type='text' name="email">@
+            <input type='text' name="email_dns">
+              <select name="emailaddr">
+                 <option value="">직접입력</option>
+                 <option value="daum.net">daum.net</option>
+                 <option value="empal.com">empal.com</option>
+                 <option value="gmail.com">gmail.com</option>
+                 <option value="hanmail.net">hanmail.net</option>
+                 <option value="msn.com">msn.com</option>
+                 <option value="naver.com">naver.com</option>
+                 <option value="nate.com">nate.com</option>
+              </select>
+            </td>
+         </tr>
+         
+         <tr>
+           <th>직업</th>
+           <td>
+           <select name='job' size='1'>
+                 <option value=''>선택하세요</option>
+                 <option value='39'>학생</option>
+                 <option value='40'>컴퓨터/인터넷</option>
+                 <option value='41'>언론</option>
+                 <option value='42'>공무원</option>
+                 <option value='43'>군인</option>
+                 <option value='44'>서비스업</option>
+                 <option value='45'>교육</option>
+                 <option value='46'>금융/증권/보험업</option>
+                 <option value='47'>유통업</option>
+                 <option value='48'>예술</option>
+                 <option value='49'>의료</option>
+           </select>
+          </td>
+        </tr>
+       <tr>
+         <th>주소 </th>
+           <td class="s">
+               <input type="text" name="address"  >  
+            </td>
+         </tr>
+         
+ 
+           <tr height="2" bgcolor="#FFC8C3"><td colspan="2"></td></tr>
+           <tr>
+             <td colspan="2" align="center">
+               <input type="submit" value="회원가입">
+               <input type="reset" value="취소">
+            </td>
+           </tr>
+           </table>
+          </td>
+          </tr>
+          </form>
+ </body>
+</html>
+ 
+```
+
+
+
+2. memberok.jsp
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<% request.setCharacterEncoding("utf-8"); %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>memeberOk3.jsp</title>
+</head>
+<body>
+
+
+ 
+ ${user.userid } <br>
+ ${user.job } <br>
+ ${user.address } 
+ 
+
+
+</body>
+</html>
+```
+
+
+
+3. joinsevlet.java
+
+```java
+package lab.web.model;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/Join")
+public class joinServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+    public joinServlet() {
+        super();
+    
+    }
+
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding("utf-8");		
+		PrintWriter out = response.getWriter();	
+		
+		HashMap<String, String> jobs = new HashMap<String, String>();
+		jobs.put("39", "학생");
+		jobs.put("40", "컴퓨터/인터넷");
+		jobs.put("41", "언론");
+		jobs.put("42", "공무원");
+		jobs.put("43", "군인");
+		jobs.put("44", "서비스업");
+		jobs.put("45", "교육");
+		jobs.put("46", "금융/증권/보험업");
+		jobs.put("47", "유통업");
+		jobs.put("48", "예술");
+		jobs.put("49", "의료");
+		
+		
+		String uid = request.getParameter("userid");
+		String uname = request.getParameter("username");
+		String upwd = request.getParameter("userpwd");
+		String phone = request.getParameter("phone");
+		
+		
+		String email = request.getParameter("email");
+	
+		String job_re = jobs.get(request.getParameter("job"));
+		
+		System.out.println(request.getParameter("job"));
+		System.out.println(job_re);
+		
+		String address = request.getParameter("address");
+		
+		UserVO user = new UserVO();
+		user.setUserid(uid);
+		user.setUsername(uname);
+		user.setUserpwd(upwd);
+		user.setPhone(phone);
+		user.setEmail(email);
+		user.setJob(job_re);
+		user.setAddress(address);
+		
+		LoginDAO dao = new LoginDAO();
+		
+		ServletContext sc = request.getServletContext();
+		RequestDispatcher rd = null;
+		
+		if(dao.joinProc(user) > 0) {
+			rd = sc.getRequestDispatcher("/memberOK3.jsp");
+			request.setAttribute("user", user);
+			rd.forward(request, response);
+		}else {
+			out.println("<script>");
+			out.println("alert(\'회원가입 실패.\')");
+			out.println("location.href=\"./member2.html\"");
+			out.println("</script>");
+		}
+
+	}
+
+}
+
+```
+
+
+
+4. LoginDAO
+
+```JAVA
+package lab.web.model;
+
+import java.io.FileInputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.Properties;
+
+public class LoginDAO {
+	public Connection dbCon() {
+		Connection con = null;
+		try {
+			Properties prop = new Properties();
+			prop.load(new FileInputStream("C:/workspace2/web2/WebContent/WEB-INF/dbinfo.properties"));
+			Class.forName(prop.getProperty(("driver")));
+			con = DriverManager.getConnection(prop.getProperty("url"),prop.getProperty("user"),prop.getProperty("pwd"));
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return con;
+	}
+	public void dbClose(Connection con, Statement stat,ResultSet rs) {
+		try {
+			if(rs!=null) rs.close();
+			if(stat!=null) stat.close();
+			if(con!=null) con.close();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+			
+		
+	}
+	public boolean loginProc(String uid, String upwd) {
+		boolean success = false;
+		Connection con = null;
+		PreparedStatement stat = null;
+		String sql = "select * from userinfo where userid=? and userpwd =?";
+		ResultSet rs = null;
+		try {
+			con = dbCon();
+			stat = con.prepareStatement(sql);
+			stat.setString(1, uid);
+			stat.setString(2, upwd);
+			rs = stat.executeQuery();
+			if(rs.next()) {
+				success = true;
+				
+			}
+		}catch (Exception e) {
+				e.printStackTrace();
+		}finally{
+				dbClose(con, stat, rs);
+		}
+		return success;	
+	}
+	public int joinProc(UserVO user) {
+		int rows = 0;
+		Connection con = null;
+		PreparedStatement stat = null;
+		String sql = "insert into userinfo (userid, userpwd, username, phone, email, address,job) values(?,?,?,?,?,?,?)";
+		ResultSet rs = null;
+		
+		
+		try {
+			con = dbCon();
+			stat = con.prepareStatement(sql);
+			stat.setString(1, user.getUserid());
+			stat.setString(2, user.getUserpwd());
+			stat.setString(3, user.getUsername());
+			stat.setString(4, user.getPhone());
+			stat.setString(5, user.getEmail());
+			stat.setString(6, user.getAddress());			
+			stat.setString(7, user.getJob());			
+			rows = stat.executeUpdate();
+		}catch (Exception e) {
+				e.printStackTrace();
+		}finally{
+				dbClose(con, stat, rs);
+		}
+
+		return rows;
+	}
+}
+```
+
+5. userVO
+
+```JAVA
+package lab.web.model;
+
+public class UserVO {	
+	private String userid;
+	private String userpwd;
+	private String username;
+	private String phone;
+	private String email;
+	private String address;	
+	private String job;	
+	
+
+	public UserVO() {
+		super();
+	}
+
+	public String getJob() {
+		return job;
+	}
+
+	public void setJob(String job_re) {
+		this.job = job_re;
+	}
+
+	public void setUserpwd(String userpwd) {
+		this.userpwd = userpwd;
+	}
+
+	public String getUserid() {
+		return userid;
+	}
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+	public String getUserpwd() {
+		return userpwd;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}	
+}
+```
 
 
 
