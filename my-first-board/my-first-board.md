@@ -107,3 +107,45 @@ filetype   varchar2(15)
 create sequence bbsfile_seq nocache;
 ```
 
+
+
+### Url Path 방식 경로
+
+#### 1. Full
+
+- https://....
+
+
+
+#### 2. 절대경로
+
+- /board/xxx...
+
+  
+
+
+
+#### 3. 상대경로
+
+- ./list.do, ..///
+  - 현재 웹 콘텍스트 아래에서 찾음.
+
+
+
+- 1,2,3번 어디서 작성하는가?
+
+  ```
+  <a href="	">
+  response.redirect...
+  <form ...action='./...'>
+  ```
+
+- **ServletContext 기준 경로 = >** `/ ` 현재 웹 콘텍스트 아래..
+
+  ```
+  sc.getRequestDispatcher('/xxxx')
+  @WebServlet('/xxxx')
+  web.xml <url-parttern>/x</url-pattern)
+  ```
+
+  
