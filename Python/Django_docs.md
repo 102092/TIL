@@ -236,9 +236,9 @@ published_date(게시일)
 
 ### 5. 배포하기
 
-- git, [pythoneverywhere](https://www.pythonanywhere.com/) 이용
+- git, [pythonanywhere](https://www.pythonanywhere.com/) 이용
 
-#### 5.1 Pythoneveywhere
+#### 5.1 Pythonanywhere
 
 1. 해당 사이트에 프로젝트 폴더 `clone`
 
@@ -293,6 +293,7 @@ published_date(게시일)
 #### 5.3 페이지 배포
 
 - 완성!  : [http://102092.pythonanywhere.com/](http://102092.pythonanywhere.com/)
+- 로컬에서 db에 저장된 내용은 pythonanywhere에 넘어가지 않는듯 싶다
 
 
 
@@ -321,5 +322,115 @@ from . import views
 urlpatterns = [
     path('', views.post_list, name='post_list'),
 ]
+```
+
+- 위 2가지 수정 후, 서버가 실행되지 않음.
+- 아마도 attribute가 없어서 발생하는 문제인듯.
+
+
+
+### 7. view 생성
+
+
+
+1. `blog/views.py`
+
+```python
+from django.shortcuts import render
+
+def post_list(request):
+    return render(request, 'blog/post_list.html', {})
+```
+
+
+
+2. `blog/templates/blog/post_list.html`
+
+```html
+<html>
+    <head>
+        <title>Django Girls blog</title>
+    </head>
+    <body>
+        <div>
+            <h1><a href="">Django Girls Blog</a></h1>
+        </div>
+
+        <div>
+            <p>published: 14.06.2014, 12:14</p>
+            <h2><a href="">My first post</a></h2>
+            <p>Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+        </div>
+
+        <div>
+            <p>published: 14.06.2014, 12:14</p>
+            <h2><a href="">My second post</a></h2>
+            <p>Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut f.</p>
+        </div>
+    </body>
+</html>
+```
+
+- `templete` 폴더 안에, `blog` 폴더 하나 더 만들고, 그 안에`html` 파일 생성
+
+
+
+### 8. 장고ORM,쿼리셋(query set)
+
+1. shell 실행
+
+```
+(myvenv) python manage.py shell
+```
+
+
+
+2. 모든객체조회하기
+
+```
+from blog.models import Post
+Post.objects.all()
+```
+
+
+
+3. 객체 생성하기
+
+```
+from django.contrib.auth.models import User
+me = User.objects.get(username='admin')
+Post.objects.create(author=me, title='Sample title', text='Test')
+Post.objects.all()
+```
+
+
+
+4. 필터링하기
+
+```
+Post.objects.filter(author=me)
+Post.objects.filter(title__contains='title')
+
+from django.utils import timezone
+Post.objects.filter(published_date__lte=timezone.now())
+```
+
+- me를 기준으로 필터링..
+
+
+
+5. 정렬하기
+
+```
+Post.objects.order_by('created_date') //오름차순
+Post.objects.order_by('-created_date') //내림차순
+```
+
+
+
+6. 쿼리셋연결
+
+```
+Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
 ```
 
