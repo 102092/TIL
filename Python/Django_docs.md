@@ -294,3 +294,32 @@ published_date(게시일)
 
 - 완성!  : [http://102092.pythonanywhere.com/](http://102092.pythonanywhere.com/)
 
+
+
+### 6. url 설정
+
+1. `mysite/urls.py`
+
+```python
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('blog.urls')),
+]
+```
+
+
+
+2. `blog/urls.py`
+
+```python
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.post_list, name='post_list'),
+]
+```
+
