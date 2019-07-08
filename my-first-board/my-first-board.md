@@ -149,3 +149,12 @@ create sequence bbsfile_seq nocache;
   ```
 
   
+
+
+
+```sql
+insert into products (productid, pname, unitprice,description, manufacturer, category, unitinstock, condition, filename)
+values ('P1234', 'iPhone 6s', 800000, '4.7-inch, 1334X750 Renina HD display, 8-megapixel iSight Camera'
+, 'Apple', 'Smart Phone', 1000, 'New', 'P1234.png');
+```
+
