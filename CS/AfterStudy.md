@@ -48,3 +48,13 @@ int mod = 1e9 +7
 int Calc
 ```
 
+
+
+### 07.09
+
+- () [] 케이스만 생각해서 들엉
+- arr[1001] , visit함수(플레그 같이) 조세퍼스 0번. 위치찾기 문제que를 안쓰고 linkedlist를 사용해서 하면됨.
+
+- [미로찾기(DFS)](https://www.acmicpc.net/problem/2178)
+
+  MAP, 2차원배열
