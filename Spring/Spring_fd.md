@@ -14,6 +14,24 @@
 
 ![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=http%3A%2F%2Fcfile22.uf.tistory.com%2Fimage%2F992CCF455AB5DB73080B55)
 
+- Core ? **IoC** 기능 지원(Spring Container 클래스 :  BeanFactory)
+
+- Context ? Core에서 지원하는 기능외에 추가적인 기능을 지원
+
+  ApplicationContext ? Spring Context 클래스, BeanFactory를 상속받아서 국제화 메세지를 처리하는..
+
+- AOP? : 관점지향 프로그래밍을 지원
+
+- DAO? : JDBC보다 쉽고 간결하게 개발할 수 있도록
+
+- ORM? : Hibernate, MyBatis와의 결합 통합을 지원
+
+- WEB? : MVC 패턴이 적용된 Web App 개발지원 , struts, Webwork와 같은 프레임워크와 통합
+
+- WEB MVC? : 다양한 web ui 기술등의 api 지원
+
+
+
 ### 1.2 스프링 특징
 
 - **제어역행(IoC inversion of Control)**
@@ -54,9 +72,43 @@
 
      spring ioc는 팩토리패턴이 적용된 친구임
 
-     
 
-### 1.2 Spring xml 설정
+
+### 1.3  의존객체, Bean
+
+
+
+- 의존객체를 생성, 주입 방식
+
+1. 생성자를 통해 주입
+2. `setXXXX메서드`를 이용해서 주입
+
+- Bean 설정 방식
+
+1. xml 설정 방식
+   
+   ```xml
+   <bean id="빈이름"
+         name="빈이름"
+         class="">
+         <constructor-arg  ref="빈이름" />
+         <property   type="" index="" value="" ref="빈이름" />
+   ```
+   
+2. 자바 클래스와 Annotation 
+  @Configuration
+  @ 빈을 리턴하는 메서드 선언부에 @Bean 선언, 빈의 이름은 메서드이름
+
+  소스코드에서 빈요청할때  -  `컨테이너객체.getBean("빈이름", 빈타입.class)`
+
+  Spring 컨테이너의 default 빈 Scope는 `singleton`
+
+- [singleton에 대해](https://jeong-pro.tistory.com/86)
+- [singleton vs prototype](https://stackoverflow.com/questions/16058365/what-is-difference-between-singleton-and-prototype-bean)
+
+
+
+- **Spring xml 설정**
 
 - https://mvnrepository.com/artifact/org.springframework
 - `core,context` 모듈의 5.0.2version을 사용 복사하여서 `pom.xml`에 붙여넣는다.
