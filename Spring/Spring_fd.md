@@ -96,8 +96,8 @@
    ```
    
 2. 자바 클래스와 Annotation 
-  @Configuration
-  @ 빈을 리턴하는 메서드 선언부에 @Bean 선언, 빈의 이름은 메서드이름
+    @Configuration
+    @ 빈을 리턴하는 메서드 선언부에 @Bean 선언, 빈의 이름은 메서드이름
 
   소스코드에서 빈요청할때  -  `컨테이너객체.getBean("빈이름", 빈타입.class)`
 
@@ -164,6 +164,18 @@
 
 
 
+
+## AOP
+
+- Aspect Oriented Programming
+
+
+
+### Proxy
+
+- 왜 나왔을까?
+
+  기존 코드를 수정하지 않고, 코드 중복을 피할 수 있는 방법이 없을까..?
 
 ## 0. Maven
 
