@@ -4,10 +4,6 @@
 
 19.07.08 for blog
 
-- MVC에 대해 정리
-
-- [DAD, VO, DTO 정리](https://lazymankook.tistory.com/30?category=724439)
-
 - GET, POST 차이
 
 - Java buffered 사용정리
