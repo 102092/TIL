@@ -39,3 +39,11 @@
 - spring 전반적으로복습(인프런강의)
 
 - 프레임워크 vs 라이브러리
+
+
+
+19.07.15
+
+- [POJO란?](https://jojoldu.tistory.com/category/Spring?page=6)
+
+- spring annotation 
