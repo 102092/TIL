@@ -1,20 +1,20 @@
-# Recursion
+# 영리한 프로그래밍을 위한 알고리즘 
 
 ### 참고
 
 - Java로
-- [Youtube_강의](<https://www.youtube.com/watch?v=ln7AfppN7mY&list=PL52K_8WQO5oUuH06MLOrah4h05TZ4n38l&index=2&t=85s>)
-- 하루 1강씩..
+- [인프런강의]([https://www.inflearn.com/course/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-%EA%B0%95%EC%A2%8C/dashboard](https://www.inflearn.com/course/알고리즘-강좌/dashboard))
+- 일주일 3강씩
 
 ### 목록
 
-
+1. [Recursion](#1.-Recursion)
 
 
 
 -----------------
 
-
+## 1. Recursion
 
 ### 1.1 Recursion 순환
 
@@ -519,7 +519,7 @@ public static boolean findMazePath(int x, int y){
 }
 ```
 
-![](1.Recursion.assets/maze.png)
+![](Algo_inflearn.assets/maze.png)
 
 
 
@@ -666,3 +666,84 @@ public class CountCells {
 - 찾는 해를 포함하는 트리. 즉 해가 존재하면, 반드시 이 트리의 한 노드에 해당한다는 것. 따라서 이 트리를 탐색하면 <u>원하는 해</u>를 구할 수 있음.
 - 이 트리를 탐색할 코드를 만드는 것이 목표
 - 그런데 모든 노드를 탐색해야 하는 것은 아니지. `해`만 발견하면 되니까
+
+
+
+## 2. 정렬
+
+### 2.1 기본적인 정렬
+
+1. **Selection Sort**
+
+   *선택 정렬*
+
+   해당 순서에 원소를 넣은 위치는 정해져 있고, 어떤 원소를 넣어지 선택한다는 의미
+
+   1. 최대 값을 찾고,
+   2. 그 값과 맨 오른쪽 원소를 교환하고
+   3. 그러고 이제 맨 오른쪽 원소는 제외하고 다시 시작
+
+   ```java
+   selectionSort(A[], n){
+   	for last <- down to 2{
+           A[1...last] 중 가장 큰 수 A[k]를 찾고
+           A[k] <-> A[last]; 교환한다
+       }
+   }
+   ```
+
+   - 시간 복잡도 O(n^2)
+
+     **T(n) = (n-1) + (n-2) + … + 2 + 1 = n(n-1)/2 = O(n^2)**
+
+
+
+2. **Bubble Sort**
+
+   선택정렬과 비슷한 개념. 다만 선택정렬과는 다르게 최대값을 찾진 않는다.
+
+   ```java
+   bubbleSort(A[], n){
+       for last <- downto 2{
+           for i <- 1 to last - 1
+               if(A[i]>A[i+1]) then A[i] <-> A[i+1] // 교환
+       }
+   }
+   ```
+
+   - 시간 복잡도 O(n^2)
+
+     **T(n) = (n-1) + (n-2) + … + 2 + 1 = n(n-1)/2 = O(n^2)**
+
+3. **Insertion Sort**
+
+   *삽입 정렬*
+
+   매 순서마다, 해당 원소를 삽입할 수 있는 위치를 찾아서 그 위치에 넣는 정렬
+
+   ```java
+   insertionSort(A[], n){
+       for i<- 2 to n{
+           A[1...i]의 적당한 자리에 A[i]를 삽입한다.
+       }
+   }
+   ```
+
+   - 시간 복잡도 O(n^2)
+
+     최선? 1번만에
+
+     최악? **T(n) = (n-1) + (n-2) + … + 2 + 1 = n(n-1)/2 = O(n^2)**
+
+   
+
+- 정렬 알고리즘 시간 복잡도 비교
+  ![](Algo_inflearn.assets/outandouter.jpg)
+
+
+
+참고
+
+- [https://gmlwjd9405.github.io/2018/05/06/algorithm-insertion-sort.html](https://gmlwjd9405.github.io/2018/05/06/algorithm-insertion-sort.html)
+
+- https://jongmin92.github.io/2017/11/06/Algorithm/Concept/basic-sort/
