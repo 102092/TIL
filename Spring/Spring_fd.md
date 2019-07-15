@@ -4,8 +4,6 @@
 
 - [스프링5...](http://www.yes24.com/Product/Goods/62268795)
 
-[정리할것1]([https://jungwoon.github.io/common%20sense/2017/11/16/DAO-VO-DTO/](https://jungwoon.github.io/common sense/2017/11/16/DAO-VO-DTO/))
-
 
 
 ## 1. 개론
@@ -205,3 +203,8 @@
 - [참고](https://www.bogotobogo.com/Java/tutorials/Maven/Apache-Maven-Lifecycle.php)
 
 ![](https://www.bogotobogo.com/Java/tutorials/images/MavenLifeCycle/DefaultLifeCycle.png)
+
+
+
+[참고](https://simuing.tistory.com/168)
+
