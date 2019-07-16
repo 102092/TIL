@@ -208,3 +208,61 @@
 
 [참고](https://simuing.tistory.com/168)
 
+
+
+### Ch9_Spring MVC
+
+- [load-on-startup이란]([https://choong0121.tistory.com/entry/loadonstartup-%EC%9D%B4%EB%9E%80](https://choong0121.tistory.com/entry/loadonstartup-이란))
+
+
+
+- web.xml 기본설정
+
+
+
+`@ModelAttribute("이름"), 생성될 객체`
+
+![](http://pds23.egloos.com/pds/201203/12/49/d0144949_4f5d00c256879.png)
+
+1. 생성이 필요한 객체를 생성함.
+
+   단 지정되는 객체는 bean 클래스여야 생성할 수 있음
+
+   그리고 `getter` `setter` 가 만들어져 있어야함
+
+2. 그리고 넘어온 값을 자동으로 바인딩함.
+
+   해당 객체의 `setter` 를 통해서 멤버 변수에 자동으로 binding 됨
+
+3. 이 변수를 자동으로 `Model` 객체 추가해줄 수도, 아니면 다른 방식으로 사용할 수도 있음.
+
+
+
+```java
+@RequestMapping(value="/add.do", method = RequestMethod.POST)
+	public ModelAndView addUser(@ModelAttribute("user") UserVO vo) {
+		ModelAndView mav = new ModelAndView();
+		if (service.addUser(vo) > 0) {
+			mav.setViewName("redirect:/list.do");			
+		} else {
+			mav.setViewName("redirect:/login.do");
+		}
+		return mav;
+	}
+```
+
+- `user_form` 에서 넘어오는 `name` 값이, vo객체의 멤버변수와 같아야 binding이 될 것임
+- `@ModelAttribute("user")` 라 작성하는 이유?  `UserVO vo` 객체의 이름을 지정하는 것
+
+
+
+- 참고
+
+https://developer-joe.tistory.com/197?category=743305
+
+http://egloos.zum.com/springmvc/v/535572
+
+
+
+### ch12 MVC 유효성 검증
+
