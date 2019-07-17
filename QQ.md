@@ -47,3 +47,12 @@
 - [POJO란?](https://jojoldu.tistory.com/category/Spring?page=6)
 
 - spring annotation 
+
+
+
+19.07.17
+
+- Domain vs entity vs DTO
+- hibernate http://www.libqa.com/wiki/769
+
+- RESTful에 대해

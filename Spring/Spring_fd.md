@@ -22,7 +22,7 @@
 
 - DAO? : JDBC보다 쉽고 간결하게 개발할 수 있도록
 
-- ORM? : Hibernate, MyBatis와의 결합 통합을 지원
+- ORM? : Hibernate, MyBatis와의 결합 통합을 지원(프레임워크)
 
 - WEB? : MVC 패턴이 적용된 Web App 개발지원 , struts, Webwork와 같은 프레임워크와 통합
 
@@ -212,6 +212,10 @@
 
 ### Ch9_Spring MVC
 
+![](https://t1.daumcdn.net/cfile/tistory/9912B7465B66913630)
+
+
+
 - [load-on-startup이란]([https://choong0121.tistory.com/entry/loadonstartup-%EC%9D%B4%EB%9E%80](https://choong0121.tistory.com/entry/loadonstartup-이란))
 
 
@@ -266,3 +270,79 @@ http://egloos.zum.com/springmvc/v/535572
 
 ### ch12 MVC 유효성 검증
 
+
+
+### ch13 세션,인터셉터,쿠키
+
+
+
+[Domain vs entity](https://crystalpark.tistory.com/32)
+
+https://funnygangstar.tistory.com/entry/DTOViewModel-vs-Domain-Model
+
+- 도메인 객체는 콘트롤러로 데이터 요청을 보내고, 
+
+  컨트롤러에서 view에 데이터에 해당하는 모델 객체를 만들어서 보내는 역할을 하는 객체
+
+- entity는 DB와 정확히 매칭되는 값? 객체라 생각하면 될듯.
+
+- 예를 들면 entity가 게시판에서 요구하는 객체와 정확히 일치할 수도 있지만 다를 경우
+
+
+
+- 인터셉터
+
+  http://blog.naver.com/PostView.nhn?blogId=platinasnow&logNo=220035316135
+
+![](https://o7planning.org/en/11229/cache/images/i/4764332.png)
+
+- `HandlerInterceptor` 인터페이스
+
+  1. `preHandle`
+
+     컨트롤러 실행전
+
+  2. `postHandle`
+
+     컨트롤러 실행 후, 추가 기능을 구현하기 위해
+
+  3. `afterCompletion`
+
+     뷰가 클라이언트에 응답을 전송하고 난 뒤 실행되기 때문에 컨트롤러 실행 이후에 예기치 않게 발생한 exception을 남긴다거나, 실행 시간을 기록하는 증의 후처리를 하기에 적합한 메서드임.
+
+### ch16 JSON 처리
+
+- JavaScript Object Notation
+
+  중괄호를 이용해서 객체를 표현
+
+  "key" : "값" 
+
+  단 값이 *숫자*, *boolean* 일 경우 " "로 묶어 주지 않음
+
+  [ ] 배열
+
+- Jakson-core을 통해 `VO` 를 JSON에 맞게 바꿔줌
+
+
+
+https://wondongho.tistory.com/76
+
+
+
+- `@JsonIgnore` 보통 VO 객체에 작성함. 보여주고 싶지 않은 멤버변수에 선언해주면됨.
+
+- `@RestController`
+
+- `@RequestBody`
+
+  
+
+### Spring Transaction
+
+- 데이터베이스 연동기술과 상관없이 동일한 방식으로 트랜젹션을 처리
+- `PlatformTransactionManager` interface을 통해서 동일한 트랜젹선 처리를 할 수 있게 만들어줌
+
+- https://ande226.tistory.com/105
+
+- 0719 jsp, servlet, mabatis 시험범위
