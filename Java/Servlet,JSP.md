@@ -1,4 +1,4 @@
-# `Servlet, JSP
+# Servlet, JSP
 
 ### 참고
 
@@ -281,9 +281,9 @@ public class Join extends HttpServlet {
 
 3. **결과**
 
-![](../../../%EC%83%88%20%ED%8F%B4%EB%8D%94/TIL/Java/Servlet,JSP.assets/join1.png)
+![](/Servlet,JSP.assets/join1.png)
 
-![](../../../%EC%83%88%20%ED%8F%B4%EB%8D%94/TIL/Java/Servlet,JSP.assets/join2.png)
+![](/Servlet,JSP.assets/join2.png)
 
 #### Q3) Servlet을 통해 Multiple한 파일 업로드 웹페이지 만들기
 
