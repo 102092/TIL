@@ -529,7 +529,7 @@ public static boolean findMazePath(int x, int y){
 - 서로 연결된 image pixel(파란색)들의 집합을 blob이라 부름
 - 상하좌우, 대각방향도 연결된 것이라 생각함
 
-![](1.Recursion.assets/blob.png)
+![](algo_inflearn.assets/blob.png)
 
 - 입력?
 
