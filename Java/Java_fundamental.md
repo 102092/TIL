@@ -1261,13 +1261,13 @@ public class CalendarEx2 {
 
   
 
-- List : 순서가 있고, 데이터의 중복을 허용함.  ex)ArrayList,,,Vector,Stack, index로 핸들링
+- **List** : 순서가 있고, 데이터의 중복을 허용함.  ex)ArrayList,,,Vector,Stack, index로 핸들링
 
-- Set :  순서를 유지 하지 않음. 데이터 중복 허용하지 않음. index로 핸들링 못함. 왜? 순서가 없으니까.
+- **Set** :  순서를 유지 하지 않음. 데이터 중복 허용하지 않음. index로 핸들링 못함. 왜? 순서가 없으니까.
 
   - 그래서 ```lterator```라는 친구를 이용해서 데이터를 찾음
 
-- Vector랑 Arraylist는 같은 친구지만,
+- **Vector**랑 **Arraylist**는 같은 친구지만,
 
   백터는 멀티쓰레드, 무거움(여러 사용자가 접근).
 
@@ -1351,11 +1351,11 @@ public class SetTest {
 
 ### 12. 지네릭스
 
-###### 12.1 지네릭스
+#### 12.1 지네릭스
 
-###### 12.2 열거형
+#### 12.2 열거형
 
-###### 12.3 애너테이션
+#### 12.3 애너테이션
 
 
 
@@ -1377,21 +1377,87 @@ public class SetTest {
 
 - 바이너리 파일? 파일 안에 내용이 사진,동영상등으로 되어있을 때
 
-###### 15.1 자바에서 입출력
+###### 
+
+1. File 클래스 생성자
+
+![file생성자](Java_fundamental.assets/file생성자.png)
+
+2. File 클래스 메소드
+
+| **File**  **메소드**                                         | **설명**                                                     |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| File[]   listFiles(FilenameFilter   filter)                  | filter에 만족되는 파일들과 폴더를 File   배열로 반환한다.    |
+| boolean createNewFile()                                      | 주어진 이름의 파일이 없으면 새로 생성한다.                   |
+| static   File createTempFile(String   prefix, String suffix) | default   temporary-file 디렉토리에 파일 이름에 prefix와 suffix를   붙여  임시파일을 생성한다. |
+| static   File createTempFile(String   prefix, String suffix, File directory) | 새로운 임시파일을 파일 이름에 prefix와 suffix를   붙여 directory   폴더에 생성한다. |
+| boolean   delete()                                           | 파일이나 폴더를 삭제한다. 단, 폴더가   비어있지 않으면 삭제할 수 없다. |
+| void   deleteOnExit()                                        | 자바가상머신이 끝날 때 파일을 삭제한다                       |
+| boolean mkdir()                                              | 해당 경로에 폴더를 만든다.                                   |
+| boolean mkdirs()                                             | 존재하지 않는 부모 폴더까지 포함하여 해당 경로에 폴더를 만든다. |
+| boolean renameTo(File   dest)                                | dest 로 File 이름을   변경한다.                              |
+
+- 하드디스크 용량 알아보기
+
+```java
+package test.fileio;
+
+import java.io.File;
+
+public class HardInfo {
+	public static void main(String arg[]) {
+		String drive;
+		double totalSpace, usedSpace, freeSpace, usableSpace;
+		File[] roots = File.listRoots(); // 하드디스크의 루트 드라이버들을 배열로 반환한다
+		for (File root : roots) {
+			drive = root.getAbsolutePath(); // 루트 드라이버의 절대 경로
+			totalSpace = root.getTotalSpace() / Math.pow(1024, 3); // 하드디스크 전체 용량
+			usableSpace = root.getUsableSpace() / Math.pow(1024, 3); // 사용가능한 디스크 용량
+			freeSpace = root.getFreeSpace() / Math.pow(1024, 3); // 여유 디스크 용량
+			usedSpace = totalSpace - usableSpace; // 사용한 디스크 용량
+			System.out.println("하드 디스크 드라이버 : " + drive);
+			System.out.println("총 디스크 용량 : " + totalSpace + "GB");
+			System.out.println("사용 가능한 디스크 용량 : " + usableSpace + "GB");
+			System.out.println("여유 디스크 용량 : " + freeSpace + "GB");
+			System.out.println("사용한 디스크 용량 : " + usedSpace + "GB");
+			System.out.println();
+		}
+	}
+
+}
+```
 
 
 
-- 키보드 입출력
+3. File 체크 메소드
 
-  `next()` 띄어쓰기 전까지 입력된 문자를 받아옴
+| **File**  **메소드**                                         | **설명**                                                     |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| File[]   listFiles(FilenameFilter   filter)                  | filter에 만족되는 파일들과 폴더를 File   배열로 반환한다.    |
+| boolean createNewFile()                                      | 주어진 이름의 파일이 없으면 새로 생성한다.                   |
+| static   File createTempFile(String   prefix, String suffix) | default   temporary-file 디렉토리에 파일 이름에 prefix와 suffix를   붙여  임시파일을 생성한다. |
+| static   File createTempFile(String   prefix, String suffix, File directory) | 새로운 임시파일을 파일 이름에 prefix와 suffix를   붙여 directory   폴더에 생성한다. |
+| boolean   delete()                                           | 파일이나 폴더를 삭제한다. 단, 폴더가   비어있지 않으면 삭제할 수 없다. |
+| void   deleteOnExit()                                        | 자바가상머신이 끝날 때 파일을 삭제한다                       |
+| boolean mkdir()                                              | 해당 경로에 폴더를 만든다.                                   |
+| boolean mkdirs()                                             | 존재하지 않는 부모 폴더까지 포함하여 해당 경로에 폴더를 만든다. |
+| boolean renameTo(File   dest)                                | dest 로 File 이름을   변경한다.                              |
 
-  `nextInt()` 띄어 쓰기 전까지 입력된 정수들을 읽어옴
-
-  `nextDouble()` 띄어 쓰기 전까지 입력된 실수들을 읽어옴
-
-  `nextLine()` 엔터로 줄바꿈하기 전까지 입력된 **문자들을** 읽어옴
 
 
+4. File 권한 메소드
+
+| **File**  **메소드**                                         | **설명**                                                     |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| File[]   listFiles(FilenameFilter   filter)                  | filter에 만족되는 파일들과 폴더를 File   배열로 반환한다.    |
+| boolean createNewFile()                                      | 주어진 이름의 파일이 없으면 새로 생성한다.                   |
+| static   File createTempFile(String   prefix, String suffix) | default   temporary-file 디렉토리에 파일 이름에 prefix와 suffix를   붙여  임시파일을 생성한다. |
+| static   File createTempFile(String   prefix, String suffix, File directory) | 새로운 임시파일을 파일 이름에 prefix와 suffix를   붙여 directory   폴더에 생성한다. |
+| boolean   delete()                                           | 파일이나 폴더를 삭제한다. 단, 폴더가   비어있지 않으면 삭제할 수 없다. |
+| void   deleteOnExit()                                        | 자바가상머신이 끝날 때 파일을 삭제한다                       |
+| boolean mkdir()                                              | 해당 경로에 폴더를 만든다.                                   |
+| boolean mkdirs()                                             | 존재하지 않는 부모 폴더까지 포함하여 해당 경로에 폴더를 만든다. |
+| boolean renameTo(File   dest)                                | dest 로 File 이름을   변경한다.                              |
 
 - 멀티쓰레드
 
@@ -1429,3 +1495,246 @@ class Mthread extends Thread {
 
 - TCP 손실되면 안되는, 메일...
 - UDP 조금 손실되도 괜찮은 동영상등..
+
+
+
+
+
+### 16. 람다
+
+- 익명함수를 생성하기 위한 식
+
+  이름없이 함수를 정의하는 느낌?
+
+- 왜 사용? 
+
+  코드가 간결해지고, 컬렉션 요소를 필터링하거나 매핑해서 원하는 결과를 쉽게 집계할 수 있음.
+
+  ![람다식예시](Java_fundamental.assets/람다식예시.png)
+
+- 매개변수가 없으면, 이를 감싸고 있는 괄호를 생략할 수 있음
+
+- 람다식은 익명객체로 생성되고, 이 객체가 참조하는 변수는 final로 선언되어 있어야한다.
+
+
+
+#### 16.1 함수적 인터페이스
+
+![인터페이스1](Java_fundamental.assets/인터페이스1.png)
+
+![인터페이스2](Java_fundamental.assets/인터페이스2.png)
+
+
+
+#### 16.2 기본 람다식
+
+```java
+package practice.lambda;
+
+public class LambdaExam {  
+    public static void main(String[] args) {
+        new Thread( ()->{ //매개변수 없이
+            for(int i = 0; i < 10; i++){
+                System.out.println("hello");
+            }
+        } ).start(); //hello가 10번 찍힘
+    }   
+}
+
+```
+
+![1564022476347](Java_fundamental.assets/1564022476347.png)
+
+- 타입을 전달해주면, 매개변수에 타입을 주지 않아도 되고,
+
+- 등등..
+
+
+
+#### 16.3 람다 활용
+
+1. 메소드 단위의 추상화가 가능하고
+2. 불변 변수를 사용하고(상수final를 참조하고)
+3. 객체가 지속성을 가질 수 없음
+
+
+
+- 함수적 인터페이스`@functionalInterface`
+
+1. **리턴값이 없는 람다**
+
+  
+
+- interface
+
+```java
+@FunctionalInterface
+public interface MyFunctionalInterface {
+	public void method(int x);
+}
+```
+
+- type을 int로 선언 그러면...?
+
+  람다식 매개변수에 명시적으로 타입선언을 하지 않아도 되겠지
+
+
+
+- main
+
+```java
+public class MyFunctionalInterfaceExam  {
+	
+	public static void main(String[] args) {
+		MyFunctionalInterface fi;
+		
+		fi = (x) -> {System.out.println(x*5);};
+		fi.method(2); //10
+		
+	}
+}
+```
+
+
+
+2. **리턴값이 있는 람다**
+
+- interface
+
+```java
+package practice.lambda;
+
+@FunctionalInterface
+public interface MyFunctionalInterface2 {
+	public int method(int x, int y);
+}
+
+```
+
+
+
+- main
+
+```java
+package practice.lambda;
+
+public class MyFunctionalInterfaceExam2  {
+	
+	public static void main(String[] args) {
+		MyFunctionalInterface2 fi;
+		
+		fi = (x,y) -> {return x+y;};
+		System.out.println(fi.method(2,5));	
+        
+        fi = (x,y) -> x+y; 
+		System.out.println(fi.method(2,5));
+        //같은 값이 나옴
+
+	}
+}
+```
+
+
+
+#### 16.4 람다의 클래스 변수와 로컬변수
+
+- 클래스 변수, 멤버변수 사용 가능하다.
+- 클래스변수는 제약 조건 없지만 **멤버변수는  사용에 조건이 있다**
+
+- 익명객체내의 `this`는 익명객체의 참조
+- 람다식 내부의 `this` 는 내부적으로 생성되는 익명객체의 참조가 아닌, **람다식을 실행시킨 객체의 참조**
+
+
+
+- interface
+
+```java
+@FunctionalInterface
+public interface MyFunctionalInterface3 {
+	public void method();
+}
+```
+
+
+
+- main
+
+```java
+public class UsingThis {
+	public int outterField = 10;
+
+	class Inner {
+		int innerField = 20;
+
+		void method() {//익명객체
+			MyFunctionalInterface3 fi = () -> {
+				System.out.println("Outter Field: " + outterField);//10
+				System.out.println("Outter Field: " + UsingThis.this.outterField + "\n");//10
+
+				System.out.println("Inner Field: " + innerField);//20
+				System.out.println("Inner Field: " + this.innerField + "\n");//20
+			};
+			fi.method();
+		}
+	}
+}
+
+public class UsingThisExam { 
+    public static void main(String[] args) {
+        UsingThis usingThis = new UsingThis();
+        UsingThis.Inner inner = usingThis.new Inner();
+        inner.method();
+    } 
+}
+
+```
+
+
+
+- 람다식에서 메소드의 매개변수, 로컬변수를 사용하면 이 두변수는 `final`특성을 가져야함.
+
+  즉 이 변수들을 람다식에서 읽는 것은 가능하나, 람다식 내외부에서 변경할 수는 없음.
+
+
+
+```java
+public class UsingLocalVariable {
+    void method(int  arg) {
+        int localVar = 40;
+ 
+        // arg = 31; // 람다 외부에 수정시도, final 특성 때문에 수정 불가
+        // localVar = 41; //람다 내부에서 수정시도, final 특성 때문에 수정 불가
+ 
+        MyFunctionalInterface fi = () -> {
+            System.out.println("arg: " + arg);
+            System.out.println("localVar: " + localVar);
+        };
+ 
+        fi.method();
+    }
+}
+
+```
+
+
+
+#### 16.5 stream 
+
+- 컬럭션의 저장요소를 하나씩 참조해서 람다식으로 처리할 수 있도록 해주는 반복자
+
+![1564028780138](Java_fundamental.assets/1564028780138.png)
+
+- stream이라고 하는 functional 인터페이스를 사용하고 `forEach` Consumer, 매개변수를 받기만 하고, return값은 없음. name의 매개변수명으로 받는 것일 뿐 바뀌어도 상관 없음.
+
+  다만 위의 값들이 하나씩 넘어 올것이라는 것은 알겠음.
+
+
+
+1. 특징
+
+- 내부 반복자를 사용하여, 병렬처리가 쉬움.
+
+![1564029439527](Java_fundamental.assets/1564029439527.png)
+
+- 외부 반복자? `while` 문
+- 내부 반복자? `Stream` 내부에서 알아서..
