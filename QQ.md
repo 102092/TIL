@@ -56,3 +56,15 @@
 - hibernate http://www.libqa.com/wiki/769
 
 - RESTful에 대해
+
+
+
+19.07.26
+
+- python function vs method
+
+  https://www.geeksforgeeks.org/difference-method-function-python/
+
+- python class vs object
+
+  https://haerakai.tistory.com/37
