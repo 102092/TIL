@@ -76,3 +76,6 @@
 - javascript_ 일급 객체
 - 콜백함수 <https://satisfactoryplace.tistory.com/18> , <https://jybaek.tistory.com/728>
 
+19.07.30
+
+- DOM에 대해

@@ -109,3 +109,412 @@
 - var - 함수 스코프, 블록에 관계없이 접근 가능
 - const, let, 블록 스코프를 가지므로, 블록 밖에서는 접근 불가
 - const - 상수, 초기화 값을 대입하지 않으면 에러발생
+
+
+
+## 모듈
+
+- 독립적인 하나의 소프트웨어
+- 특정한 기능을하는 함수, 변수 들의 집합.
+- 모듈은 재사용 가능함.
+- 보통 파일 하나가 모듈. 즉 파일별로 모듈화되기 때문에 관리하기가 편하다.
+
+![1564447103792](Node.assets/1564447103792.png)
+
+
+
+### 모듈 생성방법
+
+![1564447134302](Node.assets/1564447134302.png)
+
+-  `module.exports`를 이용
+
+![1564447178225](Node.assets/1564447178225.png)
+
+- 다른 곳에서 불러올 때는 `require` 을 사용함
+
+![1564447426498](Node.assets/1564447426498.png)
+
+- `exports` 는 여러개의 객체를 따로 `export` 할 때 사용함.
+
+
+
+### 모듈 활용
+
+![1564447508891](Node.assets/1564447508891.png)
+
+![1564447514906](Node.assets/1564447514906.png)
+
+
+
+- `require` 하기 되면, **객체를 통째로** 가져오게됨.
+
+  즉 특정 함수만 사용하기 위해서는? `.000` 을 사용
+
+- 아래 사진은
+
+  add라는 변수에, `calc.js` 에서 비롯된, add function만을 사용한다는 의미
+
+### ES2015(ES6) 모듈
+
+- `PYTHON` 과 비슷하게 바뀌었다.
+- 여기서 모듈 확장자는, `mjs` 로 저장한다. (그전까지는 js였음)
+- require, module.export가 import, export default로 바뀌었음
+
+
+
+## node 내장 객체
+
+### global 객체
+
+- 브라우저 window와 같은 **전역** 객체
+- 모든 파일에서 접근가능하구
+- 전역객체는 간단한 데이터를 파일끼리 공유할때 사용함
+
+
+
+### console 객체
+
+```javascript
+const string ='abc';
+const number = 1;
+const boolean = true;
+const obj = {
+  outside: {
+    inside: {
+      key:'value',
+    },
+  },
+};
+console.time('전체 시간');
+console.log('평범한 로그입니다 쉼표로 구분해 여러 값을 찍을 수 있습니다');
+console.log(string, number, boolean);
+console.error('에러 메시지는 console.error에 담아주세요');
+
+console.dir(obj, { colors: false, depth: 2 });
+console.dir(obj, { colors: true, depth: 1 });
+
+console.time('시간 측정');
+for (let i = 0; i < 100000; i++) {
+  continue;
+}
+console.timeEnd('시간 측정');
+
+function b() {
+  console.trace('에러 위치 추적');
+}
+function a() {
+  b();
+}
+a();
+
+console.timeEnd('전체 시간');
+
+```
+
+- ms? mile per sec, 0.001초를 의미함
+- 결과
+
+![1564450090948](Node.assets/1564450090948.png)
+
+
+
+### 타이머
+
+- setTimeout, setInterval, setImmediate는 window 대신 global객체 안에 포함되어 있음.
+- **밀리초** 기준
+- setImmediate(콜백)과 setTimeout(콜백, 0)에 담긴 콜백 함수는 이벤트 루프를 거친 뒤 즉시 실행
+- 파일 시스템 접근, 네트워킹 같은 I/O 작업의 콜백 함수 안에서 타이머를 호출하는 경우 setImmediate는 setTimeout(콜백, 0)보다 먼저 실행
+
+```javascript
+const timeout = setTimeout(() => {
+    console.log('1.5초 후 실행');
+  }, 1500);
+  
+  const interval = setInterval(() => {
+    console.log('1초마다 실행');
+  }, 1000);
+  
+  const timeout2 = setTimeout(() => {
+    console.log('실행되지 않습니다');
+  }, 3000);
+  
+  setTimeout(() => {
+    clearTimeout(timeout2);
+    clearInterval(interval);
+  }, 2500); 
+   
+  const immediate = setImmediate(() => {
+    console.log('즉시 실행');
+  });
+  
+  const immediate2 = setImmediate(() => {
+    console.log('실행되지 않습니다');
+  });
+  
+  clearImmediate(immediate2);
+    
+```
+
+- 결과
+
+  즉시실행
+
+  1초 마다 실행
+
+  1.5초 마다 실행
+
+  1초 마다 실행
+
+### _filename, _dirname
+
+- 경로에 대한 정보를 제공해줄 때
+- `__filename` , `__dirname` 언더바(_) 가 두개임을 주의하자
+
+
+
+### Process 객체
+
+- 현재 실행되고 있는 노드 프로세스에 대한 정보
+- 운영체제나 실행별로 **다른 동작을 하고 싶을 때** 사용
+- `Node.js` 에만 *존재하는 객체*
+
+
+
+1. **Property**
+
+- argv : 실행 매개 변수를 나타냅니다.-
+
+- env : 컴퓨터 환경과 관련된 정보를 나타냅니다.
+
+- version : Node.js 버전을 나타냅니다.
+
+- versions : Node.js와 종속된 프로그램 버전을 나타냅니다.
+
+- arch : 프로세서의 아키텍처를 나타냅니다.
+
+- platform : 플랫폼을 나타냅니다.
+
+- pid - 현재 프로세스의 아이디 
+
+- execpath - 노드의 경로
+
+
+
+2. **Method**
+
+- exit([exitCode = 0]) : 프로그램을 종료합니다. (매개변수 생략가능)
+- memoryUsage() : 메모리 사용 정보 객체를 리턴합니다.
+- uptime() : 현재 프로그램이 실행된 시간을 리턴합니다.
+- cwd() - 현재 프로세스가 실행되는 위치
+- cpuUsage() - 현재 cpu 사용량
+
+
+
+> process.nextTick(콜백)
+
+![1564452799099](Node.assets/1564452799099.png)
+
+
+
+- 이벤트 루프가, 다른 콜백보다, `nextTick` 콜백 함수를 우선적으로 처리하도록 만드는 방법
+
+  process.nextTick, resolve된 Promise는 다른 이벤트 루프에서 대기하는 콜백함수보다 먼저 실행됨을 잊지 말자.
+
+- 단 Microtask를 재귀 함수로 호출하면, 다른 콜백함수보다 Microtask를 우선적으로 처리하여 다른 콜백함수가 실행되지 않을 수도 있다.
+
+- 그럼 Microtask > process.nextTick + resovle 된 Promise > other callback function
+
+
+
+> process.exit(코드)
+
+- 실행 중인 노드 프로세스를 종료
+- 서버에 이 함수를 실행하면, **서버가 멈춘다**, 주의할 것!!
+- **1** return 하면 비정상 종료 (0이면 정상 종료)
+
+
+
+
+
+## Node 내장 모듈 
+
+### 기본 내장 Module - os
+
+![1564452593519](Node.assets/1564452593519.png)
+
+### 기본 내장 Module - path
+
+![1564453785964](Node.assets/1564453785964.png)
+
+
+
+### Url 모듈
+
+![1564452649901](Node.assets/1564452649901.png)
+
+- 인터넷 주소를 쉽게 조작할 수 있도록 도와줌.
+- http://nodejs.org/api/url.html
+- url.parse(주소) : 해당 주소를 분해함.
+- url.format(객체)  : 분해되었던 url객체를 다시 원래 상태로 조립함
+
+### searchParams 객체
+
+- search 부분을 조작하는 다양한 메서드를 지원
+- getall, get, has, keys, values, append...등
+
+
+
+### crypto
+
+- 암호화를 도와주는 모듈
+
+- 비밀번호는 단방향 암호화(<u>복호화 할 수 없는 암호방식</u>) 을 통해 암호화함
+
+- createHash(알고리즘) 
+
+  md5, sha1, sha256, sha512.. but **md5, sha1** 는 취약점이 발견되어 사용을 권장하지 않음
+
+![1564460227499](Node.assets/1564460227499.png)
+
+- digest(인코딩)
+
+  base64가 결과 문자열이 가장 짦아서 애용되고, 결과물을 문자열로 반환함.
+
+
+
+- 양방향 암호화, 복호화
+
+```javascript
+const crypto = require('crypto');
+
+const cipher = crypto.createCipher('aes-256-cbc','열쇠');
+let result = cipher.update('암호화할 문장','utf8','base64');
+result += cipher.final('base64');
+console.log('암호화:', result);
+
+const decipher = crypto.createDecipher('aes-256-cbc','열쇠');
+let result2 = decipher.update(result,'base64','utf8');
+result2 += decipher.final('utf8');
+console.log('복호화:', result2);
+```
+
+
+
+### util
+
+- 보조적인 유용한 기능들을 모아둔 모듈
+
+- http://nodejs.org/api/util.html
+
+1. util.format(format, [...]) - console.log() 메소드와 비슷한 기능 차이점? console.log()는 화면에 출력하는 역할을 하지만
+
+2. util.format은 문자열로 반환
+
+3. util.debug(string)
+
+4. util.error([...])
+
+5. util.puts([...])
+
+6. util.print([...])
+
+7. util.log(string)
+
+8. util.inspect(object, [options])
+
+9. Customizing util.inspect colors
+
+10. util.isArray(object)
+
+11. util.isRegExp(object)
+
+12. util.isDate(object)
+
+13. util.isError(object)
+
+14. util.pump(readableStream, writableStream, [callback])
+
+15. util.inherits(constructor, superConstructor)
+
+16. util.deprecate: 함수가 deprecated 처리되었음을 알려줌 
+
+    첫 번째 인자로 넣은 함수를 사용했을 때 경고 메시지가 출력됩니다. 
+
+    두 번째 인자로 경고 메시지 내용을 넣으면 됩니다. 함수가 조만간 사라지거나 변경될 때 알려줄 수 있어 유용합니다.
+
+17. util.promisify: 콜백 패턴을 프로미스 패턴으로 바꿔줍니다. 바꿀 함수를 인자로 제공하면 됩니다. 이렇게 바꾸어두면 async/await 패턴까지 사용할 수 있어 좋습니다.
+
+- 이정도만 어떻게 돌아가는 지 알아보자
+
+
+
+### fs
+
+- 파일 시스템에 접근하는 모듈
+
+- 파일 생성, 삭제, 읽기, 쓰기 가능
+
+- 폴더 생성, 삭제 가능
+
+- `readFile`은 결과물이 버퍼 형식으로 제공됨.
+
+  버퍼는 `toString` 을 통해 변환 되고,,
+
+
+
+- Create File
+
+```javascript
+//1 
+var fs = require('fs');
+fs.appendFile('mynewfile1.txt', 'Hello content!', function (err) {
+  if (err) throw err;
+  console.log('Saved!');
+});
+
+//2
+var fs = require('fs');
+fs.open('mynewfile2.txt', 'w', function (err, file) {
+  if (err) throw err;
+  console.log('Saved!');
+});
+
+//3
+var fs = require('fs');
+fs.writeFile('mynewfile3.txt', 'Hello content!', function (err) {
+  if (err) throw err;
+  console.log('Saved!');
+});
+
+```
+
+- 1,2,3 모두 같은 일을 함. 파일을 생성하는 것
+
+
+
+- Update File , Delete File
+
+```javascript
+//1
+var fs = require('fs');
+fs.appendFile('mynewfile1.txt', ' This is my text.', function (err) {
+  if (err) throw err;
+  console.log('Updated!');
+});
+
+//2 
+var fs = require('fs');
+fs.writeFile('mynewfile3.txt', 'This is my text', function (err) {
+  if (err) throw err;
+  console.log('Replaced!');
+});
+
+//3 Delete
+var fs = require('fs');
+fs.unlink('mynewfile2.txt', function (err) {
+  if (err) throw err;
+  console.log('File deleted!');
+});
+```
+
