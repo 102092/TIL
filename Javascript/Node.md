@@ -112,7 +112,7 @@
 
 
 
-## 모듈
+# 모듈
 
 - 독립적인 하나의 소프트웨어
 - 특정한 기능을하는 함수, 변수 들의 집합.
@@ -516,5 +516,405 @@ fs.unlink('mynewfile2.txt', function (err) {
   if (err) throw err;
   console.log('File deleted!');
 });
+```
+
+
+
+### 버퍼,스트림
+
+- 파일을 읽거나 쓰는 방식인데, 버퍼(buffer)을 쓰느냐, 스트림(stream)을 쓰느냐
+
+  스트림은 단방향 구조 FIFO 가는 스트림, 오는 스트림 따로 있음
+
+  I/O 채널은 양방향 구조. 하나의 채널을 통해 서로 왔다갔다 할 수 있음
+
+- 버퍼링? 데이터를 모으는 동작
+
+  스트리밍 ? 데이터를 조금씩 전송하는 동작
+
+![1564532858754](Node.assets/1564532858754.png)
+
+- 버퍼는 메모리에 저장됨.
+
+
+
+- **버퍼(Buffer)**
+
+  `Buffer` 은 버퍼를 직접 다룰수 있는 객체임
+
+  전역객체
+
+```javascript
+//버퍼 생성
+var buf = new Buffer(10);
+var buf = new Buffer([10, 20, 30, 40, 50]);
+var buf = new Buffer("Simply Easy Learning", "utf-8");
+
+//버퍼 쓰기
+buf = new Buffer(256);
+len = buf.write("Simply Easy Learning");
+console.log("Octets written : "+  len);
+
+//버퍼 읽기
+buf = new Buffer(26);
+for (var i = 0 ; i < 26 ; i++) {
+  buf[i] = i + 97; //97? 아스키 코드의 a 26까지 반복하는 것은 알파벳을 다 넣겠다는 의미지
+}
+
+console.log( buf.toString('ascii'));       // outputs: abcdefghijklmnopqrstuvwxyz
+console.log( buf.toString('ascii',0,5));   // outputs: abcde
+console.log( buf.toString('utf8',0,5));    // outputs: abcde
+console.log( buf.toString(undefined,0,5)); // encoding defaults to 'utf8', outputs abcde
+```
+
+
+
+```javascript
+const buffer = Buffer.from('저를 버퍼로 바꿔보세요');
+console.log('from():', buffer);
+console.log('length:', buffer.length);
+console.log('toString():', buffer.toString());
+
+const array = [Buffer.from('띄엄'), Buffer.from('띄엄'), Buffer.from('띄어쓰기')];
+const buffer2 = Buffer.concat(array);
+console.log('concat():', buffer2.toString());
+
+const buffer3 = Buffer.alloc(5);
+console.log('alloc():', buffer3);
+```
+
+- from(문자열) 바이트 단위, 문자열을 버퍼로 바꿔줌.
+- toString(버퍼) 버퍼를 다시 문자열로 바꿔줌, 인코딩 방식 지정 가능
+- concat(배열) 배열 안에 든 버퍼들을 하나로 합침
+- alloc(바이트) 빈 버퍼를 생성. 바이트가 인자로 들어감
+
+
+
+- **스트림(Stream)**
+
+  원본에서 데이터를 읽거나, 연속적으로 쓸수 있게 해주는 개체
+
+  
+
+- Node.js 스트림 유형 
+
+  Readable - 읽기 작업에 사용되는 스트림
+
+  Writable - 쓰기 작업에 사용되는 스트림
+
+  Duplex - 읽기 및 쓰기 작업에 모두 사용할 수있는 스트림
+
+  Transform - 입력을 기반으로 출력이 계산되는 양방향 스트림
+
+  각 유형의 Stream은 EventEmitter 인스턴스이며 서로 다른 시간에 여러 이벤트를 발생
+
+
+
+```javascript
+//stream 읽기
+var fs = require("fs");
+var data = '';
+var readerStream = fs.createReadStream('input.txt');
+// Set the encoding to be utf8. 
+readerStream.setEncoding('UTF8');
+// Handle stream events --> data, end, and error
+readerStream.on('data', function(chunk) {
+   data += chunk;
+});
+readerStream.on('end',function() {
+   console.log(data);
+});
+readerStream.on('error', function(err) {
+   console.log(err.stack);
+});
+console.log("Program Ended");
+
+//stream에 쓰기
+
+var fs = require("fs");
+var data = 'Simply Easy Learning';
+// writable stream 생성
+var writerStream = fs.createWriteStream('output.txt');
+// utf8로 인코딩한 data를 stream 에 쓰기
+writerStream.write(data,'UTF8');
+// Mark the end of file
+writerStream.end();
+// Handle stream events --> finish, and error
+writerStream.on('finish', function() {
+   console.log("Write completed.");
+});
+writerStream.on('error', function(err) {
+   console.log(err.stack);
+});
+console.log("Program Ended");
+
+//stream piping
+var fs = require("fs");
+// Create a readable stream
+var readerStream = fs.createReadStream('input.txt');
+// Create a writable stream
+var writerStream = fs.createWriteStream('output.txt');
+// Pipe the read and write operations
+// read input.txt and write data to output.txt
+readerStream.pipe(writerStream);
+
+console.log("Program Ended");
+
+```
+
+- piping? 한 스트림은 출력, 다른 스트림은 입력을 제공하는 메커니즘
+
+
+
+- Stream Chaining
+
+  한 스트림을 출력을 다른 스트림에 연결하고, 여러 스트림 작업 체인을 만드는 메커니즘
+
+```javascript
+//압축하기
+var fs = require("fs");
+var zlib = require('zlib');
+// input.txt가 압축되어 현재 디렉토리에 input.txt.gz라는 파일이 생성
+fs.createReadStream('input.txt')
+   .pipe(zlib.createGzip())
+   .pipe(fs.createWriteStream('input.txt.gz'));
+  
+console.log("File Compressed."); 
+
+//압축풀기
+var fs = require("fs");
+var zlib = require('zlib');
+//input.txt.gz을  input.txt로 압축풀기
+fs.createReadStream('input.txt.gz')
+   .pipe(zlib.createGunzip())
+   .pipe(fs.createWriteStream('input2.txt'));
+  
+console.log("File Decompressed.");
+
+```
+
+
+
+### Event Module
+
+- Node.js는 이벤트에 10개가 넘는 이벤트 핸들러를 연결한 경우 오류로 간주
+
+- 기본
+
+```javascript
+const EventEmitter = require('events');
+
+const myEvent = new EventEmitter();
+myEvent.addListener('event1', () => {
+  console.log('이벤트 1');
+});
+myEvent.on('event2', () => {
+  console.log('이벤트 2');
+});
+myEvent.on('event2', () => {
+  console.log('이벤트 2 추가');
+});
+
+myEvent.emit('event1'); 
+myEvent.emit('event2');
+
+myEvent.once('event3', () => {
+  console.log('이벤트 3');
+});
+
+myEvent.emit('event3');
+myEvent.emit('event3');
+
+myEvent.on('event4', () => {
+  console.log('이벤트 4');
+});
+myEvent.removeAllListeners('event4');
+myEvent.emit('event4');
+
+const listener = () => {
+  console.log('이벤트 5');
+};
+myEvent.on('event5', listener);
+myEvent.removeListener('event5', listener);
+myEvent.emit('event5');
+ 
+console.log(myEvent.listenerCount('event2'));
+
+```
+
+- `emit(이벤트명)` 이벤트를 호출하는 메서드
+- `off(이벤트명, 콜백)` removeListener
+- `on(이벤트명, 콜백)` 이벤트명과 콜백을 연결해줌, 이벤트 리스닝 하나에 이벤트 여러개를 연결할 수 있음.
+
+
+
+## 예외처리
+
+### try~catch
+
+- 노드는 싱글쓰레드 에러가 있으면, 서버가 멈춘다. = 큰일
+
+- 노드 내장 모듈에서 잡아주는 것도 있음.
+
+```javascript
+const fs = require('fs');
+
+setInterval(() => {
+  fs.unlink('./abcdefg.js', (err) => {
+    if (err) {
+      console.error(err);
+    }
+  });
+}, 1000);
+
+```
+
+- 없는 파일 삭제할 경우? 노드에서 잡아줌.
+
+  실행중인 프로세스를 멈추진 않고, 따로 에러로그를 기록해둠.
+
+  나중에 원인을 찾아서 수정해야함.
+
+- 그럼 예측 불가능한 에러는 어떻게 다루나?
+
+```javascript
+process.on('uncaughtException', (err) => {
+  console.error('예기치 못한 에러', err);
+});
+
+setInterval(() => {
+  throw new Error('서버를 고장내주마!');
+}, 1000);
+
+setTimeout(() => {
+  console.log('실행됩니다');
+}, 2000);
+
+```
+
+- process 객체에 uncaughtException 이벤트 리스너 연결함
+
+  그러면 처리하지 못한 에러가 발생했을 때 이벤트 리스너가 실행되고 **프로세스는 유지**
+
+  프로세스는 `process.exit()`로 종료하자
+
+- 다만 노드는 `uncaughtException` 이벤트 발생 후 다음 동작이 작동할지에 대해서는 보증하지 않음
+
+### Net 모듈
+
+- TCP프로토콜 기반의 소켓 프로그래밍을 지원하는 코어 모듈
+
+![1564538977868](Node.assets/1564538977868.png)
+
+
+
+### net.Socket
+
+- 추상객체, 이중 통신 방식 스트림 인터페이스를 구현
+
+
+
+## NPM
+
+- Node Package Manager
+
+- 명령어
+
+  ![1564546327798](Node.assets/1564546327798.png)
+
+- 패키지로 관리가능하다.
+
+
+
+#  http 모듈로 웹서버 만들기
+
+
+
+## Http Module
+
+- 가장 기본
+- http 웹 서버를 생성하는 것과 관련된 모든 기능을 담당
+
+```javascript
+var http = require('http'); 
+var server = http.createServer(); 
+server.on('request', function() {
+    console.log('Request on');
+}); 
+server.on('connection', function() {
+    console.log('Connection on');
+}); 
+server.on('close', function() {
+    console.log('Close on');
+});
+server.listen(8000);
+```
+
+
+
+- 통신 방법
+
+![1564547469280](Node.assets/1564547469280.png)
+
+- 콜백을 통해서 다시 응답하는 방식이구나
+- res.end() 응답을 종료해서 전달해주고
+
+
+
+- File System 모듈을 사용한 이미지와 음악파일 제공
+
+```javascript
+var fs = require('fs');
+var http = require('http'); 
+http.createServer(function (request, response) {
+    // Image File Read
+    fs.readFile('lion.jpeg', function(error, data) {
+        response.writeHead(200, {'Content-Type': 'image/jpeg'});
+        response.end(data);
+    });    
+}).listen(30000, function() {
+    console.log('Server running at http://127.0.0.1:8081');
+ });  
+http.createServer(function (request, response) {
+    // Music File Read
+    fs.readFile('Sam Smith.mp3', function(error, data) {
+        response.writeHead(200, {'Content-Type': 'audio/mp3'});
+        response.end(data);
+    });    
+}).listen(30000, function() {
+    console.log('Server running at http://127.0.0.1:8081');
+});
+```
+
+
+
+- **쿠키, 세션**
+
+![1564548214264](Node.assets/1564548214264.png)
+
+```javascript
+const http = require('http');
+const parseCookies = (cookie ='') =>
+  cookie
+    .split(';')
+    .map(v => v.split('='))
+    .map(([k, ...vs]) => [k, vs.join('=')])
+    .reduce((acc, [k, v]) => {
+      acc[k.trim()] = decodeURIComponent(v);
+      return acc;
+    }, {});
+http.createServer((req, res) => {
+  const cookies = parseCookies(req.headers.cookie);
+  console.log(req.url, cookies);
+  res.writeHead(200, {'Set-Cookie':'mycookie=test' });
+  res.end('Hello Cookie');
+})
+  .listen(8082, () => {
+    console.log('8082번 포트에서 서버 대기 중입니다!');
+  });
+
+//8082번 포트에서 서버 대기 중입니다!
+//{ 'oracle.uix': '0^^GMT+9:00^p' }
+//favicon.ico { 'oracle.uix': '0^^GMT+9:00^p', mycookie: 'test' }
 ```
 

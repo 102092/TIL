@@ -79,3 +79,12 @@
 19.07.30
 
 - DOM에 대해
+
+
+
+19.07.31
+
+- 버퍼와 스트림에 대해 <http://wiki.gurubee.net/pages/viewpage.action?pageId=2457871>
+
+- 옥텟에 대해 <http://blog.naver.com/PostView.nhn?blogId=cache798&logNo=130021040608&categoryNo=4&parentCategoryNo=0&viewDate=¤tPage=1&postListTopCurrentPage=1&from=postView>
+
