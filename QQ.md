@@ -68,3 +68,23 @@
 - python class vs object
 
   https://haerakai.tistory.com/37
+
+
+
+19.07.29
+
+- javascript_ 일급 객체
+- 콜백함수 <https://satisfactoryplace.tistory.com/18> , <https://jybaek.tistory.com/728>
+
+19.07.30
+
+- DOM에 대해
+
+
+
+19.07.31
+
+- 버퍼와 스트림에 대해 <http://wiki.gurubee.net/pages/viewpage.action?pageId=2457871>
+
+- 옥텟에 대해 <http://blog.naver.com/PostView.nhn?blogId=cache798&logNo=130021040608&categoryNo=4&parentCategoryNo=0&viewDate=¤tPage=1&postListTopCurrentPage=1&from=postView>
+
