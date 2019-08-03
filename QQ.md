@@ -4,8 +4,6 @@
 
 19.07.08 for blog
 
-- GET, POST 차이
-
 - Java buffered 사용정리
 
 - 동적 페이지,정적페이지 차이 
