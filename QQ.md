@@ -8,8 +8,6 @@
 
 - 동적 페이지,정적페이지 차이 
 
-- 자바 오버라이드, 오버로딩
-
 - standalone
 
 - webcontainer구성
