@@ -84,3 +84,8 @@
 
 - 옥텟에 대해 <http://blog.naver.com/PostView.nhn?blogId=cache798&logNo=130021040608&categoryNo=4&parentCategoryNo=0&viewDate=¤tPage=1&postListTopCurrentPage=1&from=postView>
 
+
+
+19.08.05
+
+- jstl 정리 https://programmingsummaries.tistory.com/84
