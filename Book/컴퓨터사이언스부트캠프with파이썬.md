@@ -983,7 +983,84 @@ f(2) # 4
 
 ### 8. CPU
 
+- 컴퓨터가 0,1을 인식하는 방법은? **전압 강하** 를 통해, 즉 저항을 만나 전압이 낮아지는 현상을 통해 0,1을 구분한다.
+- 트랜지스터는 스위치 역할, 전류가 흐르거나 흐르지 않게 함
+
+
+
+- 논리게이트, 세가지에 대해 (OR,NOT,XOR)
+
+![](http://mblogthumb1.phinf.naver.net/20121019_172/leehojun13_1350636845012ai00G_JPEG/%B3%ED%B8%AE%B0%D41.JPG?type=w2)
+
+#### 조합 논리회로, 가산기
+
+- CPU와 메모리
+
+![](data:image/png;base64,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)
+
+- 코드는 메모리에 저장되었다가, 실행하면 CPU는 한줄씩 읽어드려서, 해석하고 CPU를 이루고 있는 각 파트에게 지시하는 형식으로 진행됨.
+
+- 가산기는 대표적인 조합 논리 회로
+- 조합논리회로는 <u>현재 입력에 의해서만 출력이 결정되는 논리 회로</u>를 의미.
+
+
+
+##### 가산기(ALU)
+
+- AX,BX를 이용해서..
+
+
+
+#### 순차 논리 회로, 레지스터
+
+- 순차논리 회로, <u>현재 출력이 현재 입력과 과거 출력에 따라 정해지는 논리 회로</u>
+
+  입력값이 바뀐다고 해서, 출력이 바로 바뀌는 것이 아닌, 특정 상황이 되었을 때만 바뀌고 이를 통해 이전 출력 값은 유지됨(저장).
+
+
+
+#### 클록
+
+- GHz....
+- 클록 주파수가 높을 수록, 연산 속도가 빠른 성능 좋은 컴퓨터
+
+
+
+#### 시스템 버스
+
+- 레지스터
+
+  IR(Instruction  Register) : 메모리에 있는 명령어를 CPU로 가져와서 저장하는 공간
+
+  PC(Program Counter) : 현재 실행 중인 명령어 다음에 실행될 명령어의 메모리 주소를 담는 공간
+
+  AX,BX : 범용 레지스터, 메모리에서 읽어 들인 데이터를 저장하였다가 ALU가 연산할 때 전달하는, 혹은 연산값을 저장할 때
+
+##### 구성, 특징
+
+1. 데이터 버스 : 양방향, 메모리에서 CPU로 데이터 
+
+2. 제어 버스 : 데이터를 레지스터에서 읽어올지, 아니면 메모리에 쓸지 CPU가 메몰에 전달하는 것
+
+3. 주소 버스 : 단방향, CPU가 메모리에 알려주는 거 뭘?
+
+   메모리에서 레지스터 간의 데이터를 전송할 때 필요한 주소를, 메모리에 알려주는 것.
+
+
+
+#### 인스트럭션 세트
+
+- 기계어, CPU가 인식하여 실행할 수 있는
+
+- 인스트럭션 세트는 CPU마다 다름.  그래서 이러한 불편을 없애고자 C언어등 하이레벨 언어등장
+
+  이 CPU가 알아먹을 수 있도록 해줘야함
+
+  
+
 ### 9. 메모리
+
+
 
 ### 10. 프로세스와 스레드
 
