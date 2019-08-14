@@ -4,7 +4,7 @@
 
 19.07.08 for blog
 
-- Java buffered 사용정리
+- **Java buffered 사용정리**
 
 - 동적 페이지,정적페이지 차이 
 
@@ -90,3 +90,10 @@
 19.08.05
 
 - jstl 정리 https://programmingsummaries.tistory.com/84
+
+
+
+08.14
+
+- Maven pom 되돌아보기 https://ojava.tistory.com/147?category=348318 
+
