@@ -97,3 +97,8 @@
 
 - Maven pom 되돌아보기 https://ojava.tistory.com/147?category=348318 
 
+
+
+08.16
+
+- 직렬화 ,역직렬화 http://woowabros.github.io/experience/2017/10/17/java-serialize.html
