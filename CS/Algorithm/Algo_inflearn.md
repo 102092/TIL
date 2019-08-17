@@ -671,6 +671,18 @@ public class CountCells {
 
 ## 2. 정렬
 
+- simple and slow
+  - bubble sort
+  - insertion sort
+  - selection sort 
+- fast
+  - quicksort
+  - merge sort
+  - heap sort
+  - radix sort
+
+
+
 ### 2.1 기본적인 정렬
 
 1. **Selection Sort**
@@ -747,3 +759,76 @@ public class CountCells {
 - [https://gmlwjd9405.github.io/2018/05/06/algorithm-insertion-sort.html](https://gmlwjd9405.github.io/2018/05/06/algorithm-insertion-sort.html)
 
 - https://jongmin92.github.io/2017/11/06/Algorithm/Concept/basic-sort/
+
+
+
+### 2.2 merge sort (합병 정렬)
+
+1. **분할**하고 : 해결하고하는 문제를 <u>작은 크기</u>의 동일한 문제들로 분할
+   - 데이터가 저장된 배열을 <u>절반</u>으로 나누고
+
+2. **정복**하고 : 각각의 작은 문제를 순환적으로 해결
+   - 각각을 순환적으로 정렬하고
+
+3. **합병하여 해결**한다 : 작은 문제의 해를 합하여, 원래 문제에 대한 해를 구함
+   - 정렬된 두 개의 배열을 합쳐, 전체를 정렬한다.
+
+- **기본적으로 recursion**이다
+
+```java
+mergeSort(A[], p, r) //A[p...r] 정렬하는
+{
+    //p>=r 이라면, 정렬알고리즘이 할 필요가 없겠음
+    if (p < r) then{
+        q = (p+q)/2;
+        mergeSort(A,p,q); //전반부 정렬
+       	mergeSort(A,q+1, r); //후반부 정렬
+        merge(A,p,q,r); //합병       
+    }
+}
+
+merge(A[], p,q,r)
+{
+    //정렬되어있는 두배열A[p..q], A[q+1...r] 을 합하여,
+    //정렬된 하나의 배열 A[p...r] 을 만든다
+}
+```
+
+- 제대로 수행된다면, 합병이 일어나서 정렬이 일어난다.
+
+
+
+```java
+void merge(int data[], int p, int q, int r){
+    int i = p, j =q+1, k=p;
+    int tmp[data.length()];
+    while(i<=q && j<=r){
+        if(data[i] <=data[j])
+            tmp[k++] =data[i++];
+        else
+            tmp[k++] = data[j++];
+    }
+    while(i<=q) //앞쪽 데이터가 남아있다면
+        tmp[k++] =data[i++];
+    while(j<=r) //뒤쪽 데이터가 남아있다면
+        tmp[k++] = data[j++];
+    for(int i=p; i<=r; i++)
+        data[i] =tmp[i]; //원래배열에 복사하기
+}
+```
+
+- 합병정렬에서는 합병하기 위해서는 추가배열이 있어야함.
+- 나뉘어진 정렬을 하나씩 비교하면서, tmp배열에 제일 작은 값부터 채워나간다.
+- 시간복잡도는 ? O(nlongn)
+
+![1566050430911](Algo_inflearn.assets/1566050430911.png)
+
+
+
+### 2.3 quick sort(빠른 정렬)
+
+1. 분할
+   - 기준 값(pivot)을 선택하여, 이보다 낮은, 높은 두 부분으로 분할한다.
+   - 어떤 것을 pivot으로 선택하는가?
+2. 정복
+3. 합병
