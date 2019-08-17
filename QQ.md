@@ -22,9 +22,6 @@
 
 - [Spring bean에 대한 이해](https://gmlwjd9405.github.io/2018/11/10/spring-beans.html)
 
-  bean id vs bean name
-
-- java equals method vs == 차이점
 
 
 
