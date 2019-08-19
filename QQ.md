@@ -29,8 +29,6 @@
 
 - java 람다식, javaIo
 
-- spring 전반적으로복습(인프런강의)
-
 - 프레임워크 vs 라이브러리
 
 
@@ -99,3 +97,13 @@
 08.16
 
 - 직렬화 ,역직렬화 http://woowabros.github.io/experience/2017/10/17/java-serialize.html
+
+
+
+08.19
+
+- 하둡 맵 리듀스 개념에 대해 https://12bme.tistory.com/154
+
+- compareTo에 대해 https://m.blog.naver.com/PostView.nhn?blogId=cheesedrive&logNo=220148513502&proxyReferer=https%3A%2F%2Fwww.google.com%2F
+
+  https://www.geeksforgeeks.org/java-lang-string-compareto/

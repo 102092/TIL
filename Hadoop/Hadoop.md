@@ -580,3 +580,344 @@ public class WordCountReducer extends Reducer<Text, IntWritable, Text,IntWritabl
     ```
 
     
+
+## airline
+
+### delayCountReducer
+
+```java
+package lab.hadoop.airline;
+
+import java.io.*;
+
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Reducer;
+
+public class DelayCountReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
+	private IntWritable result = new IntWritable();
+
+	public void reduce(Text key, Iterable<IntWritable> values, Context context)
+			throws IOException, InterruptedException {
+		int sum = 0;
+		for (IntWritable value : values)
+			sum += value.get();
+		result.set(sum);
+		context.write(key, result);
+	}
+
+}
+```
+
+
+
+### DepartureDelayCount
+
+```java
+package lab.hadoop.airline;
+
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
+
+
+public class DepartureDelayCount {
+	public static void main(String[] args) throws Exception {
+		Configuration conf = new Configuration();
+		
+		//check inpu, output path
+		if(args.length !=2) {
+			System.out.println("Usage: DepartureDelay <input> <output>");
+			System.exit(2);
+		}		
+		
+		//set job name
+		@SuppressWarnings("deprecation")
+		Job job = new Job(conf, "DepartureDelayCount");
+		
+		//create file system control object
+		FileSystem fs = FileSystem.get(conf);		
+		
+		//main input String[] 
+		Path inputPath = new Path(args[0]);
+		Path outputPath = new Path(args[1]);
+		
+		//check output path
+		if(fs.exists(outputPath)) {
+			fs.delete(outputPath, true);
+		}
+		
+		//set job class
+		job.setJarByClass(DepartureDelayCount.class);
+		//set mapper class
+		job.setMapperClass(DepartureDelayCountMapper.class);
+		//set reducer class	
+		job.setReducerClass(DelayCountReducer.class);
+		
+		//set input,output format
+		job.setInputFormatClass(TextInputFormat.class);
+		job.setOutputFormatClass(TextOutputFormat.class);
+		
+		//set outputkey, outputvalue type  
+		job.setOutputKeyClass(Text.class);
+		job.setOutputValueClass(IntWritable.class);
+		
+		//set input,output path
+		FileInputFormat.addInputPath(job, inputPath);
+		FileOutputFormat.setOutputPath(job, outputPath);
+		
+		job.waitForCompletion(true);
+	}
+
+
+}
+
+```
+
+
+
+### DepartureDelayCountMapper
+
+```java
+package lab.hadoop.airline;
+
+import java.io.*;
+
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Mapper;
+
+public class DepartureDelayCountMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
+
+	private final static IntWritable outputValue = new IntWritable(1);
+	private Text outputKey = new Text();
+
+	public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
+		if (key.get() > 0) {
+			// 콤마 구분자 분리
+			String[] colums = value.toString().split(",");
+			if (colums != null && colums.length > 0) {
+				try {
+					// 출력키 설정
+					outputKey.set(colums[0] + "," + colums[1]);
+					if (!colums[15].equals("NA")) {
+						int depDelayTime = Integer.parseInt(colums[15]);
+						if (depDelayTime > 0) {
+							// 출력 데이터 생성
+							context.write(outputKey, outputValue);
+						}
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+}
+
+```
+
+
+
+### 결과
+
+![1566187786902](Hadoop.assets/1566187786902.png)
+
+- 2007년 2008년 , 월별로  결과과 도출이 됨.
+
+
+
+## delaycount
+
+### delaycount
+
+```java
+package lab.hadoop.delaycount;
+
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.conf.Configured;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
+import org.apache.hadoop.util.GenericOptionsParser;
+import org.apache.hadoop.util.Tool;
+import org.apache.hadoop.util.ToolRunner;
+
+
+public class DelayCount extends Configured implements Tool {
+
+	@Override
+	public int run(String[] args) throws Exception {
+		String[] otherArgs = new GenericOptionsParser(getConf(), args).getRemainingArgs();
+		
+		if(args.length !=2) {
+			System.out.println("Usage: DelayCount <in> <out>");
+			System.exit(2);
+		}
+		
+		//set job name
+		@SuppressWarnings("deprecation")
+		Job job = new Job(getConf(), "DelayCount");
+		
+		//create file system control object
+		FileSystem fs = FileSystem.get(getConf());		
+		
+		//check output path
+		Path path = new Path(args[1]);
+		if(fs.exists(path)) {
+			fs.delete(path, true);
+		}
+		
+		//set input,output path
+		FileInputFormat.addInputPath(job, new Path(otherArgs[0]));
+		FileOutputFormat.setOutputPath(job, new Path(otherArgs[1]));
+		
+		//set job class
+		job.setJarByClass(DelayCount.class);
+		//set mapper class
+		job.setMapperClass(DelayCountMapper.class);
+		//set reducer class	
+		job.setReducerClass(DelayCountReducer.class);
+		
+		//set input,output format
+		job.setInputFormatClass(TextInputFormat.class);
+		job.setOutputFormatClass(TextOutputFormat.class);
+		
+		//set outputkey, outputvalue type  
+		job.setOutputKeyClass(Text.class);
+		job.setOutputValueClass(IntWritable.class);
+
+		job.waitForCompletion(true);
+		return 0;
+	}
+	
+	public static void main(String[] args) throws Exception{
+		int res = ToolRunner.run(new Configuration(), new DelayCount(), args);
+		System.out.println("## RESULT : "+res);
+		
+	}
+		
+}
+```
+
+### DelayCountMapper
+
+```java
+package lab.hadoop.delaycount;
+
+import java.io.IOException;
+
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Mapper;
+
+public class DelayCountMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
+
+	private String workType;
+	private final static IntWritable outputValue = new IntWritable(1);
+	private Text outputKey = new Text();
+
+	@Override
+	protected void setup(Context context) throws IOException, InterruptedException {
+		workType = context.getConfiguration().get("workType");
+	}
+
+	public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
+		if (key.get() > 0) {
+			// 콤마 구분자 분리
+			String[] colums = value.toString().split(",");
+			if (colums != null && colums.length > 0) {
+				try {
+					// print worktype = departure
+					if (workType.equals("departure")) {
+						if (!colums[15].equals("NA")) {
+							int depDelayTime = Integer.parseInt(colums[15]);
+							if (depDelayTime > 0) {
+								// 출력키 설정 colums[0] object list, 
+								outputKey.set(colums[0] + "," + colums[1]);
+								// 출력 데이터 생성
+								context.write(outputKey, outputValue);
+							}
+						}
+					}
+					else if(workType.equals("arrival")) {
+						if (!colums[14].equals("NA")) {
+							int depDelayTime = Integer.parseInt(colums[14]);
+							if (depDelayTime > 0) {
+								// 출력키 설정 colums[0] object list, 
+								outputKey.set(colums[0] + "," + colums[1]);
+								// 출력 데이터 생성
+								context.write(outputKey, outputValue);
+							}
+						}
+
+						
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+}
+
+```
+
+
+
+### DelayCountReducer
+
+```java
+package lab.hadoop.delaycount;
+
+import java.io.*;
+
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Reducer;
+
+public class DelayCountReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
+	private IntWritable result = new IntWritable();
+
+	public void reduce(Text key, Iterable<IntWritable> values, Context context)
+			throws IOException, InterruptedException {
+		int sum = 0;
+		for (IntWritable value : values)
+			sum += value.get();
+		result.set(sum);
+		context.write(key, result);
+	}
+
+}
+
+```
+
+
+
+### 결과
+
+![1566190673715](Hadoop.assets/1566190673715.png)
+
+- 도착(arrival)이 지연된 항공기의 수가 결과로 도출되었다
+
+![1566191924652](Hadoop.assets/1566191924652.png)
+
+- 출발(departure) 지연
+
