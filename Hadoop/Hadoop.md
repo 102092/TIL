@@ -919,5 +919,51 @@ public class DelayCountReducer extends Reducer<Text, IntWritable, Text, IntWrita
 
 ![1566191924652](Hadoop.assets/1566191924652.png)
 
-- 출발(departure) 지연
+- 출발(departure) 지연된 항공기의 수
 
+
+
+## 분산 컴퓨팅
+
+### 필요조건
+
+- 장애 허용 : 클러스터 노드 중 하나가 문제가 생겨도, 메인 컴퓨팅프로세스에 부정적인 영향을 주면 안됨 (프로세스가 실패하여도, 장애가 발생해서는 안됨)
+- 복구 능력 : 분산 클러스터 노드에서 수행 중인 작업이 실패하더라도, 작업으로부터 어떤 데이터도 손실 되어서는 안됨.
+- 선형적 확장성 : 컴퓨팅, 스토리지 확장성, 성능은 **선형적**으로 증가
+
+
+
+### 아키텍쳐
+
+- HDFS, Yarn, MapReduce, API
+
+
+
+### 클러스터
+
+- 하둡분산파일시스템(HDFS) 와 클러스터 리소스 매니저(yarn)를 기반으로 하는 하둡 소프트웨어를 사용하는 **컴퓨터**들의 집합
+- 하둡 2.0부터 <u>마스터 노드</u> 2개 이상 구성하여 **[고가용성]([https://ko.wikipedia.org/wiki/%EA%B3%A0%EA%B0%80%EC%9A%A9%EC%84%B1](https://ko.wikipedia.org/wiki/고가용성))** 을 지원
+
+
+
+- HDFS는 하둡의 HDFS상의 스토리지를 관리하는 역할
+   - NameNode 는 HDFS 스토리지 관련 메타정보(시스템 디렉토리 트리, 파일 위치등)을 관리
+   - SecondaryNameNode : HDFS 스토리지 메타 정보 업데이트(기본 1시간 간격으로, fsimage 파일과 editlog파일을 merge함)
+   - DataNode : 마스터 노드에 접속을 유지하면서 3초 간격으로 , heartbit, block report를 주기적으로 전송하고, 마스터 노드의 요청 또한 처리하는 역할(block저장, 삭제)
+   - WORM(write-once-read-many) 일단 HDFS에 파일을 작성하면 내용을 수정할 수 없음.
+
+
+
+- Yarn
+   - resorce manager : 마스터노드에서 실행되며, 클러스트의 리소스를 나눠주는 역할
+   - TaskTracker들의 Task 스케쥴링(예전에 TaskTracker가 하던 역할)
+   - node manager : 워크 노드에서 실행되고 Task를 실행시키고 관리, resorce manager와의 연결을 유지하면서 태스크 상태, 노드 상태를 관리함
+   - application manager : cluster상에서 메인 프로세스. 클러스트 상에서의 마스터 프로세스
+
+
+
+### 하이브
+
+- SQL인터페이스를 이용, 맵리듀스 없이도, HDFS데이터를 처리할 수 있도록 도와주는인터페이스
+
+- SQL가 유사한 것을 사용
