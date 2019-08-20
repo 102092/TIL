@@ -1,3 +1,5 @@
+# Hadoop
+
 ## 참고
 
 - [빅데이터 전문가의 하둡관리](http://www.yes24.com/Product/goods/66586271)
@@ -962,8 +964,47 @@ public class DelayCountReducer extends Reducer<Text, IntWritable, Text, IntWrita
 
 
 
-### 하이브
+# HIVE
 
 - SQL인터페이스를 이용, 맵리듀스 없이도, HDFS데이터를 처리할 수 있도록 도와주는인터페이스
 
 - SQL가 유사한 것을 사용
+
+
+
+![1566286135202](Hadoop.assets/1566286135202.png)
+
+
+
+- MapReduce 기능을 좀 더 직관적으로 사용하게 만들어 준다. 
+
+- Master node에 로컬모드로 구성해야함.
+
+
+
+## HIVE vs RDBS
+
+- HIVE는 온라인 처리에 부적함 왜? 하나의 JOB을 처리하는데 시간이 걸림. 
+- 인덱스 및 트랜잭션 기능 없음. 왜? 업데이트 기능을 지원하지 않음 하이브는
+- 그래서 롤백처리도 없고
+- MapReduce job이 실패하면, 이러한 내용이 기재된 로그를 삭제하도록 초기설정이 되어있음.
+
+
+
+## HIVE 특징
+
+- 해당 데이터들은 hdfs상의 파일로 존재, hive테이블은 hdfs상에 디렉토리(폴더)로 존재함.
+- 테이블 정의에 파티션 설정해 줄 수 있고, 이러한 데이터들을 나눠서 저장할 수 있음 (논리적으로는 하나의 테이블이지만 저장되는 것은 여러 파티션들로 나눠서 저장되어있음)
+- https://cwiki.apache.org/confluence/display/Hive/LanguageManual , HIVEQL에 대한 메뉴얼
+
+
+
+## HIVE QL
+
+- 기본
+
+![](Hadoop.assets/1566287058854.png)
+
+![1566287070392](Hadoop.assets/1566287070392.png)
+
+- set 명령어를 통해 ,관련 속성을 지정할 수 있지만 이러한 내용은 <u>Hive 쉘에서만 유효</u>하다
