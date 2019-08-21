@@ -1008,3 +1008,279 @@ public class DelayCountReducer extends Reducer<Text, IntWritable, Text, IntWrita
 ![1566287070392](Hadoop.assets/1566287070392.png)
 
 - set 명령어를 통해 ,관련 속성을 지정할 수 있지만 이러한 내용은 <u>Hive 쉘에서만 유효</u>하다
+
+
+
+- ! 를 통해 OS명령을 실행할 수 있음
+
+- fs 를 통해 hadoop을 제어할 수 있음
+
+- exit를 통해 hive를 종료할 수 있음.
+
+- join, 서브쿼리, union all을 지원한다.
+
+   - union all을 메인쿼리로 사용할 수 없고, 서브쿼리로만 사용할 수 있음
+
+   ![](Hadoop.assets/1566351114346.png)
+
+
+
+### sort by, order by
+
+- orderby는 하나의 리듀서가 실행하므로, 데이터의 양이 많으면 오버헤드가 발생
+- 이럴 경우 `sortby` 를 이용하면 다수의 리듀서가 작동하게 해줄 수 있음.
+
+
+
+## 설치
+
+![1566348906056](Hadoop.assets/1566348906056.png)
+
+- 설치가 완료된 후, test_db 테이블을 만들면, HDFS상에 위와 같이 표현됨. 
+- HIVE에서 생성된 DB,테이블은 HDFS에서 디렉토리로 표현됨을 알 수 있음
+
+
+
+## airline
+
+- 기본 설정
+
+```
+create database airline_db;
+use airline_db;
+CREATE EXTERNAL TABLE airline (
+Year string,
+Month string,
+DayofMonth string,
+DayOfWeek string,
+DepTime string,
+CRSDepTime string,
+ArrTime string,
+CRSArrTime string,
+UniqueCarrier string,
+FlightNum string,
+TailNum string,
+ActualElapsedTime string,
+CRSElapsedTime string,
+AirTime string,
+ArrDelay string,
+DepDelay string,
+Origin string,
+Dest string,
+Distance string,
+TaxiIn string,
+TaxiOut string,
+Cancelled string,
+CancellationCode string,
+Diverted string,
+CarrierDelay string,
+WeatherDelay string,
+NASDelay string,
+SecurityDelay string,
+LateAircraftDelay  string
+)
+ROW FORMAT DELIMITED
+ FIELDS TERMINATED BY ',' 
+ LINES TERMINATED BY '\n'
+LOCATION '/data/airline/';
+```
+
+- 월별 도착지연횟수를 출력하는 selelct문
+
+```sql
+select YEAR, MONTH, count(ARRDELAY)
+from AIRLINE
+GROUP BY(YEAR, MONTH)
+SORT BY(YEAR, MONTH);
+```
+
+- Java를 통해 sorting 코드를 작성해줬던 것과는 달리 , 간단한 SQL문으로 원하는 결과를 도출 할 수 있음.
+- SQL을 잘하자..ㅠㅠ
+
+
+
+### 조인
+
+- https://excelsior-cjh.tistory.com/50
+- https://wikidocs.net/33948
+
+```mysql
+1. carriers.csv파일을 carriers테이블을 생성하고, 데이터 로딩하고
+   hive> CREATE TABLE IF NOT EXISTS carriers (
+   UniqueCarrier string,
+   CarrierFullName String
+   ) ROW FORMAT DELIMITED
+ FIELDS TERMINATED BY ',' 
+ LINES TERMINATED BY '\n'
+LOCATION '/data/metadata/';
+   
+   hive> describe carriers;
+   hive> select * from carriers limit 5;
+   hive> !hadoop fs -ls /user/hive/warehouse/
+
+2.  airlineinfo 테이블 생성
+   hive> CREATE TABLE IF NOT EXISTS airlineinfo (
+   UniqueCarrier string,
+   CarrierFullName String,
+   FlightNum string,
+   TailNum string,
+   Dest string,
+   Distance string,
+   Cancelled string
+   );
+
+hive> describe airlineinfo
+hive> !hadoop fs -ls /user/hive/warehouse/
+
+3. airline테이블과 carriers테이블의 조인 결과를 airlineinfo 테이블에 로딩
+
+hive> INSERT  OVERWRITE  TABLE  airlineinfo 
+ select  a.UniqueCarrier ,
+   b.CarrierFullName ,
+   a.FlightNum,
+   a.TailNum ,
+   a.Dest ,
+   a.Distance ,
+   a.Cancelled 
+ from  airline a , carriers b  
+where a.UniqueCarrier = substr(b.UniqueCarrier2, 2);
+
+hive> select * from airlineinfo limit 10;
+hive> !hadoop fs -ls /user/hive/warehouse/
+
+또는 
+
+hive> drop table airlineinfo;
+hive> CREATE TABLE airlineinfo 
+ as
+   select  a.UniqueCarrier  UniqueCarrier,
+   b.CarrierFullName  CarrierFullName,
+   a.FlightNum FlightNum,
+   a.TailNum  TailNum ,
+   a.Dest  Dest,
+   a.Distance  Distance,
+   a.Cancelled  Cancelled
+ from  airline a , carriers b 
+ where a.UniqueCarrier = substr(b.UniqueCarrier, 2, 2);
+
+hive> select * from airlineinfo limit 10;
+hive> !hadoop fs -ls /user/hive/warehouse/
+
+hive> select count(*) from airlineinfo ;
+hive> select count(*) from airline ;
+```
+
+# R
+
+## 설치
+
+```
+root@master ~]# yum install epel-release
+[root@master ~]# yum install npm
+[root@master ~]# yum install R 
+[root@master ~]# ls -l /usr/lib64
+[root@master ~]# chown -R hadoop:hadoop /usr/lib64/R
+[root@master ~]# ls -l /usr/lib64
+
+
+
+#hadoop의 .bash_profile에 추가
+[hadoop@master ~]$ vi .bash_profile
+
+export HADOOP_CMD=/usr/local/hadoop-2.7.7/bin/hadoop
+export HADOOP_STREAMING=/usr/local/hadoop-2.7.7/share/hadoop/tools/lib/hadoop-streaming-2.7.7.jar
+
+[hadoop@master ~]$ source ./.bash_profile
+[hadoop@master ~]$ R
+
+> install.packages(c("rJava", "Rcpp", "RJSONIO", "bitops", "digest", "functional", "stringr", "plyr", "reshape2", "caTools"))
+> install.packages(c("rhdfs", "rmr", "plyrmr"))
+
+
+[root@master ~]# chown -R hadoop:hadoop /usr/share/doc/R-3.6.0/html/
+> updatge.packages(c("rJava", "Rcpp", "RJSONIO", "bitops", "digest", "functional", "stringr", "plyr", "reshape2", "caTools"))
+
+
+https://github.com/RevolutionAnalytics/RHadoop/wiki
+ 
+
+> install.packages("/home/hadoop/Downloads/rhdfs_1.0.8.tar.gz", repos=NULL, type="source")
+
+> install.packages("/home/hadoop/Downloads/rmr2_3.3.1.tar.gz", repos=NULL, type="source")
+> install.packages("/home/hadoop/Downloads/plyrmr_0.6.0.tar.gz", repos=NULL, type="source")
+> install.packages("/home/hadoop/Downloads/rhbase_1.2.1.tar.gz", repos=NULL, type="source")
+
+> install.packages("/home/hadoop/Downloads/ravro_1.0.4.tar.gz", repos=NULL, type="source")
+
+> install.packages(c("bit64", "rjson"))
+```
+
+
+
+- R에서는 null을 무시함
+- NA는 Not Applicable
+
+
+
+## R, Hadoop 연동
+
+![1566366203673](Hadoop.assets/1566366203673.png)
+
+```R
+>library(rhdfs) # Rhadoop package for hdfs
+>hdfs.init()    # Start to connect HDFS, 반드시 rmr2를 로드하기 전
+>library(rmr2)  # RHadoop package for MapReduce
+
+hadoop fs -mkdir /tmp/ex1
+
+> dfs.rmr("/tmp/ex1")
+> small.ints <- to.dfs(1:1000, "/tmp/ex1")
+
+> result <- mapreduce(input = small.ints, 
+	map = function(k,v) cbind(v,v^2)
+)
+> out <- from.dfs(result)
+> out
+
+```
+
+- R환경에서 진행
+- 1부터 1,000까지의 숫자를 생성/ 각 숫자 모두를 제곱하는 연산을 의미
+
+
+
+##  SWAP 메모리 늘리기
+
+- error log에서 메모리 부족을 발견할 수 있을때
+- 스왑 메모리가 제한되어 있어, task진행시 도출되는 오류
+
+```
+#Swap 메모리 늘리기
+#2G로 설정한 swap공간 확인 2048*1024=2097152
+[root@master swap]# free
+
+#스왑 파일을 저장할 디렉토리를 만든다
+[root@master swap]# mkdir /swap
+
+
+# dd 명령어를 이용하여 swapfile이라는 스왑파일을 만든다.
+[root@master swap]# dd if=/dev/zero of=/swap/swapfile bs=1024 count=4194304
+ 
+
+
+# swap 디렉토리로 이동한다.
+[root@master swap]#  cd /swap
+
+
+
+# mkswap 명령어를 이용하여 swapfile이 스왑공간을 쓰도록 만든다. (스왑 영역 생성)
+[root@master swap]#  mkswap swapfile
+
+ 
+# 스왑파일을 즉시 활성화 할 수 있다.
+[root@master swap]# swapon swapfile
+[root@master swap]# swapon -s  
+[root@master swap]# free
+
+```
+
