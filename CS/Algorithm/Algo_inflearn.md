@@ -830,5 +830,309 @@ void merge(int data[], int p, int q, int r){
 1. 분할
    - 기준 값(pivot)을 선택하여, 이보다 낮은, 높은 두 부분으로 분할한다.
    - 어떤 것을 pivot으로 선택하는가?
+     - `pivot` 은 랜덤. 운											
 2. 정복
+   - 각 부분은 recursion으로 정렬한다.
 3. 합병
+   - 각 부분이 제대로 정렬이 되었다면, 합병은 해주지 않아도됨. 왜? 이미 차례대로 정렬이 되었을 거니까
+4.  예)
+
+![1566818961614](Algo_inflearn.assets/1566818961614.png)
+
+- 중요한 것은 ? **분할** 
+  - 어떻게 주어진 데이터를 pivot 기준으로 분할을 할 것인가?
+
+
+
+```java
+quickSort(A[], p, r) //A[p...r] 을 정렬한다
+{
+    if(p<r) then {
+        q = partition(A,p,r); //분할 q =pivot위치
+        quickSort(A, p, q-1); //왼쪽 부분 정렬
+        quickSort(A, q+1, r); //오른쪽 부분 정렬         }
+}
+partition(A[], p, r){
+    //pivot값을 기준으로 작은 쪽, 큰쪽으로 분할해주는
+    //하고 pivot의 위치를 return 해주는 함수
+    //피벗보다 작은애 | 피벗 | 피벗보다 큰 애
+    //피벗의 위치는 그대로 두고, 나머지 요소들을 피벗보다 작은 애 | 큰 애로 정렬한다음에,
+    //마지막 스텝에서 피벗보다 큰 애들중 첫번째 값 앞에 넣도록
+}
+```
+
+- 파티션을 어떻게 해야할까?
+
+  ![1566819694907](Algo_inflearn.assets/1566819694907.png)
+
+  1. pivot을 설정했으면
+  2. 각각의 값을 pivot과 비교해서
+  3. 작은지, 큰지 비교해야함
+     - 작은값, 큰값모임에서의 정렬은 아직 신경쓰지말자
+  4. 피벗보다 크다면?
+     - 그대로 둔다.
+  5.  피벗보다 작다면?
+     - i+1 요소와 바꿔줘야함
+
+  ```
+  if A[j] >= x
+  	j = j+1;
+  else
+  	i = i+1;
+  	exchange A[i] and A[j];
+  	j = j+1;
+  ```
+
+  
+
+- 그 예
+  - i = 피벗보다 작은 값 중 마지막 값
+  - j = 지금 검사하려는 값
+
+```java
+Partition(A,p,r)
+{
+    x = A[r]; //pivot
+    i = p-1; //p보다 앞
+    for j = p to r - 1
+        if A[j] <= x then
+            i = i+1;
+    		exchange A[i] and A[j];
+    
+    exchage A[i+1] and A[r];
+    return i+1;// pivot위치 반환
+}
+```
+
+
+
+- 시간복잡도
+
+  - O(n) , 정확히는 n-1개의 비교연산이면 충분함
+  - 최악의 경우?
+    - sorting할 데이터가 이미 sorting이 되어있을 때
+    - n- 1 | 0 개 로 분할되는경우
+    - O(n^2)
+  - 최상의 경우?
+    - 항상 절반으로 분한되는 경우 
+    - O(nlogn)
+  - 최악,최상의 경우 <u>시간복잡도가 꽤 차이난다</u>
+
+- quick sort 이름과 같이 꽤 빠른 정렬
+
+  그런데 최악의 경우 O(n^2) merge sort(nlogn)보다 느림
+
+  quick sort의 성능은 partition에 달려있음.
+
+  분할이 얼마나 잘 되는가?
+
+  그렇게 극단적인 분할 n-1 : 0 , 만 아니라면 시간복잡도는 O(nlogn) 충분히 빠르다
+
+
+
+- 평균시간복잡도
+
+![1566821487424](Algo_inflearn.assets/1566821487424.png)
+
+- pivot의 n가지 랭크의 경우의 수. 발생할 확률은 모두 1/n으로 동일
+- 평균 시간 복잡도를 계산해도 O(nlogn)임.
+
+
+
+- Pivot의 선택
+  - 첫번째 값이나, 마지막 값을 피봇으로 선택
+    - 별로 좋은 아이디어는 아니다.
+    - 왜? 이미 정렬된 데이터, 거꾸로 정렬된 데이터가 최악의 경우가됨.
+    - 현실의 데이터는 랜덤하지 않으므로 정렬되지 않은 혹은 거꾸로된 데이터가 입력으로 올 가능성이 높다.
+    - 정렬된 데이터를 다시 정렬하는 경우는 자주 일어나는 일
+  - 그래서 중간(median) 값을 선택
+    - 첫번째, 마지막 값, 가운데 값 중에서 중간값을 선택
+    - 이 방법은 최악의 경우를 예방
+  - 혹은 피벗을 랜덤하게 선택한다.
+    - 특정한 위치, 규칙이 아닌 랜덤으로 선택
+    - 평균 시간복잡도 O(nlogn)
+
+### 2.4 heap sort
+
+- 최악의 경우 시간복잡도 O(nlogn)
+- merge sort에서는 추가배열이 필요했지만, heap sort에서는 추가배열이 필요하지 않음. (추가 메모리가 필요없다)
+
+
+
+- heap 자료구조는
+
+  1. **complete binary tree** 이어야 하고
+
+  2. **heap property**를 만족해야함
+
+     max heap property = 부모는 자식보다 크거나 같다.
+
+     or
+
+     min heap property = 부모는 자식보다 작거나 같아
+
+     max heap, min heap은 대칭함.
+
+![1566822010160](Algo_inflearn.assets/1566822010160.png)
+
+- 맨위 root 노드 부모가 없는 노드, 유일함
+- 그 아래 부모 노드 2개
+- 그 아래 4개, 자식 노드 4개... 이런식으로
+- 자식이 없는 노드는 leaf 노드
+
+- binary tree 이진 트린
+  - 각각의 노드가 **최대** 2개의 자식 노드를 가지는 트리
+
+- full binary tree 는 그 자체로 complete binary tree.
+  - 그 반대는 항상 성립하지 않음
+
+
+
+- heap or no heap
+
+![1566822607158](Algo_inflearn.assets/1566822607158.png)
+
+- b 
+  - 1번 조건은 만족하지만
+  - 2번 조건을 만족하지 않는다.
+- c
+  - 1번 조건을 만족하지 않는다. (왼쪽 자식노드가 빠져있다)
+
+
+
+- heap을 배열로 표현하기
+
+![1566822746158](Algo_inflearn.assets/1566822746158.png)
+
+- 값 뿐만 아니라, 부모-자식 관계인지 알 수 있어야함.
+- 어떤 노드가 j라면, 이 노드의 부모노드는 j/2번째 노드일 것임을 알 수 있음.
+- 일차원 배열에 저장하더라도, 인덱스만 보더라도 부모-자식 관계를 알 수 있음.
+
+
+
+- max - heapify 
+
+  1. 트리 전체 모양은 complete binary tree
+  2. 왼쪽, 오른쪽 노드만 봤을 때도 heap tree
+  3. 그런데 root노드만 heap 전제조건을 만족하지 않을 때
+
+  이럴때 해당 트리를 heap 전제조건에 맞도록 바꿔주는 방법이 `heapify` 
+
+  max가 붙은 것은, 현재 이 강의에서 max-heap에 대해서 다루고 있기 때문
+
+  - 루트에 있는 값이, 자신의 자식 값과 바꾸어서 heap 전제조건을 만족하거나
+  - 혹은 leaf노드까지 내려오게 되면 종료하게 됨.
+
+  - recursive 한 특징을 가지고 있음
+
+  ```java
+  MAX-HEAPIFY(A,i)
+  {
+      if there is no child of A[i]
+          return;
+      k = index of the biggest child of i;
+      if A[i] >= A[k]
+          return;
+      exchange A[i] and A[k];
+      MAX-HEAPIFY(A,i);
+  }
+  ```
+
+  - iterative 하게
+
+  ```java
+  MAX-HEAPIFY(A,i)
+  {
+  	while A[i] has a child do
+          k = index of the biggest child of i;
+          if A[i] >= A[k]
+              return;
+          exchange A[i] and A[k];
+          i = k;
+      end
+  }
+  ```
+
+  - 시간복잡도
+    - O(logn) 
+    - n은 데이터의 갯수
+
+
+
+- 일차원 배열은 complete binary tree 로 생각하자
+
+  - 이 tree가 heap property를 만족하지 않으므로 heap은 아닐것
+  - 그러면 이 tree를 heap이 되도록 만들어줘야함
+    1. level 별로 오른쪽에서 부터 시작해서 봄, leaf노드가 아닌 노드 계층 부터 heapify 시작함
+    2. 그 계층 부터 차근차근.
+    3. 마지막 root 노드 대상으로 heapify를 함
+  - 개념적으로 위와 같이 생각하는 것이지, 시스템 상에서 배열상에서 자리를 바꾸는 것으로 진행된다.
+
+  ![1566824217863](Algo_inflearn.assets/1566824217863.png)
+
+  
+
+  - [2,8,6,1,10,15,3,12,11] 힙으로 만들어보자
+    1. 9/2 = 4. 4번 노드에서 시작 1과 12를 자리 바꿈
+    2. 6에 대해 heapify 15,6이 자리를 바꿈
+    3. 8에 대해
+    4. root 노드에 대해
+
+- **힙 정렬 하는 방법**
+
+  1. 주어진 데이터로 힙을 만든다.
+     - 루트는 최대값이다.
+  2. root와 마지막 값을 자리를 바꾼다.
+     - 정렬 결과 가야할 자리에 간것. 그리고 heap의 크기가 1이 줄었다고 생각한다
+  3. 루트 노드에 대해 HEAPIFY(1) 을 한다
+     - 모든 노드가 HEAP형식으로 정렬된다.
+  4. 그리고 2~3번을 반복한다.
+
+  ![1566824874466](Algo_inflearn.assets/1566824874466.png)
+
+  
+
+#### priority queue
+
+- 우선순위 큐
+- 일반적인 큐는 FIFO 큐라 부름
+- 우선 순위 큐는 각각의 값에 순위가 매져겨 있어, 우선순위인 값만 뺄 수 있는 자료구조를 의미함
+
+- 최대 우선 순위 큐
+  - INSERT(X) : 새로운 원소 X를 구입
+  - EXTRACT_MAX() : 최대값을 삭제하고 반환
+    - 최소 우선 순위 큐는 여기서 EXTRACT_MIN()을 지원
+
+- INSERT()
+
+  1. 마지막 노드에 새로운 값을 추가함
+  2. 새로운 값과 부모값을 비교함으로써 heap property에 맞는지 자리 바꿈.
+
+  ![1566825406932](Algo_inflearn.assets/1566825406932.png)
+
+  - 추가되는 값은 heap사이즈에 마지막 자리에 추가됨을 알 수 있음
+  - i 문제 노드의 인덱스
+  - complete binary tree의 시간 복잡도는 O(logn)
+
+- EXTRACT_MAX()
+
+  - Root에 있는 값을 삭제하고 반환해주면 됨.
+  - 줄여도 되는 노드는 마지막 노드 밖에 없음.
+    - 왜? complete binary tree 구조를 무너뜨리면 안되니까
+  - 그래서 root노드와 마지막 노드를 바꾸고
+  - 마지막 노드를 삭제하면서 가져온다.
+  - 문제는 heap property가 깨짐
+  - **MAX-HEAPIFY 작업을 실행!**
+
+  ![1566825829344](Algo_inflearn.assets/1566825829344.png)
+
+### 2.5 comparsion Sort
+
+- merge, heap sort의 시간복잡도가 O(nlogn) 이 것이 최선인가?
+
+- bubble, selection insertion, quicksort(평균 O(nlogn)) 대부분 O(n^2) ..
+
+
+
+- 데이터들 간의 상대적 크기 관계 만을 이용해서 정렬하는 알고리즘
+- 
