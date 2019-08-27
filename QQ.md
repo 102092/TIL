@@ -6,6 +6,8 @@
 
 - **Java buffered 사용정리**
 
+   https://hackersstudy.tistory.com/12?category=500113
+
 - 동적 페이지,정적페이지 차이 
 
 - standalone
@@ -104,3 +106,12 @@
 - compareTo에 대해 https://m.blog.naver.com/PostView.nhn?blogId=cheesedrive&logNo=220148513502&proxyReferer=https%3A%2F%2Fwww.google.com%2F
 
   https://www.geeksforgeeks.org/java-lang-string-compareto/
+
+08.27
+
+- JAVA JVM등에 대해
+- java collection 
+   - https://jeong-pro.tistory.com/18
+   - https://gangnam-americano.tistory.com/41
+- java 문자열 형변환 방법
+   - https://m.blog.naver.com/PostView.nhn?blogId=yysvip&logNo=220105002997&proxyReferer=https%3A%2F%2Fwww.google.com%2F
