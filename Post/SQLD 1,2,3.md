@@ -318,7 +318,7 @@ https://wikidocs.net/1207
       - 모든 표현식이 NULL이면 NULL을 리턴
 - GROUP BY 절에는 alias 사용 불가,
   
-   - GROUP BY절에 사용된 컬럼이 SELECT절에 사용되어서는 안됨
+   - GROUP BY절에 사용된 함수는 SELECT절에 사용되어서는 안됨
 - WHERE 절에는 집계함수가 올 수 없음
 - HAVING은 GROUP BY 절에 와야함,  HAVING 단독으로도 올 수 있음
 - 일자가 가장 빠르다? MIN함수
@@ -488,7 +488,7 @@ DW등의 데이터 집계 업무에 많이 사용하는 조인은 Hash 나 Sort 
    - <u>Random access 부하</u>가 심할때, 
    - 행의 수가 작은 테이블을 선행테이블로 하는 것이 유리
 - 데이터 집계업무
-   
+  
 - NL 조인 nested loop join
    - 적당한 인덱스가 있어서 NATURAL JOIN 이 효율적일 때 유용
    - DRIVING 테이블의 조인 데이터 양이 큰영향을 주는
@@ -496,7 +496,7 @@ DW등의 데이터 집계 업무에 많이 사용하는 조인은 Hash 나 Sort 
    - <u>선택도가 낮은(결과 행의 수가 적은) 테이블이 선행테이블</u>로 되는 것이 일반적으로 유리
    - 중첩된 반복문과 유사한 방식으로 조인
 - OLTP 목록 처리업무
-   
+  
 - Sort merge join
    - <u>nl조인이 비효율적일때 즉 조인컬럼에 적당한 인덱스가없을 때 사용</u>
    - driving table이 중요하지 않음
