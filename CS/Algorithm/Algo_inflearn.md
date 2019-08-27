@@ -1132,7 +1132,30 @@ Partition(A,p,r)
 
 - bubble, selection insertion, quicksort(평균 O(nlogn)) 대부분 O(n^2) ..
 
+![1566911557474](Algo_inflearn.assets/1566911557474.png)
 
+#### Lower Bount(하한)
 
-- 데이터들 간의 상대적 크기 관계 만을 이용해서 정렬하는 알고리즘
-- 
+- 어떤 comparsion sort 도 시간복잡도가 O(nlogn) 보다 낮을 수 없다.
+
+- Decision Tree
+
+  - 3개의 수를 정렬할 때, 일어날 수 있는 모든 경우의 수를 정리한 것
+
+  ![1566912250467](Algo_inflearn.assets/1566912250467.png)
+
+- 어떤 Comparsion sort라도 Decision Tree로 그릴 수 있음
+- Descision Tree에서 Leaf노드의 숫자는 **N!** 3 * 2 * 1 = 6...
+- 최악의 경우 시간복잡도는 이 Tree의 높이에 비례함
+- 트리의 높이는 logn! = O(nlogn) 보다 낮을 수 없음
+
+### 2.6 sorting in linear time
+
+#### counting sort
+
+- n개의 정수를 정렬. 단 모든 정수는 0에서 K사이의 정수(사전지식)
+  - K가 비교적 작을 경우 생각해봄
+
+![1566912844710](Algo_inflearn.assets/1566912844710.png)
+
+- 입력데이터를 쭉 스캔하면서, 각각의 데이터가 얼마나 들어왔는지 스캔하는 것

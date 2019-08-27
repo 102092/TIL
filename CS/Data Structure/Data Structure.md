@@ -24,8 +24,6 @@
   - 그룹 관리의 필요성이 생김
   - 여러 데이터를 하나의 이름으로 그룹핑해서 관리하기 위한 **데이터 구조**
 
-![1566826561807](Algo_inflearn.assets/1566826561807.png)
-
 - 배열에서 가장 중요한 것은 `index` 
 
 
@@ -138,7 +136,7 @@ while(numbers1.lenth > i){
 
 ### List 기능
 
-- 처음, 끝, 중간에 엘리먼트를 추가/ 삭제할 수 있음 (가장 중요)
+- 처음, 끝, 중간에 <u>엘리먼트를 추가/ 삭제할 수 있음 (가장 중요)</u>
 
 - 데이터가 있는지 없는지 체크 하는 기능
 - 모든 데이터에 접근할 수 있는 기능도 있음
@@ -264,4 +262,131 @@ for(int i = 0; i<numbers.size(); i++){
 
 
 
-...9강부터
+### addLast
+
+- 마지막에 데이터를 추가하는 방법
+
+```java
+public boolean addLast(Object element){
+    element[size] = element;
+    size++;
+    return true;
+}
+```
+
+
+
+### add
+
+- 중간에 데이터를 추가하는 방법
+
+![1566909448887](Data Structure.assets/1566909448887.png)
+
+- 엘리먼트를 하나씩 미룬다.
+
+```java
+private int size = 0;
+private Object[] elementData =new Object[100];
+
+public boolean add(int index, Object element){
+    
+    for (int i = size-1; i >= index; i--){
+        elementData[i+1] = elementData[i];
+    }
+    elementData[index] = element;
+    size++;
+    return true;
+}
+
+public boolean addFirst(Object element){
+    return add(0, element);
+    
+}
+```
+
+
+
+### toString
+
+```java
+public String toString(){
+    String str = "[";
+    for(int i=0; i<size; i++){
+        str +=elementData[i];
+        if(i< size-1){
+            str +=",";
+        }
+    }
+    return str +="]";
+}
+```
+
+
+
+### remove
+
+![1566910445642](Data Structure.assets/1566910445642.png)
+
+- 리스트는 빈 공간을 허용하지 않음
+
+```java
+public Object remove(int index){
+    Object removed = elementData[index];
+    for(int i = index+1; i <=size-1; i++){
+        elementData[i-1] = elementData[i];
+    }
+    size--;
+    elementData[size] = null;
+    return removed; //삭제한 값을 알수 있게 해줌
+}
+```
+
+- collection framwork는 기본적으로 return 값이 있음
+- 위치를 재조정하기 때문에 `linked list` 동작속도가 느림을 유추 할 수 있을 것
+
+
+
+### removeFirst
+
+```java
+public Object removeFirst(){
+    return remove(0)
+}
+public Object removeLast(){
+    return remove(size-1)
+}
+```
+
+
+
+### get
+
+```java
+public Object get(int index){
+    return elementData[index];
+}
+```
+
+- Array List에서 get을 통해 데이터를 가져오는 경우, 굉장히 빠르게 가져올 수 있다.
+- 좋은 점 : 배열에 인덱스로 접근한다. 
+- 배열은 메모리에 있음. 메모리에 있을 때, 어느 위치에 있는 데이터를 가져오던 간에 동일한 시간에 데이터를 가져올 수 있음
+
+
+
+### size, index of
+
+```java
+public int size(){
+    return size;
+}
+public int indexOf(Object o){
+    for(int i =0; i<size; i++){
+        if(o.equals(elementData[i])){
+            return i;
+        }
+    }
+    return -1; //indexof 매개변수를 통해 들어온 찾는 값이 없다.
+}
+```
+
+- `indexof` 인덱스를 알아보는 메서드
