@@ -390,3 +390,39 @@ public int indexOf(Object o){
 ```
 
 - `indexof` 인덱스를 알아보는 메서드
+
+
+
+### iterator next hasNext
+
+```java
+ArrayList.ListIterator li = numbers.listIterator();
+```
+
+- ArrayList 안에, ListIterator라는 클래스이고 numbers에 listIterator()메서드를 실행시킨 결과가 li에 저장됨
+
+
+
+```java
+public ListIterator listIterator(){
+    while(li.hasNext()){
+        System.out.println(li.next());
+    }
+}
+class ListIterator{
+    private int nextIndex =0;
+    
+    public boolean hasNext(){
+        return nextIndex < size();
+    }
+    
+    public Object next(){
+        Object returnData = elementData[nextIndex];
+        nextIndex++;
+        return returnData;
+        //위와 같은 코드
+        //return elementData[nextIndex++];
+    }
+}
+```
+
