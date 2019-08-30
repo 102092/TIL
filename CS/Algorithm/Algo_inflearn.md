@@ -1151,7 +1151,7 @@ Partition(A,p,r)
 
 ### 2.6 sorting in linear time
 
-#### counting sort
+#### 카운팅 정렬(counting sort)
 
 - n개의 정수를 정렬. 단 모든 정수는 0에서 K사이의 정수(사전지식)
   - K가 비교적 작을 경우 생각해봄
@@ -1159,3 +1159,142 @@ Partition(A,p,r)
 ![1566912844710](Algo_inflearn.assets/1566912844710.png)
 
 - 입력데이터를 쭉 스캔하면서, 각각의 데이터가 얼마나 들어왔는지 스캔하는 것
+
+```java
+int A[n];
+int C[k] = {0,};
+for(int i = 1; i<n; i++)
+    C[A[i]]++;
+for(int s =1; i=0; i<=k; i++)
+    for(int j=0; j<C[i]; j++)
+        A[s++] =j;
+```
+
+- 보통 실제 데이터는 하나의 타입만 들어오진 않음
+
+
+
+1. 각각 요소들을 카운팅 한다음에, 
+
+2. 누적합을 구해서, 그합에 맞게 소팅함
+
+   2,2,4,7,7,8
+
+   1보다 작거나 같은 것은 2개, 2보다 작거나 같은 것은 4개, 3보다 작거나 같은 것은 7개.. 이런식으로 해석한다.
+
+3. 들어온 배열을 뒤에서부터 살펴보면서 새로운 배열 B에  데이터를 저장함
+
+
+
+- 시간복잡도 O(n+k) (if n>k)
+
+  선형시간. k가 아주크다면 비실용적
+
+- 카운팅 소팅 알고리즘은 stable하다
+
+  stable: 입력에서 들어오는 순서대로 값이 출력값 순서에도 유지된다.
+
+#### Radix sort
+
+- n개의 d자리 정수들
+
+- 가장 낮은 자리수부터 정렬
+
+  329,456,839..이렇게 있으면 가장 낮은 자리 일의 자리 수를 기반으로 데이터를 정렬
+
+  오름차순으로 정렬이 됨.
+
+  왜?
+
+- 시간복잡도O(d(n+k))
+  - d 상수 k <n 이면, 성립함
+
+
+
+### 2.7 시간복잡도
+
+![1567167719965](Algo_inflearn.assets/1567167719965.png)
+
+![1567167766412](Algo_inflearn.assets/1567167766412.png)
+
+![1567167802456](Algo_inflearn.assets/1567167802456.png)
+
+![1567167824780](Algo_inflearn.assets/1567167824780.png)
+
+### 2.8 sorting in Java
+
+#### primitive type 정렬
+
+- Arrays 클래스가 정렬 메서드를 제공한다.
+
+  ```java
+  int [] data = new int [capacity];
+  Arrays.sort(data);
+  Arrays.sort(data,0,size);
+  //배열이 꽉차있지 않을때,
+  //시작인덱스, 데이터의 갯수
+  ```
+
+  - int 이외의 다른 **primitive type(double, char등)** 에 대해서도 제공한다.
+
+- 객체의 정렬 : 문자열
+  - java에서 객체는 semi - primitive type이라 할 수도 있겠음
+
+- ArrayList : 문자열
+
+  - collection class
+  - 배열이 아니니 Arrays.sort를 쓸 수 는 없음
+
+  ```java
+  Collections.sort() //메서드릴 제공함
+  ```
+
+  
+
+- 사용자 정의 객체
+
+  - 정렬하고 싶다면, 객체들간의 크기 관계를 정의해줘야함
+
+  1. ` Comparable Interface` 
+
+  ```java
+  implements Comparable<Fruit>{
+      ...
+  	//이름순
+      public int compareTo<Fruit other){
+          return name.compareTo(other.name)
+      }
+      //재고량순
+          public int compareTo<Fruit other){
+          return quantity - other.quantity; //음수 0 , 양수
+      }
+  
+  }
+  ```
+
+  2. `comparator` 
+
+     - 이것도 인터페이스
+
+     ```java
+     static Comparator<Fruit> nameComparator = new Comparator<Fruit>()//익명의 클래스를 정의{
+         //오버라이딩한것
+         public int compare(Fruit fruit1, Fruit fruit2){
+             return fruit1.name.compareTo(fruit2.name);
+         }
+     }
+     static Comparator<Fruit> quantComparator = new Comparator<Fruit>(){    
+         public int compare(Fruit fruit1, Fruit fruit2){
+             return fruit1.quantity - fruit2.quantity;
+         }
+     }
+     
+     //generic 프로그래밍
+     Arrays.sort(fruit, nameComparator);
+     Arrays.sort(fruit, quantComparator);
+     ```
+
+     - `compare()`라는 멤버 메서드가 있음
+     - 인터페이스는 new로 객체를 생성할 수 없는데
+     - annoymous class
+

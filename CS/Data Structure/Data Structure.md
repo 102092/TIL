@@ -176,8 +176,6 @@ while(numbers1.lenth > i){
 - 왜? 배열의 장점이고 리스트의 장점이 있기 때문 직접 선택해라
 - Java는 **linked list**와 **Array list**를 지원한다
 
-![1566828345881](Algo_inflearn.assets/1566828345881.png)
-
 - 서로 장단점이 크로스, 트레이드오프 형태
 
 
@@ -426,3 +424,74 @@ class ListIterator{
 }
 ```
 
+
+
+### Iterator previous hasPrevious
+
+```java
+class ListIterator{
+    private int nextIndex =0;
+    
+    public boolean hasNext(){
+        return nextIndex < size();
+    }
+    
+    public Object next(){     
+        return elementData[nextIndex++];
+    }
+    public Object previous(){
+        return elementData[--nextIndex];
+    }
+    public boolean hasPrevious(){
+		return nextIndex > 0;
+    }
+}
+```
+
+
+
+### lterator add remove
+
+```java
+public void add(Object element){
+    ArrayList.this.add(nextIndex++, element)
+}
+
+public void remove(){
+    ArrayList.this.remove(nextIndex-1);
+    nextIndx--;
+}
+```
+
+
+
+## Linked List
+
+- Link 연결이 무엇인가
+
+- Random Access Memory
+
+  주소를 알고 있으면 데이터를 빠르게 가져올 수 있다.
+
+![1567170450252](Data Structure.assets/1567170450252.png)
+
+- 두 리스트의 차이는 메모리를 어떻게 쓰느냐
+
+
+
+### 구성
+
+![1567170478948](Data Structure.assets/1567170478948.png)
+
+- 노드 : 마디, 교점
+- 버텍스 : 정점, 꼭지점
+
+> 참고 하자
+>
+>  https://visualgo.net/ko
+
+- 추가
+  - 객체를 생성하고,
+  - 해당 객체.next()를 통해 현재 linked list에 head에 이어주고
+  - head 값은 해당객체로 재할당하면
+  - 연결 끝!
