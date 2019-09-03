@@ -587,7 +587,11 @@ Node node(int index){
         x = x.next
 }
 
-public void add(int k, Object object)
+public void add(int k, Object object){
+    if(k==0){
+        return 
+    }
+}
 ```
 
 - 100번째 있는 노드를 가져오려면
