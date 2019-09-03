@@ -481,6 +481,8 @@ public void remove(){
 
 ### 구성
 
+- 내부구조
+
 ![1567170478948](Data Structure.assets/1567170478948.png)
 
 - 노드 : 마디, 교점
@@ -495,3 +497,98 @@ public void remove(){
   - 해당 객체.next()를 통해 현재 linked list에 head에 이어주고
   - head 값은 해당객체로 재할당하면
   - 연결 끝!
+
+### Array List vs Linked List
+
+![1567519136510](Data Structure.assets/1567519136510.png)
+
+- 인덱스를 통해 조회하면 `Array List` 굉장히 빠르고, 
+- Linked는 느림. 왜? 하나하나 연결해가며 찾아야하니까.
+
+
+
+### 생성
+
+- Java 
+
+![1567519318451](Data Structure.assets/1567519318451.png)
+
+- 객체 생성해서, 서로 연결하는 것이 `Linked List`
+
+```java
+public class LinkedList{
+    //LinkedList가 가지고 있어야 할것
+    private Node head;
+    private Node tail;
+    private int size = 0;
+    
+    private class Node {
+    //node가 가지고 있어야할것
+    	private Object data;
+        private Node next;
+        public Node(Object input){
+            this.data = input;
+            this.next = null;
+        }
+        public String toString(){
+            return String.valueOf(this.data)
+        }
+    }
+    
+}
+```
+
+
+
+### addFirst
+
+```java
+public void addFirst(Object input){
+    // node 객체 생성
+    Node newNode = new Node(input);
+    newNode.next = head;
+    head = newNode;
+    size++;
+    
+    if(head.next =null){
+        tail = head;
+    }
+    
+}
+```
+
+
+
+### addLast
+
+```java
+public void addLast(Object input){
+    Node newNode = new Node(input);
+    if(size ==0){
+        addFirst(input);
+    }
+    else{
+        tail.next = newNode;
+        tail = newNode;
+        size++;
+    }
+}
+```
+
+- 1이상 size를 가지고 있을 때..
+
+
+
+```java
+Node node(int index){
+    //node가 내부적으로 사용자에게 이용되는 지 노출되면 안됨
+    Node x = head;	
+ 	for(int i = 0; i < index;  )  
+        x = x.next
+}
+
+public void add(int k, Object object)
+```
+
+- 100번째 있는 노드를 가져오려면
+- x만 변화시키면 됨.
