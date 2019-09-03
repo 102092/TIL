@@ -1060,11 +1060,318 @@ f(2) # 4
 
 ### 9. 메모리
 
+#### 9.1 메모리 계층
+
+![메모리계층](data:image/png;base64,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)
+
+- 메모리는 데이터를 저장하는 공간. 
+- 왜? 다른 종류로? 가격이 달라서. 레지스터는 비쌈. 하드디스크는 저렴하고
+- 레지스터는 속도는 빠르지만, 용량은 작아지고. 하드디스크는 속도는 느리지만 용량은 큼
+- 계층적구조로 구성되어, 데이터가 이동함.
+  - 즉 CPU가 하드에 데이터를 요청하면, 메모리 -> 캐시 -> 레지스터로 전달됨.
+- 캐시는 L1, L2 로 구성됨. 숫자가 작을수록 속도는 빠르고, 용량은 작음.
+
+
+
+#### 9.2 지역성, 캐시히트
+
+- CPU가 데이터를 요청하면, 메인 메모리에 해당 데이터만 가져오는 것이 아닌, 데이터와 함께 근접 데이터로 이루어진 메모리 블럭을 캐시로 가져옴.
+- 그리고 캐시에서, CPU가 요청한 데이터만 전달함.
+- 이 다음에 CPU가 요청할 때, 요청한 데이터가 있는 지 캐시에서 확인함
+  - 이에 요청한 데이터가 있으면 바로 캐시에서 가져오는 데  **캐시 히트(cache hit)**라 함 
+  - 없으면 **캐시 미스(cache miss)** 위 과정을 다시 거쳐야 하고.
+
+- 캐시히트면 훨씬 빠르게 작업이 진행 될 수 있지.
+- 그런데, 과연 일련의 요청과정에서 관련 데이터블록을 가져올 수 있을까?
+  - 매우 높다. 90%이상 필요한 데이터들이 같이 모여 있을 가능성.
+
+
+
+##### 지역성의 원리 principle of locality
+
+- 시간적, 공간적 지역성이 있음
+- 시간적은 특정 데이터에 한 번 접근했을 때, 곧 다시 그 데이터에 접근할 가능성이 높다.
+- 공간적은 이번에 접근한 데이터는 이전에 접근했던 데이터 근처에 있을 확률이 높다.
+- 캐시히트를 고려한 코드는 캐시 프렌들리 코드.
+
+
+
+### 9.3 가상 주소 공간
+
+- 32비트 운영체제면 최대 4G 메인메모리 할당
+  - 이중 2G는 운영체제가 담당, 이를 커널 영역이라 부르고.
+  - 나머지는 실제 프로그램이 담당, 유저영역
+    - 유저 영역은 code, data, stack, heap이라 부름
+
+- 가장 낮은 주소 부터 스택 - 힙 - 데이터 - 코드
+
+
+
+##### 코드 세그먼트
+
+- 클래스 정의코드 실행되면 올라가는 장소. 
+- 함수를 호출하면, 이 코드 세그먼트의 주소를 가르킴으로써 실행됨.
+
+
+
+##### 데이터 세그먼트
+
+- 전역변수가 저장되는 공간
+- 프로세스가 종료되면 소멸함. 프로그램이 실행되는 동안 계속 있으며, 사용자가 소멸시기를 결정할 수 없음.
+
+- 코드 , 데이터 세그먼트은 실행되기 전에 그 크기를 알 수 없음.
+
+
+
+##### 스택 세그먼트
+
+- 지역변수가 저장되는 공간.
+- 최대로 늘어날 수 있는 크키가 정해져 있음. 기본값은 1MB
+- 쌓이다가, 최대 크기를 넘기면? 스택 오버 플로우stack over flow
+
+
+
+##### 힙 세그먼트
+
+- 사용자가 자유롭게 메모리를 할당하고 해제할 수 있는 공간.
+- 함수 호출이 끝나도, 사용자가 해체하지 않는 한, 할당한 메모리는 남아 있음.
+  - 이러한 현상을 메모리 누수라 부름 memory leak
+- 힙은 스택과 달리 최대 크기가 정해져 있지 않음.
+
+
+
+#### 스택 프레임
+
+![스택프레임](https://thebook.io/img/006950/197.jpg)
+
+- 스택이 어떻게 저장되고, 메모리를 할당하는지에 대해 말함.
+- 스택은 위쪽으로 확장. 스텍에 데이터를 쌓는 다는 것은 스택 포인터가 가리키는 주소가 점점 낮아진다.
+
+
+
+### 9.4 가상 메모리, 페이징
+
+- 프로세스는 메인 메모리에서 데이터를 가져옴. 이건 빠름.
+- 그런데 하드 디스크에서 데이터를 가져올 때는 엄청 느림.
+- 하드디스크를 메인 메모리 처럼 쓸 수 있으면, 데이터를 빠르게 가져 올 수 있지 않을까?
+
+- 가상메모리는 메인 메모리를 확장하기 위해, 페이지 파일로 불리는 하드 디스크의 일정 부분을 메인 메모리처럼 사용하는 것.
+- 메인메모리 + 하드시스크의 페이지 파일 = 물리 메모리.
+- 가상 메모리 관리 기법은?
+  - 세그먼테이션, 페이징
+
+##### MMU
+
+- memory management unit
+- 프로세스에 주어지는  메모리 공간을 가상 주소 공간이라 함.
+- 가상 주소 공간의 메모리 주소를 논리 주소.
+- 메인 메모리의 메모리 주소를 물리 주소.
+- 프로세스를 실행하려면, 실제로 데이터와 코드를 올릴 물리 메모리가 필요함.
+- MMU의 역할은 논리 주소를 물리주소로 바꾸주는 역할.
+- CPU 내부에 존재
+
+
+
+##### 페이징
+
+- 가상 주소 공간, 메인 메모리를 일정 크기로 나눔.
+- 가상 주소 공간을 일정한 크기로 쪼갬. 이 쪼개진 한 부분을 페이지라 부르고.
+- 보통 1~8kb, 32비트 컴퓨터에서는 4KB
+- 32비트 시스템에서 메모리 주소를 표현하는 것 32비트
+  - 페이지 갯수가 2^20 개이니까 페이지 넘버를 나타내는 비트는 20비트, 페이지크기가 2^12이므로, 오프셋은 12비트.
+  - 이 둘이 합치면 가상 주소공간에서 하나의 주소값.
+
+
+
+##### 페이징 프레임
+
+- 메인메모리의 쪼개진 부분 하나를 페이지 프레임이라 함.
+
+
+
+##### 페이지 테이블
+
+- 어떤 프로세스의 페이지 넘버VPN ,상응하는 프레임 넘버PPN 상태등을 저장하는 테이블.
+- 모든 프로세스는 저마다 페이지 테이블이 있음.
+
+![페이지테이블](https://thebook.io/img/006950/206.jpg)
+
+- 프레임은 메인 메모리에 있음.
+
+
+
+##### 요구 페이징
+
+- 필요한 페이지만 메인 메모리에 올려 실행하는 것
+
+
+
+##### 페이지 폴트
+
+- CPU가 요청한 페이지가 메인 메모리에 없을 때 발생
+- 자주 발생하면 프로그램 성능이 자주 발생
+- 이를 줄이기 위해서는 지역성을 고려하면서 프로그래밍해야함.
+  - 연결리스트를 자주 사용하면, 페이지 폴트가 빈번히 발생할 수있음
+
 
 
 ### 10. 프로세스와 스레드
 
+- 프로세스는 더블클릭으로 프로그램을 실행한 상태
+  - 하드 디스크에서 메인 메모리로 코드와 데이터를 가져와 현재 실행되고 있는 상태
+
+
+
+#### 10.1 프로세스 상태
+
+- 요즘은 대부분 멀티 프로세스 기반.
+- CPU는 한번에 하나의 프로세스만 할당할 수 있음.
+
+
+
+1. 생성created
+
+   프로세스가 실행가능한 상태가 됨. 우선 순위 비교 후 높으면 실행, 아니면 실행가능한 상태에서 순서를 기다림.
+
+2. 실행가능waiting
+
+3. 실행running
+
+   CPU를 할당받아 실행되고 있는 상태
+
+4. 보류blocked
+
+   I/O(입출력) 작업을 하면 CPU를 해제하고 보류상태로 변경함. 
+
+   실행대기 상태는 언제든지 다시 실행될 수있는 상태이지만, 보류 상태는 I/O작업이 끝나기 전에는 실행이 불가.
+
+5. 소멸terminated
+
+   프로세스 실행이 완료되어 메인 메모리에서 사라짐.
+
+
+
+#### 10.2 스케쥴링
+
+- 여러 프로세서의 CPU할당 순서를 결정
+- 언제 할당하는 지에 따라서, **선점형, 비선점형**으로 나눠짐
+
+
+
+##### 선점형 스케쥴링
+
+- 다른 프로세스 실행 중에도 스케쥴러가 이를 강제로 중지하고, 다른 프로세스를 할당할 수 있음.
+
+
+
+##### 비선점형 스케쥴링
+
+- 실행 중인 프로세스가 종료되거나 I/O작업에 들어가거나, 명시적으로 CPU가 반환하기 전까지는 계속 실행됨.
+
+
+
+- 최근 운영체제는 멀티태스킹을 위해 **선점형 스케쥴링** 을 함.
+
+
+
+##### 스케쥴링 알고리즘
+
+1. 우선 순위
+
+2. 라운드 로빈
+
+   모든 프로세스에 같은 시간을 부여. 
+
+3. FCFS
+   비선점형 스케쥴링. 먼저 들어온 실행가능한 프로세스를 먼저 실행
+
+4. SJF
+   할당시간이 가장 짦은 프로세스를 먼저실행
+
+
+
+#### 10.3 컨텍스트 스위칭
+
+- 프로세스 제어블록process control block : 프로세스의 CPU상태와 프로세스의 상태를 저장해둔 메모리 블록을 말함.
+- CPU상태를 컨텍스트라 부름.
+
+![컨텍스트스위칭](https://thebook.io/img/006950/216.jpg)
+
+
+
+- 제어블록에 상태를 저장해두었다가, CPU에 바로 할당할 수 있도록 하는 방법
+
+- 잦은 컨텍스트 스위칭은 시스템 성능을 떨어뜨림.
+
+
+
+#### 10.4 쓰레드
+
+- 프로그램 안의 실행흐름의 단위. 스케쥴러에 의해 CPU를 할당 받을 수 있는 인스트럭션의 나열.
+
+- 프로세스는 하나 이상의 스레드로 구성.
+- 스레드 제어블록thread control block TCB
+
+- TCB는 PCB와 유사.
+
+
+
+#### 10.5 멀티스레드, 멀티프로세스
+
+![멀티](https://thebook.io/img/006950/219.jpg)
+
+- 모든 프로세스가 서로 다른 메모리 공간을 가짐.
+- 그런데 이를 공유해야, 사용자 명령을 막힘없이 실행할 수 있겠지.
+
+
+
+![멀티스레드 구조](https://thebook.io/img/006950/219_2.jpg)
+
+
+
+- 멀티 스레드의 구조.
+- **여러 스레드가 스택만 서로 다르고, 코드 데이터 힙을 공유**
+- 동시성 프로그래밍(동시에 여러 실행흐름이 필요한 프로그래밍)을 위해 멀티 스레딩을 사용
+
+- 경쟁조건
+  - 스레드가 공유자원을 동시에 변경하려 할 때 문제가 발생한다.
+  - 이를 상호배제를 통해 해결해야함.
+
+
+
+##### 상호배제
+
+- 한 스레드가 공유자원에 접근할 때는 다른 스레드가 접근하지 못도록 막아주는 것.
+
+
+
+
+
 ### 11. 프로그래밍 언어
+
+
+
+##### C
+
+- 컴파일러
+
+![컴파일러](https://thebook.io/img/006950/231.jpg)
+
+- 내 말 듣고, 정리해서 , 오타확인하고 , 컴퓨터한테 알려주는 방식
+
+
+
+##### 파이썬
+
+- 인터프리터.
+
+![파이썬컴파일](https://thebook.io/img/006950/231_2.jpg)
+
+- 바로 옆에서 내말을 통역해주는 통역사느낌.
+
+
+
+
 
 ### 12. 자료구조1
 
