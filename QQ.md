@@ -27,11 +27,6 @@
 
 
 
-19.07.12
-
-- java 람다식, javaIo
-
-
 
 
 19.07.15
@@ -68,10 +63,6 @@
 
 - javascript_ 일급 객체
 - 콜백함수 <https://satisfactoryplace.tistory.com/18> , <https://jybaek.tistory.com/728>
-
-19.07.30
-
-- DOM에 대해
 
 
 
@@ -110,11 +101,21 @@
 08.27
 
 - JAVA JVM등에 대해
-- java collection 
+- java collections framwork
+   - https://n1tjrgns.tistory.com/179?category=839606
    - https://jeong-pro.tistory.com/18
    - https://gangnam-americano.tistory.com/41
 - java 문자열 형변환 방법
    - https://m.blog.naver.com/PostView.nhn?blogId=yysvip&logNo=220105002997&proxyReferer=https%3A%2F%2Fwww.google.com%2F
-
 - 알고리즘 정리 https://gmlwjd9405.github.io/2018/05/08/algorithm-merge-sort.html
    - 대표적인 알고리즘...
+
+0905
+
+- spring-security 기본 구성, 흐름
+- java try-catch
+- java lamda
+- R vector
+
+- java generic. 왜? 어떻게 사용
+- 
