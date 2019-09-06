@@ -726,6 +726,8 @@ public class CountCells {
    - 시간 복잡도 O(n^2)
 
      **T(n) = (n-1) + (n-2) + … + 2 + 1 = n(n-1)/2 = O(n^2)**
+     
+     
 
 3. **Insertion Sort**
 
@@ -1207,6 +1209,7 @@ for(int s =1; i=0; i<=k; i++)
   왜?
 
 - 시간복잡도O(d(n+k))
+  
   - d 상수 k <n 이면, 성립함
 
 
@@ -1238,8 +1241,9 @@ for(int s =1; i=0; i<=k; i++)
   - int 이외의 다른 **primitive type(double, char등)** 에 대해서도 제공한다.
 
 - 객체의 정렬 : 문자열
-  - java에서 객체는 semi - primitive type이라 할 수도 있겠음
-
+  
+- java에서 객체는 semi - primitive type이라 할 수도 있겠음
+  
 - ArrayList : 문자열
 
   - collection class

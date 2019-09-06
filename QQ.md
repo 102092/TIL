@@ -10,8 +10,6 @@
 
 - 동적 페이지,정적페이지 차이 
 
-- standalone
-
 - webcontainer구성
 
 - spring lifecycle
@@ -86,12 +84,6 @@
 
 
 
-08.16
-
-- 직렬화 ,역직렬화 http://woowabros.github.io/experience/2017/10/17/java-serialize.html
-
-
-
 08.19
 
 - compareTo에 대해 https://m.blog.naver.com/PostView.nhn?blogId=cheesedrive&logNo=220148513502&proxyReferer=https%3A%2F%2Fwww.google.com%2F
@@ -115,7 +107,13 @@
 - spring-security 기본 구성, 흐름
 - java try-catch
 - java lamda
-- R vector
-
 - java generic. 왜? 어떻게 사용
-- 
+
+
+
+0906
+
+- java vector class 정리 https://hyeonstorage.tistory.com/208
+- [https://hyeonstorage.tistory.com/category/==%20JAVA%20==/JAVA](https://hyeonstorage.tistory.com/category/== JAVA ==/JAVA)
+
+- Java I/O [https://hyeonstorage.tistory.com/category/%3D%3D%20JAVA%20%3D%3D/JAVA%20I/O](https://hyeonstorage.tistory.com/category/%3D%3D JAVA %3D%3D/JAVA I/O)
