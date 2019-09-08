@@ -728,8 +728,310 @@ class ListIterator(){
     }
     
     public Object next(){
+        lastReturned = next;
+        next = next.next;
+        nextIndex++;
+        return lastReturned.data;
         
     }
+}
+```
+
+
+
+### iterator hasNedt
+
+![1567945161088](Data Structure.assets/1567945161088.png)
+
+- tail.next? return 값은 있음. 
+- `size` > nextIndex 이라면 next 메서드가 작동할 것이고
+  - 아니면 더이상 가져올 값이 없을 것이다.
+
+```java
+public ListIterator listIterator(){
+    return new ListIterator();
+}
+class ListIterator(){
+    private Node next;
+    
+    ListIterator(){
+        next = head;
+    }
+    
+    public Object next(){
+        lastReturned = next;
+        next = next.next;
+        nextIndex++;
+        return lastReturned.data;
+        
+    }
+    public boolean hasNext(){
+        return nextIndex <size();
+    }
+}
+```
+
+- Double Linked List는 메모리를 더 많이 사용한다..
+
+
+
+### iterator add
+
+- `iterator` 를 진행하던 중간에 add를 끼어넣는 메서드
+- 첫번째 노드로 추가되도록
+
+```java
+public ListIterator listIterator(){
+    return new ListIterator();
+}
+class ListIterator(){
+    private Node next;
+    
+    ListIterator(){
+        next = head;
+    }
+    
+    public Object next(){
+        lastReturned = next;
+        next = next.next;
+        nextIndex++;
+        return lastReturned.data;
+        
+    }
+    public boolean hasNext(){
+        return nextIndex <size();
+    }
+    
+    public void add(Object input){
+        Node newNode = new Node(input);
+        
+        if(lastReturned =null){
+        //처음위치에 노드가 추가될때
+            head = newNode;
+            newNode.next = next;
+        }else{
+        //중간에 노드가 추가될때
+            lastReturned.next = newNode;
+            newNode.next = next;       
+        }
+        lastReturned = newNode;
+        nextIndex++;
+        size++;
+    }
+}
+```
+
+
+
+
+
+### iterator remove
+
+- 어떤것이 삭제될것인가?
+- lastReturned?
+
+```java
+public ListIterator listIterator(){
+    return new ListIterator();
+}
+class ListIterator(){
+    private Node next;
+    
+    ListIterator(){
+        next = head;
+    }
+    
+    public Object next(){
+        lastReturned = next;
+        next = next.next;
+        nextIndex++;
+        return lastReturned.data;
+        
+    }
+    public boolean hasNext(){
+        return nextIndex <size();
+    }
+    
+    public void add(Object input){
+        Node newNode = new Node(input);
+        
+        if(lastReturned =null){
+        //처음위치에 노드가 추가될때
+            head = newNode;
+            newNode.next = next;
+        }else{
+        //중간에 노드가 추가될때
+            lastReturned.next = newNode;
+            newNode.next = next;       
+        }
+        lastReturned = newNode;
+        nextIndex++;
+        size++;
+    }
+    public void remove(){
+        if(nextIndex ==0){
+            throw new IllegarlstateException();
+        }
+        LinkedList.this.remove(nextIndex-1);
+        nextIndex--;
+    }
+}
+```
+
+
+
+## Doubly Linked List
+
+- 양방향
+  - 이전을 알 수 있도록 해놨음(previous, next..)
+- **Previous Link Field가 추가**되었다.
+
+![1567947067999](Data Structure.assets/1567947067999.png)
+
+- 조회하는 노드의 숫자에 따라서, next로 할지, 아니면 previous로 할지 고려해볼 수 있을 것이다.
+
+- 단점은?
+  - 메모리를 더 많이 사용한다 왜? previous field때문에
+  - 좀 더 복잡하다.
+    - 그럼에도 불구하고 일반적인 어플리케이션에서 많이 사용한다.
+
+- 단방향 리스트와 추가, 삭제는 컨셉이 거의 비슷. 다만 조금 더 복잡한 몇 과정이 추가되었을 뿐.
+
+
+
+### 구성
+
+![1567947640620](Data Structure.assets/1567947640620.png)
+
+### add
+
+```java
+public void (int k,Object input){
+    if(k==0){
+        addFirst(input);
+    }else{
+        Node temp1 = node(k-1);
+        Node temp2 = temp.next;
+        Node newNode = new Node(input);
+        temp1.next = temp2;
+        if(temp2 != null){
+            temp2.prev = newNode;
+        }
+        newNode.prev = temp1;
+        size++;
+        if(newNode.next == null){
+            tail = newNode;
+        }
+    }
+}
+```
+
+- size의 크기에 따라서, index> size/2 이면, tail에서 부터 찾도록 이런방식으로
+
+  
+
+```java
+Node node(int index){
+    if(index < size/2){
+        Node x = head;
+        for(int i = 0l i < index; i++){
+            x = x.next;
+        }
+    }else{
+        Node x = tail;
+        for(int i= size-1; i >index; i--){
+            x=x.prev;
+        }
+    }
+}
+```
+
+
+
+### remove
+
+```java
+public Object remove(int k){
+    if(k==0){
+        return removeFirst();   
+    }
+    Node temp = node(k-1);
+    Node todoDeleted = temp.next;
+    temp.next = temp.next.next;
+    temp.next.prev = temp;
+    Object returnData = todoDeleted;
+    if(todoDeleted == tail){
+        tail = temp;
+    }
+    todoDeleted = null;
+    size--;
+    return returnData;
+}
+```
+
+
+
+### iterator has previous
+
+```java
+public boolean hasPrevious(){
+    if(nextIndex>0){
+        return true;
+    }else{
+        return false;
+    }
+}
+public Object(){
+    if(next == null){
+        lastReturned = next = tail;
+    } else{
+        lastReturned = next = next.prev;
+    }
+    nextIndex--;
+    return lastReturned,data;
+}
+```
+
+
+
+### iterator add
+
+### iterator remove
+
+```java
+public void remove(){
+    if(nextIndex ==0){
+        throw new IllegalStateException();
+    }
+    Node n = lastReturned.next;
+    Node p = lastReturned.prev;
+    
+    if(p==null){
+        head = n;
+        head.prev = null;
+        lastReturend = null;
+    }else{
+        p.next = next;
+        lastReturned.prev = null;
+    }
+    
+    if(n==null){
+        tail = p;
+        tail.next =null;
+    }else{
+        n.prev = p;
+    }
+    if(next ==null){
+        lastReturend =tail;
+    }else{
+      lastReturned next.prev;  
+    }
+    
+    n.prev = p;
+    lastReturned = next.prev;
+    size--;
+    nextIndex--;
+    
 }
 ```
 
