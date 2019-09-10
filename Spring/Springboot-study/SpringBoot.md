@@ -212,5 +212,39 @@ public UserRepository(JdbcTemplate jdbcTemplate){
 
 - ThreadLocal이 무엇인지 알아보기.
 
+- [참고](http://wonwoo.ml/index.php/post/907)
 
+```java
+{
+    int a = 10;
+    ...
+   // 블록 내에서 a 변수 사용 가능
+}
+// 변수 a는 위 코드 블록이 끝나면 더 이상 유효하지 않다. (즉, 수명을 다한다.)
+```
+
+- 클로저랑 비슷한가?
+- 특정 쓰레드가 실행되는 환경에서 설정된 `local  변수`값을 모두 사용할 수 있음을 의미하는 것.
+
+#### 기본개념
+
+- 접근주체 principal, 보호된 리소스에 접근하는 사용자.
+  - Authentication으로 추상화
+- 인증 Authentication , 현재 사용자가 누구인지 식별한다.
+  - AuthenticationManager, AuthenticationProvider
+- 인가 Authorize 현재 사용자가 보호된 리소스에 접근할 권한이 있는지 확인
+  - AccessDecisionManage, AccessDecisionVoter
+- GrantedAuthority
+  - 인증된 사용자의 인증정보(역할, 기본 고객인지 운영자인지 등등) 을 토현
+- SecurityContext
+  - 접근주체, 인증정보를 담고 있는 context
+  - ThredLocal에 보관, SecurityContextHolder를 통해 접근할 수 있음.
+
+#### spring-security 요청처리 절차
+
+![](https://t1.daumcdn.net/cfile/tistory/144E8D474F976A3F1D)
+
+#### 주요 필터
+
+![1568096625223](SpringBoot.assets/1568096625223.png)
 
