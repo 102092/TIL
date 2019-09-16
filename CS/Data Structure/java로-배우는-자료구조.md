@@ -1,4 +1,4 @@
-## 3. 상속(Inheritance)
+## 3.1 상속(Inheritance)
 
 - 무언가를 부모로 부터 상속 받는다.
 - 그래서 코드의 중복을 피한다.
@@ -77,3 +77,61 @@ Computer theComputer = new Notebook("Bravo",....);
   - 실제로 코드를 실행할 때 결정을 내리면, dynamic
 - Java에서는 항상 동적 바인딩을 함(dynamic binding)
   - 변수의 타입이 문제가 아니라, 이 변수가 실제로 가리키고 있는 객체의 메서드가 호출됨
+
+
+
+## 3.3 클래스 Object, Wrapper 클래스
+
+### Object
+
+- 클래스는 계층적으로 구성되어있음
+- Java의 모든 클래스는 `Object` 클래스를 상속받는다
+  - 그러면 내가 만들어주지 않아도, `equals` , `toString` 메서드를 가지고 있음.
+  - 내가 원하는 대로 작동하기 위해서는 `Override`을 해야함
+
+- `equals(Object)` 
+  - 객체들의 주소를 비교하여 같은 주소인지 확인하는 메서드
+- `getClass`
+  - 동일한 클래스인지 검사
+
+
+
+### Wrapper
+
+- Java에서 primitive type 데이터와, non-primitive type데이터가 근본적으로 처리됨.
+- Object 타입의 변수에는 어떠한 객체든 참조할 수 있음. 저장할 수 있음.
+  - 그렇지만 int,double, char등의 primitive type 데이터는 저장할 수 없음.
+  - 그러면 primitive타입의 데이터를 저장하려하면? 이걸 객체로 만들어주면됨.
+- 이때 `Wrapper` 클래스를 사용한다.
+  - 포장하다.
+
+```java
+int a =20;
+Integer age = new Integer(a); //객체로 int 20을 만들었음 wrapping
+//다형성에 의해서 배열(object)에 저장할 수 있게됨.
+
+//포장한 객체를 다시 int로 풀려면?
+int b = age.intValue(); //unwrapping
+
+```
+
+- 데이터 타입간의 변환기능을 제공
+
+```java
+String str = "1234";
+int c = Integer.parseInt(str);
+```
+
+
+
+#### Autoboxing, unboxing
+
+```java
+int a = 20;
+//Integer age = new Integer(a);
+
+array[0] = a; //autoboxing
+
+int b = (Integer) array[0] //autounboxing
+```
+
