@@ -135,3 +135,57 @@ array[0] = a; //autoboxing
 int b = (Integer) array[0] //autounboxing
 ```
 
+
+
+## 3.4 추상클래스, 인터페이스
+
+### 추상클래스
+
+- `abstract method?`
+  - 선언만 되어있고, 구현되어있지 않을 때
+
+- `abstract class?`
+
+  - `abstract method` 하나라도 가지고 있는 `class` 
+
+- <u>추상클래스는 객체를 만들 수 없다</u>
+
+  = new 명령어로, instance를 만들수 없다
+
+  - 그런 클래스가 왜 필요할까?  클래스는 객체를 만들기 위함인데.
+  - 따라서 실제로 객체를 만들수는 없고, 클래스를 확장해서 **서브 클래스를 만드는 용도**로 사용됨
+
+![1568727839327](java로-배우는-자료구조.assets/1568727839327.png)
+
+
+
+### 인터페이스
+
+- 본질적으로 추상클래스와 비슷하지만, 좀 더 극단적인 형태다.
+  - 어떤의미에서?
+  - **오로지 추상 메서드로만 이루어진 클래스**를 인터페이스라 한다.
+
+- `static final` 테이터 멤버(상수) 를 가질 수 있다
+
+```java
+public interface Payble{
+    public double calcSalary(); //abstract 선언을 할 필요 없음
+    public boolean salaried();
+    public static final double DEDUCTIONS =25.5;
+}
+
+public class Professor implements Payble {
+    //추상클래스는 extends 지만, 인터페이스는 implement
+    //Payble 인터페이스 안에 정의되어있는 인터페이스를 구현해 줄 것이다.
+    
+    public double calcSalary(){....}
+    public boolean salaried(){...}
+}
+```
+
+
+
+- 예제
+
+![1568728350876](java로-배우는-자료구조.assets/1568728350876.png)
+
