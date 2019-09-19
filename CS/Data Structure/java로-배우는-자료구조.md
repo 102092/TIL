@@ -142,8 +142,9 @@ int b = (Integer) array[0] //autounboxing
 ### 추상클래스
 
 - `abstract method?`
-  - 선언만 되어있고, 구현되어있지 않을 때
-
+  
+- 선언만 되어있고, 구현되어있지 않을 때
+  
 - `abstract class?`
 
   - `abstract method` 하나라도 가지고 있는 `class` 
@@ -154,6 +155,8 @@ int b = (Integer) array[0] //autounboxing
 
   - 그런 클래스가 왜 필요할까?  클래스는 객체를 만들기 위함인데.
   - 따라서 실제로 객체를 만들수는 없고, 클래스를 확장해서 **서브 클래스를 만드는 용도**로 사용됨
+  
+- 추상클래스는 `extends` 가 되고
 
 ![1568727839327](java로-배우는-자료구조.assets/1568727839327.png)
 
@@ -164,8 +167,8 @@ int b = (Integer) array[0] //autounboxing
 - 본질적으로 추상클래스와 비슷하지만, 좀 더 극단적인 형태다.
   - 어떤의미에서?
   - **오로지 추상 메서드로만 이루어진 클래스**를 인터페이스라 한다.
-
 - `static final` 테이터 멤버(상수) 를 가질 수 있다
+- 인터페이스는 `implements` 됨
 
 ```java
 public interface Payble{
@@ -189,3 +192,49 @@ public class Professor implements Payble {
 
 ![1568728350876](java로-배우는-자료구조.assets/1568728350876.png)
 
+
+
+- 버블소트
+
+```java
+public void bubbleSort(){
+    for(int i=n-1; i>0; i--){
+        for(int j=0; j<i; j++){
+            if(shapes.computeArea() > shapes[j+1].computeArea()){
+                Shape tmp = shapes[j];
+                shapes[j] = shapes[j+1];
+                shapes[j+1] = tmp;
+            }
+        }
+    }
+}
+```
+
+- 이 버블소트는 generic 하지 않다.
+  - 왜? shape데이터만 정렬할 수 있으니까
+  - 제네릭하게 만들어주면, 코드 재사용에 편할것
+
+
+
+#### Comparable 
+
+```java
+public interface Comparable{
+    int compareTo(Object o);
+}
+```
+
+- 이러한 `comparable`은 java API에 정의되어있음
+
+
+
+### Inteface vs Abstract Class
+
+- 둘이 완벽하게 같진 않음.
+- 가장 중요한 차이점은 **다중 상속** 여부
+- 기본적으로 다중상속을 허용하지는 않지만, 경우에 따라서 <u>학생</u>이면서 <u>직장인</u>인 경우가 있으니까..
+
+- 두개이상의 클래스를 extends 하는 것은 허용하지 않음.
+- 그렇지만 **두개이상의 인터페이스는 implements 하는 것은 허용**함
+- 왜? 인터페이스에는 내용이 없다. 아무 내용이 없이 이름만 있음.
+- 이럴 경우 다중상속에서 발생하는 같은 이름의 메소드등이 겹칠경우에 발생하는 문제를 해결
