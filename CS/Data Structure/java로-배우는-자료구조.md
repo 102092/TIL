@@ -238,3 +238,121 @@ public interface Comparable{
 - 그렇지만 **두개이상의 인터페이스는 implements 하는 것은 허용**함
 - 왜? 인터페이스에는 내용이 없다. 아무 내용이 없이 이름만 있음.
 - 이럴 경우 다중상속에서 발생하는 같은 이름의 메소드등이 겹칠경우에 발생하는 문제를 해결
+
+
+
+## 3.5  Generic
+
+- 데이터 형식에 의존하지 않고,,, 좀 더 포괄적이거나, 나중에 데이터 타입을 지정할 수 있는 코드, 프로그램을 일컫는 말. (두루뭉실)
+- Generic한 자료구조, 하나의 변수에, 서로다른 타입의 객체가 저장될 수 있도록 하는 것..
+- Generic한 메서드, 
+- Generic 클래스
+
+```java
+public class Box<T>{ //가상타입이 T이다
+    //실제로 이 클래스의 내용은 특별한 것이 없음.
+    private T t;
+    public void set(T t) {this.t = t;}
+    public T get() {return t;}
+}
+
+Box<Integer> integerBox = new Box<Integer>(); //그 T타입을 Integer라고 선언해준다.
+integerBox.set(new Integer(10));
+Box<Event> eventBox = new Box<Event>();
+eventBox.set(new OneDayEvent("dinner", new MyDate(2017,2,10)));
+```
+
+
+
+```java
+public class Pair<K,V>{ //2개 이상의 type parameter를 지정
+    private K key;
+    private Y value;
+    public void set(K key, V value) {this.key= key; this.value =value}
+    public K getKey() {return key;}
+    ....
+}
+
+//객체를 생성하는 시점에서 가상의 타입을 실제 타입으로 지정해줌
+Pair<String, Integer> p1 = new Pair<String, Integer>..
+```
+
+
+
+**Object vs Generic**
+
+```java
+public class Box{
+    private Object t;
+    ....
+}
+Box box = new Box();
+box.set(new Integer(10));
+Integer a = (Integer) box.get(); //casting을 통해 generic한 효과를 노릴 수 있음.
+```
+
+- 그런데, `type casting` 을 많이하는 프로그램을 좋은 것이 아님.
+  - `genetic` 을 이용하는 것이 좀 더 안정적임
+
+
+
+####  리스트 클래스
+
+- `LIst` 
+  - 여러개의 데이터를 저장
+  - 임의의 위치에 데이터를 추가, 삭제, 읽을 수 있고,
+  - 용량에 제한이 없음.
+  - 인터페이스
+
+- `ArrayList`  LIst계열을 구현한 자료구조중 하나
+
+- `get, set, indexOf, add` 등의 메소드가 있음.
+
+
+
+```java
+public class MyArrayList<E>{
+    private static final int INIT_CAPACITY = 10;
+    private E [] theData;
+    private int size;
+    private int capacity = INIT_CAPACITY;
+    
+    public MyArrayList(){
+        theData = new Object [INIT_CAPACITY]; // E쓰면 오류
+      	size = 0;    
+    }
+    public void add(int index, E anEntr){//지정한 위치
+        if(index <0 || index > size)//error, exception
+            throw new ArrayIndexOutOfBoundsException(index); //exception handling                    
+        if(size >= capacity)
+            reallocate();
+        
+        for(int i = size-1; i>=index; i--){
+            theData[i+1] = theData[i];
+            theData[index] = anEntry;
+        }
+    }
+    public void add(E enEntry){//맨뒤에
+        add(size, enEntry);
+    }
+    public void reallocate(){
+        capacity *= 2;
+        theData = Arrays.copyOf(theData, capacity);
+        
+    }
+    public int size(){
+        return size;
+    }
+    public int indexOf(E anEntry){
+        for(int i = 0; i <size; i++){
+            if(theData[i].equals(anEntry)) //실제로 존재하지 않는 클래스 E를 비교하려면 equals를 사용해야함
+                return i;
+            return -1;
+        }
+        
+    }
+}
+```
+
+- `new` 다음에 <u>실제 존재하는 타입이 아닌,</u> 가짜 타입 파라미터는 쓸 수 없음.
+  - 그럼 어떻게? `Object`type 으로 만든다. 그럼 아무 타입이나 저장할 수 있으니까
