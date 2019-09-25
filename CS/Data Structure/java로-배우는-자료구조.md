@@ -356,3 +356,143 @@ public class MyArrayList<E>{
 
 - `new` 다음에 <u>실제 존재하는 타입이 아닌,</u> 가짜 타입 파라미터는 쓸 수 없음.
   - 그럼 어떻게? `Object`type 으로 만든다. 그럼 아무 타입이나 저장할 수 있으니까
+
+- `vector` 보다 `arrayLIst` 를 사용하는 것이 효과적
+  - 단 `vector` 클래스는 다수의 thread 가 충돌없이 vector클래스에 엑세스 할 수 있다는 것이 차이점.
+  - 병렬성을 지니고 있음.
+
+## 4. 연결리스트(LinkedList)
+
+- List 
+  - 삽입, 삭제, 검색
+  - 리스트를 구현하는 대표적인 두가지방법이 배열(ArrayList)과 연결리스트(LinkedList)
+
+- 배열의 단점.
+  - 크기가 고정적 즉 `reallocation` 이 필요하다.
+  - 리스트의 중간에 원소를 삽입하거나, 삭제할 경우 다수의 데이터를 옮겨야 -> 메모리가 많이 듬.
+
+- 연결리스트
+  - 다른 데이터의 이동없이, **중간에!** 삽입, 삭제가 가능.
+  - 길이의 제한이 없당.
+    - 그러나 랜덤 엑세스가 불가능.,
+
+![image-20190925124134211](java로-배우는-자료구조.assets/image-20190925124134211.png)
+
+- 배열은 차례차례 저장되지만,
+- 연결리스트는 차례대로 저장되진 않음. 그렇지만 연결되는 다음값도 저장됨.
+
+### 노드
+
+- 데이터(데이터필드), 그 다음 데이터주소값(링크필드)이 한쌍의 값으로 저장됨.
+  - 이러한 것은 클래스로 저장되고.
+- 첫번째 노드의 주소는 따로 저장해야함. 왜? 이걸 잃어버리면 다른 데이터 들이 어디에 있는 지 찾을 수가 없음.
+  - 그래서 `head` 라 지정함.
+
+![image-20190925130030367](java로-배우는-자료구조.assets/image-20190925130030367.png)
+
+
+
+```java
+public class Node <T> {
+  public T data;
+  public Node<T> next;
+  
+  //생성자
+  public Node(T item){
+    data = item;
+    next = null;
+  }
+}
+```
+
+```java
+public class MySingleLinkedList<T>{
+  //첫번째 노드의 주소.
+  //모든 Node Class가 저장되는 것은 아닐 것.
+  public Node<T> head;
+  public int size;
+  
+  public MysingleLinkedList(){
+    head = null;
+    size = 0;
+  }
+  
+  public void addFirst(T item){
+    //1. 새로운노드를 만들고, 데이터를 저장한다.
+    //2. 새로운 노드의 next필드가 현재 head노드를 가르키도록 한다.
+    //3. 새로운 노드를 head로 선언한다.
+    //순서가 중요하다.
+    Node <T> newNode = new Node<T>(item);
+    newNode.next = head;
+    head = newNode;
+    size++;
+  }
+  
+  public void addAfter(Node<T> before, T item){
+    //1. 새로운노드를 만들고, 데이터를 저장한다.
+    //2. 새로운 노드의 next필드가 before의 다음 노드를 가르키도록 한다.
+    //3. 새로운 노드의 before의 다음 노트로 만든다.
+    Node<T> temp = new Node<T>(item);
+    temp.next = before.next;
+    before.next = temp;
+    size++;
+  }
+  
+  public T removeFirst(){
+    //1. head가 null이 아니라면,
+    //2. head.next 노드가 head가 되면 되니까.
+    
+    if(head == null) {
+       return null;
+    }else{
+      T temp = head.data;
+      head = head.next;
+      return temp;
+      size--;
+    }
+
+    
+  }
+  public T removeAfter(Node<T> before){
+    //before이 가리키는 노드의 다음 노드를 삭제한다.
+    if(before.next == null){
+      return null;
+    }
+    T temp = before.next.data;
+    before.next = temp.next;
+    return temp;
+    size--;
+  }
+  
+  //삽입
+  public void add (int index, T item){ //T type parameter
+    Node <T> newNode = new Node<T>(item); //생성가능 , T를 타입패러미터로 가지는 다른 클래스를 생성하는 것은 문제 없음.
+    Node <T> [] arr = new Node<T>[100]; //성립하지 않음.
+    
+    T t = new T(); //성립하지 않음 T타입의 배열, 객체 생성할 수 없음.
+    T [] = new T[100];//no ok
+  }
+  //삭제
+  public void remove(int index){
+    
+  }
+  //검색
+  public int indexOf(T item){
+    
+  }
+  
+  public T get(int index){
+    
+  }
+  
+  
+  public static void main(String[] args){
+    
+  }
+}
+```
+
+
+
+- 연결리스트를 다룰 때 가장 중요한 점.
+  - 반드시 특수한 경우(head가 null일 경우.., 연결리스트에 노드가 하나도 없을 경우)를 생각한다.
