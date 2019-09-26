@@ -296,7 +296,7 @@ Integer a = (Integer) box.get(); //casting을 통해 generic한 효과를 노릴
 
 
 
-####  리스트 클래스
+###  리스트 클래스
 
 - `LIst` 
   - 여러개의 데이터를 저장
@@ -496,3 +496,115 @@ public class MySingleLinkedList<T>{
 
 - 연결리스트를 다룰 때 가장 중요한 점.
   - 반드시 특수한 경우(head가 null일 경우.., 연결리스트에 노드가 하나도 없을 경우)를 생각한다.
+
+### indexOf
+
+```java
+public int indexOf(T item){
+    Node<T> p = head; //p는 첫번째 헤드
+    int index = 0;
+    while(p!=null){
+        if(p.data.equals(item))
+            return index; 
+        p=p.next; //linkedlist에서 가장 많이 쓰는 구절.. ! 뜻은 p를 한칸 전진시키고.
+        index++;
+    }
+    return -1; //동일한 데이터를 찾지 못했을 때,
+}
+```
+
+
+
+### getNode
+
+- `node`를 리턴하는.
+
+```java
+public Node<T> getNode(int index){ //인덱스만큼 전진하여, node를 받는
+    if(index < 0 || index >= size)
+        return null;
+    Node<T> p = head;
+    for(int i = 0; i < index; i++) 
+        p = p.next;
+    return p;
+}
+```
+
+
+
+### get
+
+- index에 해당하는 노드의 데이터를 리턴하는
+
+```java
+public T get(int index){
+   if(index < 0 || index >= size)
+       return null;
+//    Node<T> p = head;
+//  for(int i = 0; i < index; i++) 
+//      p = p.next;
+//  return p.data;
+   
+    getNode(index).data; //한줄로 줄일 수 있음.
+
+}
+```
+
+
+
+### add
+
+```java
+public void add(int index, T item){
+    if(index < 0 || index > size){
+        return;
+    }
+    if(index == 0){
+        addFirst(item)
+    }else{
+        Node<T> node = getNode(index-1);
+        addAfter(node,item);
+    }
+}
+```
+
+
+
+### remove
+
+```java
+public T remove(int index){
+  	if(index < 0 || index > size){
+        return null;
+    }
+    if(index==0)
+        return removeFirst();
+    Node<T> prev = getNode(index-1);
+    return removeAfter(prev);
+
+}
+```
+
+
+
+### remove(T item)
+
+```java
+public T remove(T item){
+    Node<T> p = head, q = null;
+    while(P!null && p.data.equals(item)){
+        q=p;
+        p=p.next;
+    	//삭제할 노드를 찾았을 떄, q는 p의 직전 노드를 가리키고 있을 것.
+    }
+    if(p==null)
+        return null;
+    if(q==null)
+        return removeFirst();
+    else
+    	removeAfter(q);
+    
+}
+```
+
+- 2개 이상의 참조변수를 이용.
