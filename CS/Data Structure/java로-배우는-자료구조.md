@@ -376,7 +376,7 @@ public class MyArrayList<E>{
   - 길이의 제한이 없당.
     - 그러나 랜덤 엑세스가 불가능.,
 
-![image-20190925124134211](java로-배우는-자료구조.assets/image-20190925124134211.png)
+![20190925124134211](java로-배우는-자료구조.assets/image-20190925124134211.png)
 
 - 배열은 차례차례 저장되지만,
 - 연결리스트는 차례대로 저장되진 않음. 그렇지만 연결되는 다음값도 저장됨.
@@ -388,7 +388,7 @@ public class MyArrayList<E>{
 - 첫번째 노드의 주소는 따로 저장해야함. 왜? 이걸 잃어버리면 다른 데이터 들이 어디에 있는 지 찾을 수가 없음.
   - 그래서 `head` 라 지정함.
 
-![image-20190925130030367](java로-배우는-자료구조.assets/image-20190925130030367.png)
+![image-20190925130030367](java로-배우는-자료구조.assets/image-20190925130030367.png)
 
 
 
@@ -608,3 +608,38 @@ public T remove(T item){
 ```
 
 - 2개 이상의 참조변수를 이용.
+
+
+
+### 4.3 연결리스트, Iterator1
+
+#### 인터페이스와 구현 분리
+
+- 왜?
+
+- 코드를 깔끔하게 작성하기 위해서.
+
+- 인터페이스 구현체의 수정을 원활하게 하기 위해서.
+
+- 사용자는 Interface만 알면되고, Implementation(구현)에 대해서는 알 필요 없고, 알 수도 없게 하려고. 굳이 알 필요 없으니까.
+
+  ![1569932490628](java로-배우는-자료구조.assets/1569932490628.png)
+
+
+
+- inner class
+
+  ```java
+  private static class Node<T>{
+      public T data;
+      public Node<T> next;
+      
+      public Node(T item){
+          data = item;
+          next = null;
+      }
+  }
+  ```
+
+  - 외부 다른 클래스에서 접근하지 못하도록.
+  - 
