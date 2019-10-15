@@ -785,3 +785,145 @@
 
   ![1570968637043](ewha-os.assets/1570968637043.png)
 
+## 6. Process synchroniztion
+
+
+
+### 프로그램적 해결법의 충족 조건
+
+1. Mutual Exclusion (상호 배제)
+
+- 어떤 프로세스가 critical section에 들어가있으면, 다른 프로세스는 들어가면 안됨.
+
+2. Progress (진행)
+
+- critical section에 아무런 프로세스가 없는 상태에서, 들어가고자 하는 프로세스가 있으면 critical section에 들어가도록 허락해줘야함
+
+3. Bounded Waiting(유한 대기)
+
+- 특정 프로세스가 critical section에 들어가려하는데, 마냥 기다리지 않도록 해야함.
+
+
+
+### Algorithm 1
+
+![1571138997828](ewha-os.assets/1571138997828.png)
+
+- Process P0, P1이렇게 코드가 두가지 있다고 가정함. (같은 코드로)
+- while문을 돌면서 체크함.
+  - turn 어떤 프로세스 차례인가? 프로세스 0번,  프로세스 1번???
+  - 0번차례가 아니면, while문을 돌면서 계속 기다림
+- turn이 0이면, crtical section에 들어갔다나
+- 나오면 turn을 1로 바꿔줘서 상대방 차례로 바꿔줌
+- if 프로세스마다 critical section에 들어가고자 하는 빈도수가 다를 수 있음.
+  - 그럼 상대방이 turn을 바꿔주지 않으면, 들어갈 수가 없음.
+  - 즉 **2. Progress** 조건을 만족하지 않음.
+
+
+
+### Algorithm2
+
+![1571139297670](ewha-os.assets/1571139297670.png)
+
+- flag 사용
+- flag == true이면 critical section에 들어가고 싶은 의사표시
+- 상대방의 플래그를 체크하고
+- true이면 기다리고, 아니면 자신이 들어감
+- 자신이 들어갔다가 나오면 자신의 플래그를 false로 바꿔줌
+
+- 둘다 깃발만 들고 있지, critical section에 들어가지 않았으면 진행이 되지 않음. 즉 2번 조건을 만족하지 못함
+
+
+
+### Algorithm3 (Peterson's Algorithm)
+
+![1571139474865](ewha-os.assets/1571139474865.png)
+
+- **flag, turn** 두가지를 사용함
+- while문을 돌고있는 프로세스는 계속 flag , turn을 체크함. 상대방이 나올때까지 변할리가 없으니까. 그럼 *비효율적* -> Busy Waiting
+
+
+
+### Synchonization Hardware
+
+![1571139755707](ewha-os.assets/1571139755707.png)
+
+- 문제는 프로세스가 쓰기와 읽기를 동시에 못하는 것. 그래서 이부분을 지원해주면 위의 문제가 해결됨.
+- 하드웨어적으로 지원해줌
+
+- 읽어서, 값을 변경해주는 atom하게 인스턱션을 지원해줌
+- <u>들어갈 때 lock을 걸고, 빠져 나올 때 lock을 풀어줄 수 있게 코드가 간결</u>하게 바뀐다.
+
+
+
+###  Semaphores
+
+- 추상자료형
+  - Object와 Operation으로 구성됨
+  - 논리적으로 정의하는 거지, 실제로 구현된 것과는 다른 의미
+
+- Semaphore S도 추상자료형
+
+  - P,V연산으로 Operation을 구성함
+
+  ![1571140044150](ewha-os.assets/1571140044150.png)
+
+  - 프로그래머가 좀 더 간편하게, Lock을 사용할 수 있도록.
+  - 그렇지만...
+
+### Critical Section of n Processes
+
+![1571140273950](ewha-os.assets/1571140273950.png)
+
+
+
+- 세마포어를 획득할 수 없으면, 그 프로세스를 block하고,
+- 이제 세마포어를 획득할 수 있으면 잠들어 있는 프로세스를 wakeup 함
+
+![1571140398679](ewha-os.assets/1571140398679.png)
+
+- L? 프로세스를 연결하는 리스트
+
+
+
+### Implementation
+
+![1571140418816](ewha-os.assets/1571140418816.png)
+
+- 어떤 프로세스가 세마포어를 획득하려 하는데  S.value<0이면 즉 자원을 쓰고 있는 프로세스가 있으면, S.L에 이 프로스세를 연결해놓고 해당 프로세스를 block상태로 나둔다.
+
+- 그리고 어떤 프로세스의 자원을 증가시켰는데 s.value <=이라는 것은 P operation에 들어갔었음. 즉 잠들어있을 것 그러면 프로세스를 세마포어 리스트에서 빼고, 그 프로세스를 깨운다.
+
+- S.value < 0 ? 누군가가 세마포어를 획득하기 위해 기다리고 있다.
+- 양수면 세마포어를 획득해서 프로세스가 진행중에 있다.
+- S.value는 기다리고 있는 프로세스가 있는지 확인하는 용도
+
+### Which is better?
+
+![1571140723158](ewha-os.assets/1571140723158.png)
+
+
+
+### Semaphore 종류
+
+- 2가지 있음
+
+![1571140808074](ewha-os.assets/1571140808074.png)
+
+
+
+### Deadlock and Starvation
+
+- Semaphore 사용시 주의해야할 점
+
+![1571140886952](ewha-os.assets/1571140886952.png)
+
+- S,Q를 획득해야함
+- 그런데 P0, P1하나씩 쥐고 있으면서 자기것은 내놓지 않고 기다리고 있는 것 : **DeadLock..**
+  - 멈춘것.
+  - 어떻게 해결할까?
+  - Q를 획득하려면 S부터 먼저 획득하도록 만들어주면 됨.
+
+- Starvation
+  - 무한히 다른 자원을 얻지 못해서 진행하지 못하는
+  - Deadlock도 Starvation의 일종
