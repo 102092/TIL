@@ -927,3 +927,15 @@
 - Starvation
   - 무한히 다른 자원을 얻지 못해서 진행하지 못하는
   - Deadlock도 Starvation의 일종
+
+
+
+### Synchronization Problem
+
+1. Bounded-Buffer Problem
+
+2. Reader-Writers Problem
+3. Dining-Philosophers Problem
+
+
+
