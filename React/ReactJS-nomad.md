@@ -110,3 +110,133 @@ export default App;
   ```
 
   - 반드시 `propTypes`로 할것. 아니면 react가 읽지 못함
+
+## 3. State
+
+- dynamic data를 다루기 위해 필요한 것? state
+
+- baby extends human
+
+  - samsung extends cellphone
+  - extends? 기본적으로 공유하는 특성들을 부여한다음에 추가적으로 뭔가 만들려고 할때 상속?을 사용
+
+- class react component
+
+  ```javascript
+  class App extends React.Component {
+    render() {
+      return <h1>I'm class Component</h1>;
+    }
+  }
+  ```
+
+  - react 자동으로 class component 의 render method를 사용함
+
+- state는 object
+
+  - 변할 데이터는 state안에 넣는다.
+
+- <button onClick = {this.add} --> Class 안에 있는 add Function를 실행시킴 (단 눌렀을 때만)
+
+  - this.add() --> 즉시 실행시킴.
+
+- Do not mutate State directly
+
+  - 왜? 그렇게 변경하면 react가 render하지 않게됨. 
+  - 우리는 state를 변경함으로써 react가 바로 class를 Render기 원하지만.
+  - setState를 사용하지 않으면 render function이 작동하지 않을것.
+
+  ```javascript
+  class App extends React.Component {
+    state = {
+      count: 0
+    };
+  
+    add = () => {
+      this.setState({ count: 1 });
+    };
+    minus = () => {
+      this.setState({ count: -1 });
+    };
+    render() {
+      return (
+        <div>
+          <h1>The number is : {this.state.count}</h1>
+          <button onClick={this.add}>Add</button>
+          <button onClick={this.minus}>Minus</button>
+        </div>
+      );
+    }
+  }
+  ```
+
+  
+
+- current function arrow
+
+  ```javascript
+  class App extends React.Component {
+    state = {
+      count: 0
+    };
+  
+    add = () => {
+      this.setState(current => ({
+        count: current.count + 1
+      }));
+    };
+    minus = () => {
+      this.setState(current => ({
+        count: current.count - 1
+      }));
+    };
+    render() {
+      return (
+        <div>
+          <h1>The number is : {this.state.count}</h1>
+          <button onClick={this.add}>Add</button>
+          <button onClick={this.minus}>Minus</button>
+        </div>
+      );
+    }
+  }
+  
+  export default App;
+  
+  ```
+
+  - state.count에 직접 접근하지 않고, 현재값을 가져와서 그 현재값에 할당하는 방법
+  - state에 직접 접근할 수도 있지만 성능이슈가 있음. 멀티쓰레드 이슈도 있지 않을까???
+
+
+
+- Component LifeCycle
+  - component가 웹사이트에 갈때
+
+    1. constructor() 
+    2. render()
+
+    순으로 실행됨.
+
+  - render()될때
+
+    - componentDidUpdate()실행됨.
+
+
+
+#### 4. Making the Movie App
+
+- Axios : fetch위에 작은 레이어.
+- YTS Api 사용
+  - nomad coder에서 제공하는 proxy server : https://yts-proxy.now.sh/list_movies.json
+  - 왜 YTS Api 가 계속 바뀌어서.
+
+- async , await 같이 사용
+
+  ```javascript
+    getMovies = async () => {
+      const movies = await axios.get("https://yts-proxy.now.sh/list_movies.json");
+    };
+  ```
+
+  
