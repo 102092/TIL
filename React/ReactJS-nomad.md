@@ -224,7 +224,7 @@ export default App;
 
 
 
-#### 4. Making the Movie App
+## 4. Making the Movie App
 
 - Axios : fetch위에 작은 레이어.
 - YTS Api 사용
@@ -240,3 +240,5 @@ export default App;
   ```
 
   
+
+- class App component에 또 class있으면 헷갈리니까, className으로 명명해준다.
