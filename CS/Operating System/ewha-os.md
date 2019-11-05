@@ -55,6 +55,8 @@
 
 
 
+
+
 ### 운영체제 분류
 
 1. 동시 작업 가능 여부
@@ -1071,3 +1073,243 @@
   - 그래서 데드락이 발생하면 시스템이 대처하는 것이 아닌, 사용자가 대처하도록
   - 대부분의 Unix, Windows등이 이 방법을 사용하고 있음.
 
+
+
+## 8. Memory Management
+
+- 메모리 주소에는 논리적 주소, 물리적 주소가 있음.
+- Logical address 
+  - 프로세사 마다 독립적으로 가지는 주소 공간
+  - 0번지부터 시작
+  - CPU가 보는 주소.
+- Physical address
+  - 메모리에 실제 올라가는 위치.
+
+![image-20191105214633311](ewha-os.assets/image-20191105214633311.png)
+
+- Symbolic Address 
+
+
+
+### 주소 바인딩(Address Binding)
+
+- 3가지 방법을 통해 바인딩됨.
+
+1. Complie time binding
+2. Load time binding
+3. Execution time binding(=Run time binding)
+
+![image-20191105215103306](ewha-os.assets/image-20191105215103306.png)
+
+- 1번, complie시에 물리적 주소가 결정됨. 이 프로그램은 실행파일을 만들 때, 만든 주소를 반드시 사용되어야 한다. -> 불편하다.
+
+- 2번, 프로그램이 시작되어서 메모리에 올라갈 때 주소가 부여됨. 실행파일을 실행시에 메모리에 비어있는 소에서 부터 시작됨.
+- 3번, 2번과 같은 방식이나 주소가 중간에 변경될 수 있음.
+  - 지금 컴퓨터 시스템의 주소 바인딩 방식
+  - 주소변환을 위해서는 **하드웨어적** 지원이 필요함
+
+- CPU가 바라보는 주소는 **Logical Address**
+  - 왜?
+  - CPU가 logical address에 있는 주소를 요구할 때, logical address physical로 변환되어 전달되기 때문에 cpu는 logical address를 바라보고 있다고 말할 수 있다.
+
+
+
+### MMU
+
+- 주소 변환을 위한 하드웨어
+
+![image-20191105215855302](ewha-os.assets/image-20191105215855302.png)
+
+- 기본적인 주소 변환은 레지스터 2개를 가지고 진행함. relocation, limit register
+
+- 기본 위치를 저장해놨다가, logical address 더해서 physical memory에서 찾는다.
+- limit register ? 범위 밖에 있는 메모리 주소를 요구할 경우, 오류가 발생하니까 제한해놓는 것.
+
+
+
+### Hardware Support for Address Translation
+
+![image-20191105220159070](ewha-os.assets/image-20191105220159070.png)t
+
+- trap을 통해서, 범위 밖 메모리 주소를 요구하는 것을 방지한다.
+
+
+
+### Dynamic Loading
+
+- 프로그램을 메모리에 동적으로 올린다. 그때 그때 필요할 때 마다, 메모리에 올리는 방식.
+
+- 운영체제가 지원하는 것이 아니라, 프로그래머가 직접 만드는 것.
+  - 모든 부분을 만드는 것이 아니고, 운영체제에서 라이브러리 형태로 지원해줌.
+
+
+
+### Overlays
+
+- Dynamic Loading 과 비슷함. 어떤 면에서? 메모리에 세스 부분 중 실제 필요한 정보만을 올린다는 점에서.
+- 그렇지만 운영체제의 지원이 없고, 프로그래머가 모두 코드를 통해 짜야함.
+
+
+
+### Swapping
+
+- 프로세스를 일시적으로 메모리에서 backing store로 쫒아 내는 것.
+
+  - swap out, swap in
+
+  ![image-20191105220822127](ewha-os.assets/image-20191105220822127.png)
+
+- 어떤 프로그램을 쫒아낼까?
+  - CPU 우선순위가 낮은 프로그램
+
+
+
+### Dynamic Linking
+
+- Linking ? 여러군대 컴파일된 실행파일을 연결하는 것.
+- static linking
+  - 라이브러리가 내 실행코드에 포함이 되는 것
+- dynamic linking
+  - 라이브러리 코드가 내 코드가 컴파일 될 때, 포함되지 않고 있다가, 내 코드 안에 라이브러리를 찾을 수 있는 stub이라는 작은 코드를 나둠.
+  - 이러한 방법으로 내 실행파일이 실행되어 라이브러리가 필요하다면 stub을 통해 라이브러리 주소를읽어옴.
+  - 라이브러리가 이미 메모리에 있으면 그 루틴의 주소로 가면 되고, 없으면 디스크에서 읽어올 수 있도록함.
+
+
+
+### Allocation of Physical Memory
+
+- 물리적인 메모리를 어떻게 관리할 것인가?
+
+![image-20191105221605802](ewha-os.assets/image-20191105221605802.png)
+
+- 사용자 프로세스 영역의 할당 방법은?
+  1. Contiguous allocaiotn
+     - 각각의 프로세스가 메모리의 연속적인 공간에 적재되도록 하는 것.
+  2. Noncontiguous allocation
+     - 하나의 프로세스가 메모리의 여러영역에 분산되어 올라갈 수 있도록 함. 
+     - 현대 컴퓨터에서 사용 하는 방법
+
+### Contiguous Allocation
+
+- 연속 할당 방법에는 2가지 방식이 있음.
+
+![image-20191105221732485](ewha-os.assets/image-20191105221732485.png)
+
+
+
+- Hole
+
+  - 가용 메모리 공간
+  - 다양한 크기의 hole이 메모리 여러 곳에 있음.
+  - 이러한 hole을 운영체제는 관리해야함. 
+    - 각각 할당공간, 가용공간이 얼마인지
+
+- Dynamic Storage-Allocation Problem 을 이용하여 가변 분할 방식에서 size n인 요청을 만족하는 가장 적절한 hole을 찾게 도와줌.
+
+  - First -fit : 맨처음 찾는 hole을 할당
+  - Best -fit : 요구에 가장 근접한 hole을 할당함. 전체 홀을 다 살펴본다음에 시간이 좀 걸리겠네?
+
+  - Worst - fit : 가장 큰 hole을 할당. 어리석은 선택. 왜? 자원낭비!
+
+- compaction
+  - 조각 조각 생기는 홀들을 한 군데로 모아서, 큰 홀로 만들어주는 것.
+  - 디스크 조각 모음 느낌.
+  - 실행 중인 프로그램에 메모리는 미는 것이기 때문에 생각보다는 자원이 많이 드는 방법.
+
+
+
+### Noncontiguous allocation
+
+- 현대 컴퓨터에서 사용하는 방법임
+- 그 종류는 3가지 방법이 있고
+  1. Paging
+  2. Segmentation
+  3. Paged Segmentation
+
+
+
+### Paging
+
+![image-20191105222855410](ewha-os.assets/image-20191105222855410.png)
+
+- Paging Example
+
+![image-20191105223336733](ewha-os.assets/image-20191105223336733.png)
+
+- n번째 페이지를 변환하고 싶다? 테이블로 접근한 다음에 frame number를 알게됨.
+
+- Implementation of Page Table
+
+![image-20191105223904976](ewha-os.assets/image-20191105223904976.png)
+
+- 메모리접근 하기 위해서는 메모리 접근을 2번 해야된다는 것은 비용이 큰 것.
+- 그래서 TLB를 사용. 일종의 캐쉬. 주소 변환을 해주는 객층
+
+![image-20191105223950727](ewha-os.assets/image-20191105223950727.png)
+
+- 주소변환을 위한 별도의 캐쉬(Page table에 대한) 두고 있음 = TLB
+  - 페이지 테이블에서 빈번하게 접근하는 주소에 대한 캐쉬가 있음.
+  - 그래서 처음 시작 할 때는 TLB를 먼저 살펴보고, 있으면 바로 주소변환을 함. 
+  - 이러면 메모리에 1번만 접근하면 되겠지?
+
+- 그래서... Associative Register가 있음.
+
+![image-20191105224415053](ewha-os.assets/image-20191105224415053.png)
+
+
+
+- 페이지 테이블은 각각의 프로세스 마다 존재해야함
+- 그러면 TLB도 각각 존재해야함.
+  - flush를 통해서 비우는 과정이 필요함.
+
+
+
+- 메모리에 접근하는 시간은? (Effective Access Time)
+
+![image-20191105224545287](ewha-os.assets/image-20191105224545287.png)
+
+### 
+
+### Two-Level Page Table
+
+![image-20191105224725430](ewha-os.assets/image-20191105224725430.png)
+
+- 왜?
+  - 둘중 하나임. 속도를 빠르게 하던지, 공간을 효율적으로 사용하던지
+  - 아마 후자가 아닐까?
+
+- 메모리에는 주소가 byte단위로 매겨짐. 
+- 주소를 가지고 32비트를 쓰면, 32비트로 표현가능한 서로 다른 정보는 ? 2^32-1 을 표현할 수 있을 것.
+
+![image-20191105225201198](ewha-os.assets/image-20191105225201198.png)
+
+- 4GB 공간을 4K바이트로 쪼개면? 전체 몇개지? 100만개보다 좀더 큰 갯수가 page table entry갯수가 필요함.. 
+- 낭비로 나아가는 지름길인듯. 그래서..
+
+
+
+
+
+- Address-Translation Scheme
+
+![image-20191105225601413](ewha-os.assets/image-20191105225601413.png)
+
+- p1 outer-page table에서
+- p2 page of page table에서
+- 이렇게 까지 한다음에 physical memory에 접근함
+
+
+
+- Two-Level Paging Example
+  - ???? 잘 모르겠ㄷ3ㅏㅇ <u>8-2 30분가량</u>
+  - **다시들어야 할듯.**
+
+![image-20191105225752027](ewha-os.assets/image-20191105225752027.png)
+
+- 서로 다른 n개를 구분하기 위해 필요한 비트의 수는?
+- p2에서는 1k..10비트, d에서는 4k...  12비트
+
+
+
+- 페이지 테이블의 공간을 줄일 수 있기에, 2단계 페이지 테이블을 사용한다.
+- 왜? 상당수의 안쪽 테이블 공간은 사용되지 않는 공간.이 부분을 줄이고자 2단계 페이지 테이블을 사용
