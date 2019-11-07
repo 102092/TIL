@@ -1160,6 +1160,7 @@
   ![image-20191105220822127](ewha-os.assets/image-20191105220822127.png)
 
 - 어떤 프로그램을 쫒아낼까?
+  
   - CPU 우선순위가 낮은 프로그램
 
 
@@ -1270,7 +1271,7 @@
 
 ### 
 
-### Two-Level Page Table
+#### Two-Level Page Table
 
 ![image-20191105224725430](ewha-os.assets/image-20191105224725430.png)
 
@@ -1313,3 +1314,135 @@
 
 - 페이지 테이블의 공간을 줄일 수 있기에, 2단계 페이지 테이블을 사용한다.
 - 왜? 상당수의 안쪽 테이블 공간은 사용되지 않는 공간.이 부분을 줄이고자 2단계 페이지 테이블을 사용
+
+#### Multievel Paging and Performance
+
+- 페이지 테이블을 여러 단계로 나눠서 할 수 있음.
+- 4단계 페이지 테이블을 메모리에 한번 접근하려면 4번의 주소 변환 , 1번의 직접 메모리 접근 총 5번이 필요하다.
+  - 즉 오버헤드가 너무 크다.
+- 그래서 TLB를 사용
+
+![image-20191107203137219](ewha-os.assets/image-20191107203137219.png)
+
+
+
+#### Memory Protection
+
+![image-20191107203642968](ewha-os.assets/image-20191107203642968.png)
+
+- valid-invaild ? 페이지 테이블에 해당 주소가 사용가능한건지 아닌지 확인하는 용도
+
+- Protection bit? 연산 대한 권한을 설정하는 용도
+  - 읽기 권한이 있니? 쓰기 권한이 있니?
+
+#### Inverted Page Table
+
+- page table 매우 크다. 공간 오버헤드가 크다. 
+  - 왜?
+  - 모든 프로세서 별로 그러한 logical address에 대응하는 모든 page에 대해 page table entry가 존재하기 때문
+  - 대응하는 page가 메모리에 있든 아니든 (valid, invalid) page table에는 entry로 존재하기 때문
+
+- 이걸 막기위해 나온 페이지 테이블
+
+![image-20191107204001848](ewha-os.assets/image-20191107204001848.png)
+
+- page table이 딱 하나 존재
+- page table entry가 물리 메모리에 있는 것들만 상대로 존재함.
+  - 앞의 page table 존재 여부와 완전 역발상의 느낌.
+
+- 논리적 주소 p 가 page table에 어디에 있는지 모두 찾아본다음에 physical address를 찾을 수 있음.
+- 테이블의 묘미는 p가 주어지면, 바로 address에 접근할수 있는 것.
+- 그렇지만 inverted page table은 위의 묘미와는 조금 다르다.
+
+
+
+#### Shared Page
+
+- 다른 프로세스들하고 공유할수 있는 페이지를 일컫음.
+
+![image-20191107204528930](ewha-os.assets/image-20191107204528930.png)
+
+- 프로그램끼리 같은 코드를 쓰면, 같은 프레임으로 맵핑을 시켜서 메모리에 접근 시킬 수 있음. =pure code()
+- Re - entrant code 
+
+- 단! Page 들을 Read - Only로 셋팅해야됨. 그렇지 않으면 문제 생길수 있으니까.
+
+- shared code는 동일한 logical address 에 위치해야한다.
+
+
+
+### Segementation
+
+- 프로세스를 의미단위로 나눠서 관리하는 방법.
+- 공유나 보안에 있어서는 유리함 page관리 보다는.
+
+![image-20191107205126558](ewha-os.assets/image-20191107205126558.png)
+
+- 길이.. segement entry의 수
+
+
+
+- Segmentation Hardware
+
+![image-20191107205208254](ewha-os.assets/image-20191107205208254.png)
+
+- limit? segement의 길이를 나타내는 것.
+- s ? segement 번호, d ? segement안에서 얼마나 떨어진 위치인지 구분하는 용도
+- 물리적인 주소를 알아보기 위해서 segement table을 검색함.
+  - 페이지 수인 경우에는 정해져있음.
+  - 그렇지만 세그먼트는 안그렇지.
+
+- 페이징 기법은 페이지 길이가 균등. 그렇지만 세그먼트 기법은 길이는 limit로 표현할 수 있는 bit수 이상은 되지 못함. 즉 길이를 제한함.
+  - 이러한 정보를 segement table에 각각 저장하고 있음
+  - 만약 offset값이 limit보다 크면 합당하지 않은 메모리 참조.
+  - 그렇지 않은 경우 trap을 발생시킴.
+- base 세그멘트 시작 위치 ,limit  세그먼트의 길이
+
+- 세그먼테이션은 크기가 균일하지 않기 때문에 문제가 일어날수 있음.
+
+
+
+#### Segementation  Architecture
+
+![image-20191107205547154](ewha-os.assets/image-20191107205547154.png)
+
+- 의미단위로 하면 세그먼테이션이 유리
+- 그렇지만 크기가 균일하지 않다는 점이 확실한 약점
+
+
+
+![image-20191107210248886](ewha-os.assets/image-20191107210248886.png)
+
+- CPU에서 세그먼트 번호(s) 5번을  요청했는데 STLR이 3이다. 그럼 잘못된 참조. Trap 발생
+
+#### Example Of Sementation
+
+![image-20191107210641661](ewha-os.assets/image-20191107210641661.png)
+
+#### Sharing of Segments
+
+![image-20191107210810669](ewha-os.assets/image-20191107210810669.png)
+
+- segment 넘버가 같고, 같은 physical memory 주소를 공유한다.
+
+
+
+### Segmentation with Paging
+
+- allocation 문제 안생김.
+  - 왜?
+  - 물리적인 메모리에는 page단위로 올라가니까.
+- 그렇지만 의미단위로 해야되는 업무인 공유, 보안은 Segmentation 으로 올라가기 때문에
+- 두가지 장점을 모두 차용했다고 말할 수 있음.
+
+![image-20191107211116476](ewha-os.assets/image-20191107211116476.png)
+
+> 챕터 정리
+
+- 8 ch 즉 논리적 주소를 바꿔서 물리적 주소를 찾아야 하는 것이 이 챕터의 핵심
+
+- 이 챕터에서 운영체제가 하는 역할? 없음. 
+- 전부 다 하드웨어에서 하는 역할
+- 왜? 주소 변환이 운영체제가 도와준다고 하면, 메모리에 접근할 때마다 운영체제가 CPU를 가지고 있어야함.
+
+- 만약 I/O 장치에 접근한다고 하면, 운영체제가 도와줘야하지만 메모리 접근할때마다 운영체제가 할 필요는 없겠음.
