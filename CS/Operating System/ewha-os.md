@@ -1561,14 +1561,107 @@
 
 ### 구현
 
-- LRU : 참조된 시간을 기준으로 LinkedList 형태로 줄세워져서 구현됨.
+- LRU : **참조된 시간을** 기준으로 LinkedList 형태로 줄세워져서 구현됨.
 
   ![image-20191111231825289](ewha-os.assets/image-20191111231825289.png)
 
-- LFU : 똑같이 줄세우는데, 참조횟수 별로
+- LFU : 똑같이 줄세우는데, **참조횟수** 별로
 
   ![image-20191111232139167](ewha-os.assets/image-20191111232139167.png)
 
   - heap을 이용해서 구현함
   - 이진트리, 자식이 두개씩 있는
   - O(logn)정도는 되어야 사용할 수 있을 정도.
+
+### 캐슁
+
+- 한정된 빠른 공간(=캐쉬)에 요청된 데이터를 저장해두었다가, 후속 요청시에 캐쉬로부터 직접 서비스 하는 방식.
+- 그러면 굉장히 빠르게 응답할 수 있다는 장점이 있음.
+
+- 캐시 운영의 시간 제약
+  - 어떤 것을 쫒아 낼지 결정하는데 지나치게 많은 시간을 소비할수는 없음.
+  - O(1) , O(logn) 정도만 허용함.
+
+### Clock Algorithm
+
+- LRU 의 근사 알고리즘.
+- Second chance algorithm, NRU(not recently used)
+
+![image-20191112202746698](ewha-os.assets/image-20191112202746698.png)
+
+- 1? 한번 참조했음. 
+- 0? 바늘이 한번 도는 동안에, 참조가 없었음을 의미함.
+
+- 오랫동안 참조가 되지 않은 0 이라고 check된 페이지를 쫒아냄.
+
+![image-20191112203014410](ewha-os.assets/image-20191112203014410.png)
+
+### Page Frame Allocation
+
+- 각 프로세스 마다 얼마만큼의 page frame을 할당할 것인가?
+- 프로그램마다 필요한 페이지를 할당해주고, pag fault를 적게 나도록 유도하자
+- ex) 프로그램 3개가 실행되고 있으면, 3분할하여 할당.
+
+- Allocation Scheme
+  1. Equal allocation
+  2. Proportional allocation
+  3. Priority allocation
+
+- Global replacement
+
+  - Replace 시 다른 프로레스에 할당된 프레임을 빼앗아 올수 있도록.
+  - 다른 프로세스끼리 경쟁
+  - Working set, PFF알고리즘 사용
+
+- Local replcacement
+
+  - 일단 페이지를 할당하고, 그 범위 안에서만 알아서 효율적으로 써라
+
+  - 자신에게 할당된 frame 내에서만 replacement
+  - 프로세스별 알고리즘 별도 운영
+
+
+
+### Thrashing
+
+![image-20191112203751981](ewha-os.assets/image-20191112203751981.png)
+
+- 뚝떨어짐 왜? Thrashing 발생
+- Page fault rate가 높아지면, CPU utilization이 낮고(CPU가 할일이 없어지고)
+- OS는 MPD를 높여야한다고 판단하여, 다른 프로세스를 추가하지만
+- 그러다보면 프로세스당 할당된 frame 수가 더더욱 감소되고
+- 프로세스는 page의 swap in , out으로 매우 바쁘게 돌아가지만, CPU는 한가.
+
+
+
+### Work-Set Model
+
+![image-20191112204142070](ewha-os.assets/image-20191112204142070.png)
+
+- Working set Algorithm
+  - Working set 항상 변함.
+  - working set을 메모리에 다 올릴 수 있으면 올리고 아니면 모두 내린다음에 이 프로세스를 suspend상태로 만들어놓는다.
+
+
+
+- PFF (page-fault frequency) Scheme
+
+![image-20191112204704046](ewha-os.assets/image-20191112204704046.png)
+
+- page -fault가 많이 나면, page-frame을 더 할당한다.
+- 더줄 메모리가 없다면?
+- 그 프로그램을 swap out 시켜서, Thrashing을 방지한다.
+
+
+
+### Page size의 결정
+
+- 페이지 사이즈를 감소시키면
+  - 페이지 수는 증가되고,
+  - 페이지 테이블 크기도 증가되며,
+  - internal fragmentation(페이지 안에서 사용되지 않는 부분)은 감소되고
+  - 필요한 정보만 메모리에 올라와서 메모리 이용에 효율적
+  - Disk transfer 효율성 감소
+    -  디스크 헤드가 이동하는데 시간이 걸리니, 한번 이동했을 때 많은 양을 읽으면 좋으므로
+
+- 그래서 요즘은 큰 크기의 페이지를 사용해야되는 이야기도 나오고 있음.
