@@ -546,3 +546,225 @@
 
   ![](http://www.ktword.co.kr/img_data/4864_1.JPG)
 
+### 4.4 라우팅
+
+- 라우팅? 경로 탐색 과정을 일컫는 말
+  - 최단거리를 찾고, 중간 전송 중에 오류가 발생하면 다른 길을 찾는 일련의 과정을 말한다.
+- 라우팅 프로토콜
+  - BGP, OSPE, RIP
+  - 라우터 끼리, 서로 누구와 연결되어 있는 지에 대한 정보를 교환할 때 사용하는 프로토콜
+
+- 자율 시스템
+  - 인터넷 서비스 제공자는 규모가 큰 네트워크에서, 몇 개의 네트워크를 하나로 묶어 관리 == 자율시스템
+  - 일종의 단위
+  - 이렇게 단위를 만들어 놓으면, 라우팅이 좀 더 간단하게 이루어지는 데 도움을 줌.
+
+
+
+### 4.5 라우터, 라우팅 프로토콜
+
+- 라우터? 네트워크 간 패킷을 전달하는 것이 주요 역할
+- 라우팅 테이블
+  - 라우터가 활용하는 정보.
+  - 목적지 호스트가 속한 <u>네트워크 정보</u> , 경유해야하는 <u>라우터 정보</u> 가 들어있음.
+  - 일종의 표지판.
+
+- 정적 라우팅, 동적 라우팅
+
+  - 라우팅 테이블을 만드는 2가지 방법
+  - 정적? 네트워크 관리자가 수작업을 통해 직접 설정
+  - 동적? 라우팅 프로토콜을 사용하여, 자동으로 경로 정보 수집하여 라우팅 테이블을 설정하는 방식
+
+  - 네트워크 간 접속 형태가 복잡하면 사실상 수작업은 불가능하다. == <u>동적 라우팅</u>으로 해야함
+
+- 라우팅 테이블을 원하는 정보가 없으면?
+  - 해당 라우터보다 더 많은 정보를 가지고 있는 기본 라우터, 혹은 **default 라우터** 에게 물어보도록 설계되어있음.
+
+  - 디폴트 라우터는 라우터 마다, **정적으로** 설정되어있음
+
+- 동적 라우터 알고리즘
+  - 거리 벡터형
+    - RIP 프로토콜 사용. Routing Information Protocol
+    - 목적지까지 거리를 살펴보고 짦은 거리 선택
+    - 라우터수는 hop으로 셈.
+    - 비교적 구성이 간단한 LAN 방식 네트워크에 적합한 알고리즘
+  - 링크 상태형
+    - OSPF 프로토콜 사용. Open Shortest Path First
+    - 네트워크 통신정보를 Map으로 관리하면서, 상태가 가장 좋은 경로를 선택하는 방식
+    - 복잡하고 변화가 잦은 네트워크 구성에 적합함.
+  - AS(자율시스템, OSPF )
+    - 네트워크를 몇개의 구역을 분할한 후, 이 분할 마다 통신정보 Map을 만들어서 관리
+    - 왜? 맵정보 부하를 막기 위해
+  - AS(자율시스템, BGP )
+    - Border Gateway Protocol
+    - 경로 벡터형
+    - 경로의 거리 뿐만 아니라, 경유하는 AS정보 또한 포함한 경로정보를 만드는 방식
+
+
+
+### 4.6 ICMP
+
+- 네트워크 오류를 통보하는 프로토콜
+
+- Internet Control Message Protocol
+
+- 메세지 타입
+
+  ![](https://mblogthumb-phinf.pstatic.net/20140410_72/shj1126zzang_1397116503894ctoCj_PNG/7.png?type=w2)
+
+- ICMP 헤더
+
+  ![](https://mblogthumb-phinf.pstatic.net/20140410_118/shj1126zzang_1397116912767RU5g8_PNG/8.png?type=w2)
+
+
+
+- 주요 ICMP 메세지
+  - 패킷의 생존기간(TTL)이 경과되면 네트워크 상 소멸. 라우터가 11번타입  ICMP 메세지를 보냄 
+  - 어디에다가? 송신 측에
+
+
+
+### 4.7 어드레스 변환
+
+- 기본적으로 가정, 사무실 네트워크는 Private IP 어드레스를 사용
+
+- 이건 내부에서 사용하는 가상의 주소.
+
+- 그래서 인터넷에 연결된 Public IP 어드레스를 사용하는 서버와는 통신이 불가하다.
+
+- 즉 Private --> Public 바꿔줘야함
+
+- 이 때 NAT (Network Address Translation ) 기술이 사용된다.
+
+  ![](https://s8185.pcdn.co/wp-content/uploads/2013/11/41.jpg)
+
+
+
+- NAT에서 발생할 수 있는 제약사항
+  - 송신지의 여러 호스트가 같은 **포트 번호** 를 사용하고 있다면, 라우터는 수신지에서 온 응답을 어디에 보내야할 지 판단하지 못함
+  - 그리고 외부에서 일방적으로 보낸 데이터는 NAT가 어디에 보내야할지 판단못함. 즉 전달되지 않음.
+
+
+
+- 네트워크 어드레스 포트 변환
+
+  - 같은 포트 번호를 사용시 발생할 수 있는 문제를 방지하기 위해, 다른 포트번호를 넣는 방식
+
+  ![](https://patentimages.storage.googleapis.com/8e/1b/aa/480b41ccd34620/pct00023.png)
+
+- 외부에서 들어온 요청을 받는 경우
+  - 메세지 자동 확인
+  - 포트 포워딩
+    - 라우터의 특정 포트번호로 통신이 들어오면, 내부에 특정 서버로 전달될 수 있도록 설정하는 방법
+
+
+
+### 4.8 도메인명
+
+- IP address는 숫자. 그래서 사람이 기억하기 어려움. --> 기억하기 쉬운 걸로 바꾸자(도메인)
+- DNS Domain Name System == 도메인명
+
+![](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWoAAACLCAMAAAB/aSNCAAABX1BMVEX///////3z8/P8/Pz5+/r39/fp6emio6fu7u6prK6wsbQAAAC6u73S09W9vsDb29zIycvi4uLEw8jpeBjxqH2El7gvWZUIAAC7jrt4dniXQ5rSChYXeDDOAAB9qIJYVlft5O7geH3ytZCfnZ6TkZJiYGGIhodEQULY3ObrhzaamZo5Nzhta2zRss/Ozc0tKitdW1zKqMvsfSntlVn79e+7xtbBmMBblmXk7eTzwKD56+T33s5OTE3ssbJYdaZ4jrTl1ePJ2csgHB6ls8vmbQBEaJ3M0t766N1kf63jkJIAawThgoWNn73bYGOruM/23+GOK5OiWaPZwtoYFBYAJn8zhEppnHDzy7Pspqnxxcbl1eKyy7aJsY/vq4HQICXQNzYcTY6qbKq0gbZFilSoxKnsiUbtmmPZWFvzvZnZREmIGYvmYwDvz87fb3DZWl+cTpwAPIa6hJObM1clfDrWLzbeDoG9AAAZp0lEQVR4nO2diV/aTLfHz2SSmIUtrajYqlhWZdMWFAUVN6qVSoXbqlX7qrWLz7W3773P8/9/7plJUFzYFOhry6+VkHUm35yc2QeAnnr6rUV7aq9qc5Z6arMoFSm5BVqSBEHpqa0SBEb7JmjkLMtGT+2ULMuM9jXWSFqRDafTae+pjUKgBsKWqnwIkkbQ9rjriaOnNuqJK253ctaXqEVJkZ12l01T1b6e2iZV1WxPGOsrf82MGknbXS58Erae2iWHw+WyM7u+MmsqKYbTZb9HRrynhrK7nIZyhVpQDLvD9Utj9NvK5bAbinCFWnbGbY5fGqPfVk9scfQgopUHYahdWg91R+TQXFWoJY7a9muj9LvKxlFL5grPgDxRe6g7IpvKUZtWzVG7eqg7Iwu1udJD3UnZ1Cc91N1RD3XX1EPdNfVQd023UbeY2SM3W3EaikLLp1wGBqRWK12TQdfeVdUAiPdE+eJ6RCnUaiMklNxqzTJ3AL28yINRtyCbkwcCfvG+V6Bi+N6PiZ9P/TWvXPUgqNOGwYivk9eMgjGrEXM8W7zzKVRf1kJtPpN7oFbKfjBPNsxrUqPmsbrAF/YQO5JUTMQ0IVLD5NhOQqhs3jMJ/5dpbhikaS3EXK0yHvOafJXwf+zIioFqHvxIV4BV3i92vvj+w9X52Th7e9Z2+dnmB/69fvkKLl9j8/rWBWjy5ZH1db4SIF9LTkx8rVy0YtVXqFv01Q4PjzNQ3URlz9Y6Ug2ay4CLxYNW4BARKhZTeT+JKbj8U9bNCBKaJ+aLTThgiyG71DXPws6m5pG0ci2+Y0XGw2aXLw+k7IkT7gDSsxVw4AzxPZkkX2cWS3k85yf4KvtvmoZoxZiSTL919sskuzewAqTk9cRN1HCJukUH4vI4PA48VS7LskJAcmUFWQDBF3f6zOsYFTMvKzxeRgJgf2+Bihd7qH2Ahb2Fvb0i0L29iwrq1Xy+kALIb28Lyva2IoUXBYWVaFPbKf65XZDd28gv5S6E8XC54E5tV1l1bmbmYwx3l2ZmvKDESkO50pDC7t0RRQzi7LKQZkcfjB6mcSGcHR4cpCE9u3x4wClAwMHcx9wcQ707N3/0gnmH+bnd5AReZPfoRQYgMzdHMnO7lx4605852sWoJCfmk0l27FFm9yiJqJNtRK37HXocbKFyNhuiEAytZEMekILlrC+QEAkYui5zgjaPeR9RvPzCJ0Rc/DE+/vaCkP1/7Z1vFUFcGCmKFdTHhfx6CsLrBVFY2pBWFwc2FpeAsR9gn8erhePUehiWlsL5gTyRBsJy4fgSNYkNl0o/h4GcnOZKwyXpdKc0PDR9ymwthKlF+vP7z7OfkfXs6PLy82VIPz88GH2Dyzejy5/PWBTlBPuc3/2SwXMyT19l+tFkd5/OfZ/4AuLRq0xmYhdef/2Cm3bFS9RrLzJPM5D58vLVqy9Ssv9L5mn/3FfcfRO1+ADUUQDfJH4pA39znGPsbsEVwUXUhzYTCZkPMsKtm8gr7N18Ju5/gx/F4jmM78EnWNiET8XiWxDN9454F4Gk3Pi3CLCO74qwaDoaQhlqWCfhJSjkw+uCoqTWiTIQVqz0krkT6Z1CiHBCSju46n0HsWk48Qq4AvEx/rA/pNmbvfw+nU4fvIfRQ9w4iqjfAyyPsot4NH4L0J9hR78UgbwEsjaPPCdgfi2ZTGbW0My/fn/FrNZyOhl047vM+ie4K5ybg1fz/CVoJ2o0VhWR0rL59nPU+KoGMZZalH/nbtQ1ZR4fVFnktva3zqV/AD5J394Wf8D8efF8b2+BOT+GG5AkybsxyuthXGDiu1jx1Qw1GTBRp9aXUAVC8hvrxxu0khp6h5mXAIjNMFJ/0SvUWbMp7wP31QfvP6AOuedmvpX5ao5aKFsp9NcM+3yKu19Ccg3jhtgyL7+i+lk8//uFSMyQGGpm+C/wy0SSrc59N1HDLdQPcCDxCupBvIhgJim4dK1gdMdwuxSISuzRh3hOD6RBnsRcjP9Y2NoCsrm192Mcncn51sW3/8GzycL5BR4lM9QFYBAX0aiBJ4s8kgPmR9jNrZqtCFRexcU6c9qxk48Yk2EvnhkjuZ+4+eMwxGJwIjDUzpDJkKEWYfkz+56GQ4Z3OX2F2t9noe5/zYwbUZMJENdwZZdZNduTpGJyItn/gr0dc18yFdTfwUwWk+jh4VWyHmpoPQciTSXscjbkRB8c9UUizLr9fj2IDiQSjISYQ9F1g/CMCY//5CR/pmRkb36E+euR4sIIhr43Aj/O2Z7zkU3c7R7ISxsMHiy6ee5hvbA6sETC7sJxwR3ePl4NDxiFDXAvplbXN0j43+7U6gBehey8m8bP0vD09PAMkKGd0vTwR+/JiXwyI7zLYdbHjPPZ57MPb9Lkw+zB2d8fAHN5Z7N/p8no8wPxw/tlkMyslHh0NPH1aA52177D9zW2fNH/5ekuvJjYnUOfvfvyq5hZ+4rW/WXtBWYVv05kkq++4OM4+jr3ZQK/zr86Sq5lXh/1P31xNN8W1NTlkgWXS8H3yKFywxU0TUZ/ERRddp6vj8eZHXviJuoED4rC/jzssRzznigs4JOYX4CLC5bdn19AqyD5vCzm8woeuS5w5y2lUjKhSp5JCefDYl5R8iKEt1My25nfTrEMClVK7BpEicW8LC/4MRYTiJTLCd6PJOcVIlacyfLZMqEiLjDjQUXxgK8uL6fZH2hmKUfMML0WX2cwscu8pvB6LkNxiTmT3dfANpP5TEYUSXKX5cozmXkpk0my83A3+/oaz2PbUPQ26jaWFjWPcK0AXmmUp60U5Imw7W5DXCqq2fX2+kFNHXYPdQi1lB0LqdUbKvFv6T7yixsb4YdH5mYcGhz0n4ka89GeuxVEsWX0jv47Imao6+p/3aYKTO5mNdRAJRb22Wh9nVk3Jva3U8mHowYI6YN1pd/V02HkWV2N/N/AfTTcQNMs6NHn9TVaQb32tH1am28H6kolAL2xgX+Fu19aSq2KiZriVRP81OrLs8/KcIfLcOlVDBq8+Hx3g4DFy5qoBge2KPpw1A3d2l3VuA1vA3MHHZD1uJoatELJpTlUdhBS/UfINXupXrllSNZlb2f2ev1AOqQe6q6pm60wf7h6qLsmhtroOZBuqOeru6aeA+maeqi7pnugtqt4YPUGnkcnUlO9Yfb3b27BU2kTHUMIpPK1dolNXaHm2RQIb89teOD3r98pZDL3DOgeqLUsqPq1LRREMKzW2gYa37y1iUJToIi7UKv+lSwt3b8nDivKkTdNoIYvL17vinD04p4B1U0WeXmSmB1izM4NDIw2BpJhlrgrVRNInjgrh9Orrii3tcVQ08uqBt7m+Wy+USx5YIVV3krLe3ZY0eKTEaBJCwIrADfby+yy+sSM/PM0kOcMdf0HTpO8rQtevOAHtl7TWhc1UTyhKScoHudUVgPwO4OhoMRQ24MAhicUgHggglsCg9FJGhVACIaiBpCAEcjWGpC3tbl5vklE8eItLoBsno+T8Wdvb5v6jduUCosFN6JObSxuE5JKrS5ui+7FFN9QwA3b6F5WFwtN3v9hevTzYZLi54c0jD6fPYTnyx8+L9c9h5BXL/u/9u8y1LD75VXrbqQBahfEdVD0gGDoNggknDQ6xVA7IugwHGCA04CgB78biqgrkPCBAxd6QGaLO7X1ab/4zx5cjBTFHz9gcxwuxOKziwZmTQAp5o9XIbUuSIursD2QlwcWw+FjA/IKbGxDwQ2rA3lhsdDcTc/+nRY/fID0Mpy9h/Tz5TT5eza93MiJZJ7Os5ZbRL37lSafzreaPNR3IJgGOnRZYNzUMQiwbh26ZEPUIfBMMicLUnwyAUQnIOlCPMF61PhAdwJEaozIYw5k4S38WEBLHRH2vilNOZDwMeJGq17HlDE8ANtL3J3AUgojlC8swWoBVlkj+2JzNz17hj7sjQR0+eCNyBwI/2tg1jD/lHsP/P8yg9DnWu1QWz9ZNBIeTTcEHd0jcgxorGuebKIOOdiT0BKTiJrqIkHUagBD93tANwCy9VH/c4HZhmdF2BzZJGzZQMiQEIR7LCPbY5G1OBZWCXFvA3oSCzVuy683d9OzB+jV36SX/z60UHNfPXtQ/yyG+oijfspaVnYfjrq6xZx1T2KoFQK+KLdqWQfLqllnRwQPzhVcmFZdxtDHVI461MCq90CcH5EIiCPFJqxaPsZEb+nKqt2mVbtTwr8BUq2jPgNIv4H3aMZVqD83jfoli/Dt+YEaqL5VBwPyJEM95XTodoiWXUYoyDJ7NuarfU4NypoRSAAM9hkSeplQ0JhckRqj/h8ojuwXzzdh/+JiJAn/2mtg1pRsLIVX19FXD4TD6ynmQNDG0aVs03/nw4tL3Fe3gvrv5fTnQ5jF5BFRfz5M88xeI9Sv1zhq/L+LHmSXtNqJvy5qKvmjLhV9tdPjQf8bUCej6EPsfeBk9h2M+gnuMPy4KapRzIlQX3RSoCSIrt3nvDu8BSzCXOyJUNz6sS/S/fHxIn5HG68vKq4upcIpQsJudxg/8Vsqj39hCC8VwtuQT5E8+u3wanM3PXtwNnoARDgcXT4UID16BocY5bMGyWLyO6W7GdjNiJDp7//eck6+mSKMopt56IAKZn7yMktd6cltfieVfHVdWXn0qtMax9LsK30tn2+GZsaGVHUvb0bcK1MzF151mYaqBHO/8lIzw44U3ewwM6bC76HPBw8a5nFPNdMTlcpmCqBI8JhFXZX3Tbh74ErHpMTZ5x9Us6dYY3G6LwfvLfgg1N21jYdK+HWoWUfoe6Nm3Xnjnerd1hn9QqvmQ7Hqo66HMhjx3MusyY01Sioj3po/zxoqd/ty9ST9MtQaH0lRv22R+GvUGrGIS/d0IDwNviJ7lWts5nI3ybaS8dJrD6nspCgraUMj1HHdZoc4aFRwaAjdKcg2Fl1Ds4Omx2WQNUxbZUNpfranolRcmGcjNBYuMLgiXShCEf+wYL+wULOqjACWVVIiIVJ+WwaiKEpKwQ0C3oWSyjdt2LWqwDoswqrmoNGoAf9gsA/0wBgEfT60iWA26tfj4EpoQeoZDNodES3gAcdYotZw4tva+vZjc+SC7I8vYLm8+M+3zZHNt7gB5j/tbX6SasAmZGCpsDQgkdXV7YE8SS0uFQZW3e4BgeTXU823wASDTUeznaKwwmvvG3ROYO5Nt/FX2x+E4BSWuAPgQbLE0HEPYeNbXa34wK23AJs/mBOZH4HiiAgLn4BVW7/FAvvWQg1oBNa3CSymmLdILUFqHaCwBLCRAjYCZr3Z3u6OxP0nEniIZJ3zbZADYTXVukzAPhZKIGpkbMuCPDjlBKeO/8eyY3rcFWnBaZs1e6K0df7tGSki5v1vvKrv0/m3b5/Ga562HiawtA3y0uIionYDrK4i7m3heGNxYyDVZNiSXqNipsOaDEBVT9Raw/lN1JhPMkD1VFDjhy6gVRtlIkkSy6C3ihreboKIVs1Qn+OGH/CsiJcSxVpmZ6E+DkN+gxm2hVo6xjjTJmswWEVl0/Fso4geb4ya8AYVRG1HbxG4RM2cipM5kLKNeSJHpGYot2WhfnYB+4j6mYX6LWwxixaLezW89QBHzWqn3UtVqGFxm9Ub5VNNNeBSxbrpboqCP2R+a2DVPt3DUEO0nA1aqDGNTKAzQQcCcigRGgNXqIWQLdT7I+eb/0iXDgSd9/in83/m90dqVLNYVl0Y2FjdqHIgRNhY31gE90ZTBCmoutT1Uperkse8PUnF9dKiZHV5F6s63LPhiFYPe6nVzLVoTu1A+Qhn/KQiXwNzDDmtYZ1YzBF5v3/CO+1TcjUvBZVICwP0opHWxpg9VARN0gbXxi1a9c63UJtEWdeOS84cUGUsQ91f4rhL5jgWkV5JtK6K/8Ra1xKvhknwr1aNtzmbR63JfO4KHcYiNQtlranJIB26Wnm4f9w0WZ47x5zdUoPmrGZauxCwUB3an4YaU3E91HCCbiopslL7bWW75cZvs+zXp+Qrh/XgSSoenQjtGywH47fSXyIZcc0XjGYTekXlkKfPCdf6pym2YLZ8eQDmCjx+nxaXqzJOVi2Ys29MD1wbH/sHNQ1YYlYW9wzqkYC/T3U4HJrq83sC2RUkt4LgVFvc4D+/wObydvgCuu65KvhoIT3ktzlltpv91ojdwR7OWJk9lYBn0qdqDocNrxcN6XpAVa479FZR86Tprh1a8/UgLYvlOu7IcFPh5K6WK3LibSLNUlxqMBqYCk0Fop6gT3U4jRrVC3aPHlB4Z0qHntBqHIRPRUXogcBYKBCIBvscd1Qitoxact6d+JoVhR0Ske6iR4R3dz12MtwE6luOltRo6kfvgYkbK/oEdVutKQHorfwmuZ0JbgY178ZrmhWFeAj4uGQzVGJ9AvR5Gt7eAzQzbY3hFdmicmMMtQg8ny9yWPwIQNRtrlbSsNQcLD8wm1g/WXRF/SHdB5Cw6bIYTawEIV5eWbGBuhIJyayqLLQigH8lEZDA10nUsZ8/fyri0M7PIQJDsZOdHS/fzFB/3DnZUbzD+MBPSjDNj2g7aixmrjix0Pywws811Lfqq+P4zii6C8rIMhoEyE5CPIuIVyTQVnAve86+LK/H6bhVw9AQwOkMDP0UoDTM28iEdyANS5A7gZ0cEYZJ6RSPKHXAqgEig5MPvUT9poE4m5zLHwTdTijjGk9w1AEsAYFusM6TBBJ2Vo9DO+9AhhWReIdhaBrd5ztvaWamhKhLJ6VS6R1FyLEhOJkulYZOO4La9/DWsgYNXqwyHV0DuiqF1W87y+BC1Fkb+sYVJ+sEjI/AIFTQpY6jFt4JxESN68Neby7nRdSxk1IsFqPSO0CnsjON33MdQR3XH9yscNuBXG9bRL5Zldelll28kpuhDkZZ0wL186nz2AxvjkRnfTV3IDsldNon3I94/+JZD0Sd2wGeSzidPiHkNMZWOoJaVsn9B5GZqp8sxgfHtGgEnYWdVQaq/kGZyLrfkBJBbUUFKTHV55EMfdKHmaHOZvZKw9MkNxybHvair54p/YzxrcJfyJiZNSG5v0psMsOZ0oyXvPP+moatBqpfBxJPSCqrA3Sw9E9WbWxsorNPJsSmGixX71BdEpvtDbP4Rid/ZI1ALiYSIVaSCBmKfYx5rTrfEub9crESRoiUJMztSSV2SE5qv1W3QfXz1fGVm8f/mpuoDnQoVtlgTq1srpGrD/KLItlIDVC30mzYJfFk8TGqLuo6Qz3/bFXm5GqpVeRPq69uj6gUNyHbW+hy/mgqUS/nFLtrV602yebFm/XMYdTEmmOOX5perlKrUpNXtNh1AVjjge6onuOsfhCPCPXHj7X6mdGaT6Fp8YZshkHkn4SYtaXUmsxVMOu4JHOTOeYdi8lmRog9JtzXKDF+LKjxPrBEXt0iUhk1xDbODFXGId1PjkgoAa5IKGKANBWJsL4tkTEOeTKRiIMRCkWcoPk9iYgMNBpJiMYKeMqRMQg51ShiW5GVsVCiQSeTR4KaWczM9awHrdr5MddMD+2aiusyWq8igi3ESr0Sda5Qs/jLOhZJpGywKglWk+ofAzWAW9j2CJYkVuICFqhtyNwFil5/iM2jmLsJ7TU2VGKovTMzOSC5XGkoh5s+EtwwVAJEDTlvaah0T9jRPh6G0+cpY6HYAeCP2mw+9uMJku6XsCDn0Gy6wjqkO3WwsxaCK9RsOPiYQ9YdmqMcrxv+o0AN5PTUGxuehtxwLjdcgtjPWGn4tFR6p5BSzrtTAnQg0z+nc2Z5vXVl+R1PhlzxQTZ/fASCUVVVNWajSlB32kK4pkqImrA+Xc6phFCF2hUiyL+s4SH1J595HKi97zAFOp3mNU7eYYidYklmhtVNoxkJ06cwjahxW+nkfpf3826T6EUMPntPxKXyCh0TXJ/HGORfKqgBpjRZp4Dum6EG3RdkE0oANJj65XGgzrHfv0AH8s7LfouExoasxoIYlH4OnZqoh8Cs5ruHhJUp1QNjUW1MB9Wn6gqNRG0+NjWEM2hL2MAT0VQfqFnATB5ok6ouG4jWk9VgEFH7dQM9e1nV/C0ki/+xqL2s1QVL5D8/mlZ9iVr6S4LcQ1EjIIfPRammiS6QNY0N/Hjis7EqNsnR58Q1e59mgIFYBQcomqrgdjRhBOVSWNs7y5Ubqtqg9/YjKS3uzEgl9NWxHUE6meYOpILaK5082Kq7o0eS2RNOd6ZLMYLe+AT9cwkxx3A5XYLSzmlphv30C9v2cehXx7OeHglqazZ1sCZNsKbgtn4H0Pr1uV9Vw9usHgtqWoWamj19K92OidnpmrRY0dZ1PRbUv4F6qLumHuquqYe6a3ok+erfQbf7gfRQd0h/3gCNX6aer+6aer66a+qh7poeRyXqb6GH/jZuT02rZ9VdUw9119TL7HVNPdRdUy+z1zXZVFcPdXd0DXUvs9dJWait9k+OWvs181n+9nJoDHVlAgLaQ905WaitNSooht3WcL6dnu4jl83uVK5QS4jaYaFu9qfYmzry5kFVITQfUmtBNjynlatcHXu/sNn0Hk/shiJdoUYPEu/kYM8/WPY4nzzSWqPMgzjjric2jfUX7qlN0jSbwxV3GsoVasInf0LWDmTdU/tkczxB0lVGzTyIpCBruz0ed/XUNsXjdqeTTXRWPVqGTWqGsA3D2VM7ZSBoQbo+LomKEsJWFLmnNgqBCug9bkygxmbrQ9o9tU8S153DdflUx+J9RO84jd61sYkrNTjrxgHVa/cKsDW1FgTlZ7Qjx9jTf4ru15e/4Vk3fjaJ3P29Q/rPHqDQU0X/D+te6otQvIcgAAAAAElFTkSuQmCC)
+
+- DNS 서버에 질의
+
+  ![](https://www.synology.com/_images/tutorials/set_up_domain_dns_server/02.jpg)
+
+- 도메인 계층 구조
+
+  ![](https://t1.daumcdn.net/cfile/tistory/226BFA3857A8828E0E)
+
+- DNS 서버 계층 구조
+
+  ![](https://img1.daumcdn.net/thumb/R800x0/?scode=mtistory2&fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F999874455B8C9DBB22)
+
+  - 도메인명 데이터를 직접한과리하는 서버는 ? DNS 콘텐츠 서버
+  - 루트 도메인 서버는 하위 계층 DNS서버에 대한 정보를 알고 있음.
+
+
+
+- DNS 서버 질의 처리과정
+
+  ![](http://www.kisa.or.kr/synapfile/201008191118016319.hwp.files/BIN0002.bmp.png)
+
+  - 캐쉬 서버에 우선 질의
+  - 루트 -> kr DNS -> 해당 홈페이지를 관리하는 DNS
+
+
+
+- DNS 도메인 등록
+  - 리소스 레코드 resource record DNS서버에 등록되는 정보
+  - 리소스 레코드가 등록된 파일 == 존 파일(zone file)
+
+
+
+### 4.9 DHCP
+
+- 네트워크에 속한 호스트들에게 IP를 **자동** 부여함.
+- Dynamic Host Configuration Protocol
+
+- 신규 호스트는 네트워크의 모든 호스트들에게 <u>브로드캐스트</u> 방식 으로 **DHCP 발견 메세지**를 보내고 이 메세지를 받은 DHCP 서버가 사용 가능한 IP를 할당하는 방식
+  - 이 패킷에 관계없는 호스트는 받은 패킷을 버림.
+
+
+
+### 4.10 명령어
+
+- ipconfig
+- ping
+  - ICMP 8번 메세지를 보내는 명령어
+  - 살아있는 지 확인
+
+- tracert 
+  - 목적지까지 통과한 경로를 표시해라
+  - 경유한 라우터의 IP어드레스가 나옴
+- nslookup + 도메인 명 or IP 어드레스
+  - 도메인 명으로 IP 어드레스 알아낼 때 사용하는 명령어
+
+
+
+## 05. 하드웨어, 네트워크 인터페이스 계층
+
+- 네트워크 인터페이스 계층은 TCP/IP 계층 모델 중 가장 아래 있는 계층
+- 즉 네트워크 어댑터와 가이 하드웨어와 맞닿은 부분까지 포함하는 경우
+- 이러한 하드웨어를 제어하면서 인접한 다른 통신기기까지 데이터를 전달하는 것이 이 계층의 목적
+- 다르게 보면 데이터를 전달하기만 하면 이 계층의 목적은 끝남.
+
+
+
+###  5.1 네트워크 인터페이스 계층의 역할
+
+- 다양한 하드웨어를 네트워크에 연결
+  - 하드웨어를 제어해서 데이터를 온전히 전달하는 것이 가장 큰 목표
+
+- 프로토콜
+  - PPP, 이더넷, ARP
+- 유선 LAN, 무선 LAN같은 하드웨어와 연결되어 있음.
+
+
+
+### 5.2 MAC 어드레스
+
+- 네트워크 장비에 부여된 **식별번호**
+
+- NIC networt interface card에는 MAC media access control 이라는 식별번호가 부여되어있음.
+
+  - 제조단계 부터 부여되고, 전 세계 네트워크 장비들이 서로 식별될 수 있도록 할당됨.
+
+  ![](https://networkencyclopedia.com/wp-content/uploads/2019/08/mac-address.jpg)
+
+  ![](https://www.wikihow.com/images/thumb/4/43/Find-the-MAC-Address-of-Your-Computer-Step-5-Version-4.jpg/aid13225-v4-728px-Find-the-MAC-Address-of-Your-Computer-Step-5-Version-4.jpg)
+
+- 이 주소는 유선 <u>이더넷</u>, 혹은 <u>무선</u> LAN 외에도 <u>블루투스</u> 와 같은 데이터 통신에 활용됨.
+
+- 네트워크 계층이 보내는 데이터를 프레임frame이라 함.
+
+  - 이 프레임 안에는 송신지, 수신지의 MAC 어드레스 정보가 들어감.
+
+  ![](https://www.networkkings.org/wp-content/uploads/2019/01/ethernet-header.png)
+
+- IP address vs MAC address
+  - IP 어드레스는 최종 목적지가 한번 설정되면 **전송과정 중에 변경되지 않는다**
+  - 반면 MAC 어드레스는 전송 과정 중, **다음 장비의 어드레스로 교체된다**
+    - 즉 MAC 어드레스는 최종 목적지를 가르키는 것이 아닌, 다음 목적지를 가르킴을 알 수 있지.
+
