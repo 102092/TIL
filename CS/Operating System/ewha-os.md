@@ -1870,3 +1870,108 @@
 
 - 최근에는 Page , Buffer 캐시를 합쳐서 관리하는 곳이 많음
 
+
+
+## 11. Disk Management and Scheduling
+
+### Disk Scheduling
+
+![image-20191118211850020](ewha-os.assets/image-20191118211850020.png)
+
+- 디스크의 성능을 나타낼때? Disk bandwidth
+
+  - 이게 높다? 디스크가 효율적이다. 이러러면 Seek time을 줄이는 것이 중요.
+
+  - 그러므로 Disk Scheduling이 필요하다. Seek time을 줄이기 위해
+
+    
+
+### Disk Structure
+
+- 외부에서 접근할 때는 logical block 으로 접근.
+  - 이러한 logical block 은 1차원 배열로 되어있음
+- Sector
+  - Logical block이 물리적인 디스크에 매핑된 위치를 일컫는 말.
+
+
+
+### Disk Management
+
+![image-20191118212027985](ewha-os.assets/image-20191118212027985.png)
+
+- Disk 가 sector단위로 나눠지는 과정 physical formatting
+- 운영체제는 logical disk를 각각의 독립적인 disk로 취급함
+
+
+
+### Disk Scheduling Algorithm
+
+![image-20191118213405780](ewha-os.assets/image-20191118213405780.png)
+
+- FCFS
+  - First Come First Service
+  - 즉 들어온 순서대로 처리하는 방법.
+  - 비효율적. Seek Time이 최대가 될수도..
+
+- SSTF
+  - Shortest Seek Time First
+  - 현재 헤드에서 제일 가까운 요청 부터 처리
+
+- SCAN
+
+  - 디스크 한쪽 끝에서, 다른쪽 끝으로 이동하며 가는 길목에 있는 모든 요청을 처리하는 방법.
+    - 즉 디스크 헤드가 움직이는 방향은 정해져있고, 그 가는 길에 있는 요청을 처리하는 식
+
+- C-SCAN
+
+  ![image-20191118213945780](ewha-os.assets/image-20191118213945780.png)
+
+  - 이동거리는 다소 길어지지만, 큐에 들어온 요청에 대한 대기 시간이 균일해진다.
+
+- N-SCAN
+
+- C-Look
+
+  ![image-20191118214242378](ewha-os.assets/image-20191118214242378.png)
+
+  - 요청이 들어온 것을 중심으로 왔다가, 갔다가..
+
+
+
+- 현대는 SCAN, C-SCAN 및 그 응용 알고리즘은 Look, C-Look등이 많이 사용
+- 여러 요청을 한꺼번에 묶어 사용함으로써, I/O의 성능을 높이기 위해 시도하고 있음.
+
+
+
+###  Swap-Space Management
+
+![image-20191118214614092](ewha-os.assets/image-20191118214614092.png)
+
+- 디스크를 사용하는 이유?
+  1. D램 메모리는 휘발성
+  2. D램 메모리는 공간이 한정적
+     - 그래서 메모리의 연장공간으로 Swap-Space를 사용함
+
+- 파일시스템 기본적으로 512바이트. sector단위로 관리
+
+- 공간효율성 보다는, 빨리 swap area에 데이터를 올리고 내리고 하는 것이 중요함.
+  - 그래서 단위는 다양. 512, 128... 
+
+
+
+### RAID
+
+- Redundant Array of Independent Disk
+- 여러 디스크를 묶어서 사용하는 것을 일컫는 말.
+- 중복 저장, 분산 저장하기도 하는 것.
+- 장점 2가지
+  1. 디스크 처리 속도 향상
+     - 어떻게? 하나의 요청에 대해, 디스크 당 조금씩 할당하여 빠르게 처리.
+     - 즉 병렬적으로 읽어옴(interleaving, strping)
+  2. 신뢰성 향상
+     - 하나의 디스크가 고장나더라도, 다른 디스크에서 읽어오는 것이 가능
+     - Mirrorling, shadowing
+     - 단순히 중복 저장이 아니라 일부 디스크에 parity를 저장하여 공간의 효율성을 높일 수 있음.
+
+- partiy
+  - 디스크의 상태정보, 이러한 정보에 따라 디스크를 활용할지 아닐지 빠르게 결정할 수 있음.
