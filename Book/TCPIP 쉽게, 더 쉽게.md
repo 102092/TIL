@@ -936,3 +936,217 @@
   - MAC어드레스 목록 확인
 - `arp -s + ip addrress` 
   - IP 어드레스 연결정보확인
+
+
+
+## 6. 보안
+
+- HTTPS, SSL/TLS, VPN
+
+
+
+### 6.1 네트워크, 보안
+
+- 암호화 방식
+  - 공유키 암호화
+  - 공개키 암호화
+- 전자 인증서 : 신분 사칭을 막기 위한
+- 전자 서명 : 데이터 위변조를 막기 위한
+
+
+
+### 6.2 공유키, 공개키
+
+- 암호화 --- 복호화
+- 공유키 암호화
+  - 하나의 키를 사용해서 암호화 , 복호화 작업을 하는 방식
+  - 이와 같은 처리 속도가 빠름
+  - 그렇지만 하나의 키로 모든 것을 해결하는만큼, 이 키가 탈취 당하면 문제가 커짐
+
+
+
+- 공개키 암호화
+
+  - 서로 다른 키로 암호화, 복호화 작업을 수행
+  - 개인키 : 자신이 보관하는 키
+  - 공개키 : 외부에 공개하는 키
+
+  ![](data:image/png;base64,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)
+
+
+
+### 6.3 전자 증명서, 전자 서명
+
+- 신분사칭, 데이터 위변조를 막을 때 사용
+
+
+
+- 전자 증명서
+  - 공개키 방식을 사용하면 데이터 유출을 막을 수는 있음.
+  - 그러나 공개 키를 보낸 사람이 이상한 사람이라면, 모르는 사람에게 데이터를 넘겨줄 위험이 있음.
+  - 이와 같은 위험을 막고자 **전자증명서** 사용
+  - 즉 본인임을 증명하는 서류
+  - 전자 증명서는 <u>인증기관</u> 에서 발행
+    - 인증기관? (한국정보인증, 코스콤, 금융결제원 등)
+  - 소유자는 공개키 와 소유자 정보를 인증기관에 보내, 전자 증명서 발행을 요청
+    - 인증기관에서 확인하고, 인증기관 전자 서명이 포함된 인증서를 발행
+
+
+
+- PKI
+  - 공개키, 전자 인증서등의 보안 인프라를 지칭하는 말
+  - Public Key Infrastructure
+
+
+
+- 전자 서명
+
+  - 데이터 내용이 위변조 되지 않았다는 것과, 보낸 이를 보증하는 역할을 함.
+  - 전자 인증서에 포함되어 있음.
+
+  - 원본데이터의 해쉬 값을 **개인 키로 암호화** 하는 방식.
+    - 개인 키로 암호화된 데이터는 공개키로 복호화 할 수 있기에..
+
+
+
+- S/MIME
+  - 이메일의 안전한 전달을 보장.
+  - 이 방식은 통신 쌍방이 전자 인증서를 가지고 있는 경우에만 사용할 수 있음
+  - 송신
+    - 메일 본문은 공유키로 암호화, 공유키를 **상대방** 의 공개키로 암호화 해서 전송
+  - 수신
+    - 전송된 공유키는 자신 개인키로 복호화하여 메일 본문을 복호화 할 수 있음.
+  - 왜 공유키? 
+    - 공유키로 암호화하면 연산 처리 측면에서 부담이 적다.
+
+
+
+### 6.4 SSL/TLS
+
+- 서버 인증서를 사용해서 서버, 클라이언트 간 통신을 암호화 함
+
+
+
+![](http://mblogthumb1.phinf.naver.net/MjAxNzExMDFfNDIg/MDAxNTA5NTE4ODIzNDI5.30l4d3KGAKczXtfSGbbhJMS06JRefFMr-ucXkWHMMkEg.INnt1wW9-8esFvcqYvIMxo4kEJIIH5v4PJARXVoqvNsg.PNG.tjdeoaksthl/%EA%B7%B8%EB%A6%BC1.png?type=w800)
+
+- 공개키로 공유키를 주고 받은 후, 이 **공유키로 데이터를 암호화** 해서 통신 하는 방식
+
+- 이와 같은 절자 전에, <u>서버의 신원을 확인</u>하는 전자 인증서를 받는 과정이 있음
+
+
+
+- HTTPS
+  - SSL/TLS를 사용한 보안 프로토콜. 대표적인 것.
+  - 그 외 FTP, 혹은 메일 프로토콜과도 SSL/TLS를 조합하기도 함.
+  - 즉 HTTP 프로토콜이 SSL/TLS에 의해 암호화 되어 전달되는 것.
+
+- 참고 :  https://wayhome25.github.io/cs/2018/03/11/ssl-https/ 
+
+
+
+### 6.5  SSH
+
+- 원격지의 컴퓨터를 안전하게 제어하기 위한 프로토콜
+- 공개키, 공유키를 조합한 방식으로 통신
+- 그렇지만 전자인증서를 사용하진 않음. 
+  - 패스워드 인증이나, 공개 키 인증을 사용
+
+
+
+- 패스워드 인증
+
+  ![](https://thebook.io/img/006718/linux-149.jpg)
+
+- 접속 요청시, 서버에서 공개키를 보냄
+- 클라이언트는 난수를 사용한 공유키를 생성하고, 이러한 공유키를 전송 받은 공개키로 암호화 하여 전송
+- 서버는 개인키로 복호화
+- 이러면 서로 같은 공유키를 가지고 있고.
+- 이제 클라이언트는 패스워드를 공유키로 암호화 해서 보내고, 서버는 공유키로 복호화 하여 체크
+- 인증완료
+
+
+
+- 공개키 인증방식
+
+![](https://thebook.io/img/006718/linux-152.jpg)
+
+- 클라이언트 측에서 공개키를 만든 후, 이 키를 미리 접속한 서버에 **등록**
+
+- 이러면 연결할 때 마다 패스워드 입력하지 않아도 됨.
+
+
+
+
+
+### 6.6 방화벽
+
+- 외부로부터 선별된 접속을 위함.
+
+
+
+- 어떻게?
+  1. 패킷 필터 : IP헤더, TCP/UPD헤더로 부터 어드레스, 포트번호를 보고 제어하는 방식
+  2. 서킷 레벨 게이트 웨이 : 데이터를 주고 받을 때 반드시 거쳐가야한 관문(게이트웨이)을 통해 제어하는 방식
+  3. 애플리케이션 게이트 웨이 : 애플리케이션 계층에서 다루는 URL, 텍스트 정보를 보고 제어하는 방식
+
+- 가정용 라우터는 방화벽 역할도 함.
+
+
+
+### 6.7 무선 LAN의 보안
+
+- WEP, WPA,WPA2,,![](https://image.ahnlab.com/comm/info/article_100519_19.jpg)
+
+
+
+- 스트림 암호화, 블록 암호화
+  - 무선 랜 암호화는 안전 + 고속화가 필요. 
+  - 그래서 공유키 방식 사용
+    - 공개키는 암호화시 연산처리가 부담되므로
+  - 스트림 
+    - 공유키를 통해 선두에서 차례로 암호화.
+  - 블록
+    - 원본 데이터를 블록하여, 공유키를 통해 암호화
+
+
+
+- 패스 프레이즈
+  - WEP =패스 프레이즈 
+  - 사용자가 지정한 문자열 + **초기화 벡터** (매번 조금씩 변하는 값) 을 조합하여 암호화를 위한 공유키를 생성했음.
+  - 간단하고 처리 속도가 빠름. 그러면서 복호화는 어렵게
+  - 그렇지만 초기화 벡터의 길이가 짦으면, 같은 공유키가 만들어질 위험성 있음.
+
+
+
+- 초기화 벡터 길게 만들기.
+  - 그래서 WPA 방식에서는 초기화 벡터값을 길게 만듬.
+  - 왜? 보안 강도를 높히기 위해
+
+
+
+### 6.8 VPN
+
+- Virtual Private Network
+- 거점 간의 통신 전체를 보호할 수 있는 방법
+- 인터넷 VPN과, 클로즈드 VPN있음.
+  - 인터넷 상 데이터를 암호화해서 통신하게 만들거나
+  - 인터넷과는 아예 분리되어 별개의 회선을 사용하게 지원하거나
+
+
+
+- IPSec, PPTP, L2TP/IPSec
+  - VPN에서 사용하는 프로토콜
+  - 참고 :  https://ko.vpnmentor.com/blog/vpn-protocol-comparison-pptp-vs-l2tp-vs-openvpn-vs-sstp-vs-ikev2/ 
+
+- VPN에서는 어떻게 사용자를 인증할까?
+  - L2TP 패킷 안에 PPP 헤더를 통해 사용자를 인증한다.
+  - 즉 L2TP/IPSec을 사용
+  - IPSec은 암호화하고, L2TP는 사용자 인증에 사용하고
+
+
+
+- 캡슐링
+  - PPP -> L2TP -> IPSec 순으로 IP패킷을 포장하는 방식
+  - 수신 받은 후에는 역순으로 풀어내서 IP 패킷을 취득한다.
+- 터널링
+  - 원본 데이터가 IPSec이라는 터널 아래 / L2TP / PPP 아래 있으므로 마치 터널을 지나가는 것과 같다고 해서 붙여진 말.
