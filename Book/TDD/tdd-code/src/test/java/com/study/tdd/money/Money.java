@@ -1,24 +1,37 @@
 package com.study.tdd.money;
 
-public abstract class Money {
+public class Money {
 
 	protected int amount;
+	protected String currency;
 
-	// 팩토리 메서드
+	public Money(int amount, String currency) {
+		this.amount = amount;
+		this.currency = currency;
+	}
+
+	static Money franc(int amount) {
+		return new Money(amount, "CHF");
+	}
+
 	static Money dollar(int amount) {
-		return new Dollar(amount);
-
+		return new Money(amount, "USD");
 	}
 
-	static Franc franc(int amount) {
-		return new Franc(amount);
+	Money times(int multiplier) {
+		return new Money(amount * multiplier, currency);
 	}
 
-	abstract Money times(int mutiplier);
+	String currency() {
+		return currency;
+	}
 
 	public boolean equals(Object object) {
 		Money money = (Money) object;
-		return amount == money.amount && getClass().equals(money.getClass());
+		return amount == money.amount && currency().equals(money.currency());
 	}
 
+	public String toString() {
+		return amount + "  " + currency;
+	}
 }
