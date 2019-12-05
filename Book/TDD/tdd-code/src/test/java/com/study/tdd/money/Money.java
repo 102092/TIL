@@ -1,6 +1,6 @@
 package com.study.tdd.money;
 
-public class Money {
+public class Money implements Expression {
 
 	protected int amount;
 	protected String currency;
@@ -9,7 +9,8 @@ public class Money {
 		this.amount = amount;
 		this.currency = currency;
 	}
-
+	
+	// 각 화폐 생산하는 팩토리 메서드 
 	static Money franc(int amount) {
 		return new Money(amount, "CHF");
 	}
@@ -33,5 +34,16 @@ public class Money {
 
 	public String toString() {
 		return amount + "  " + currency;
+	}
+	
+	// 같은 화폐끼리 덧셈
+	Expression plus(Money addend) {
+		return new Sum(this, addend);
+	}
+	
+	//환율계산하여 넘기는 것.
+	public Money reduce(Bank bank, String to) {
+		int rate = bank.rate(currency, to);
+		return new Money(amount / rate, to);
 	}
 }
