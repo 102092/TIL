@@ -19,7 +19,7 @@ public class Money implements Expression {
 		return new Money(amount, "USD");
 	}
 
-	Money times(int multiplier) {
+	Expression times(int multiplier) {
 		return new Money(amount * multiplier, currency);
 	}
 
@@ -37,7 +37,7 @@ public class Money implements Expression {
 	}
 	
 	// 같은 화폐끼리 덧셈
-	Expression plus(Money addend) {
+	public Expression plus(Expression addend) {
 		return new Sum(this, addend);
 	}
 	
