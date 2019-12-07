@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="c615647e-3b8d-47ed-83e3-677adaee72ca" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../tdd-code/src/test/java/com/study/tdd/money/Expression.java" beforeDir="false" afterPath="$PROJECT_DIR$/../tdd-code/src/test/java/com/study/tdd/money/Expression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tdd-code/src/test/java/com/study/tdd/money/Money.java" beforeDir="false" afterPath="$PROJECT_DIR$/../tdd-code/src/test/java/com/study/tdd/money/Money.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tdd-code/src/test/java/com/study/tdd/money/MoneyTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../tdd-code/src/test/java/com/study/tdd/money/MoneyTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tdd-code/src/test/java/com/study/tdd/money/Sum.java" beforeDir="false" afterPath="$PROJECT_DIR$/../tdd-code/src/test/java/com/study/tdd/money/Sum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../테스트주도개발.md" beforeDir="false" afterPath="$PROJECT_DIR$/../테스트주도개발.md" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Unit Test" />
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
+  <component name="IgnoredFileRootStore">
+    <option name="generatedRoots">
+      <set>
+        <option value="$PROJECT_DIR$/.idea" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectId" id="1UdxQ7OHEn4zfXDtGVyL3g2ejgb" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
+  </component>
+  <component name="RunManager" selected="Python.WasRun">
+    <configuration name="WasRun" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="tdd-xUnit" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tddStudy" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tddStudy/temp.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="testMethod" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="tdd-xUnit" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tddStudy" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tddStudy/testMethod.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unittests for WasRunTest.MyTestCase" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="tdd-xUnit" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tddStudy" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;WasRunTest.MyTestCase&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unittests for WasRunTest.Test" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="tdd-xUnit" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tddStudy" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;WasRunTest.Test&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unittests in /Users/kimdonghwan/github/TIL/Book/TDD/tdd-xUnit/tddStudy/WasRunTest.py" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="tdd-xUnit" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tddStudy" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/tddStudy/WasRunTest.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.WasRun" />
+        <item itemvalue="Python tests.Unittests in /Users/kimdonghwan/github/TIL/Book/TDD/tdd-xUnit/tddStudy/WasRunTest.py" />
+        <item itemvalue="Python tests.Unittests for WasRunTest.MyTestCase" />
+        <item itemvalue="Python tests.Unittests for WasRunTest.Test" />
+        <item itemvalue="Python.testMethod" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c615647e-3b8d-47ed-83e3-677adaee72ca" name="Default Changelist" comment="" />
+      <created>1575700254382</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1575700254382</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="WindowStateProjectService">
+    <state width="1355" height="248" key="GridCell.Tab.0.bottom" timestamp="1575703873444">
+      <screen x="44" y="23" width="1396" height="877" />
+    </state>
+    <state width="1355" height="248" key="GridCell.Tab.0.bottom/44.23.1396.877@44.23.1396.877" timestamp="1575703873444" />
+    <state width="1355" height="248" key="GridCell.Tab.0.center" timestamp="1575703873443">
+      <screen x="44" y="23" width="1396" height="877" />
+    </state>
+    <state width="1355" height="248" key="GridCell.Tab.0.center/44.23.1396.877@44.23.1396.877" timestamp="1575703873443" />
+    <state width="1355" height="248" key="GridCell.Tab.0.left" timestamp="1575703873443">
+      <screen x="44" y="23" width="1396" height="877" />
+    </state>
+    <state width="1355" height="248" key="GridCell.Tab.0.left/44.23.1396.877@44.23.1396.877" timestamp="1575703873443" />
+    <state width="1355" height="248" key="GridCell.Tab.0.right" timestamp="1575703873444">
+      <screen x="44" y="23" width="1396" height="877" />
+    </state>
+    <state width="1355" height="248" key="GridCell.Tab.0.right/44.23.1396.877@44.23.1396.877" timestamp="1575703873444" />
+    <state x="419" y="294" key="com.intellij.ide.util.TipDialog" timestamp="1575700472992">
+      <screen x="44" y="23" width="1396" height="877" />
+    </state>
+    <state x="419" y="294" key="com.intellij.ide.util.TipDialog/44.23.1396.877@44.23.1396.877" timestamp="1575700472992" />
+    <state x="400" y="104" width="683" height="714" key="find.popup" timestamp="1575702258822">
+      <screen x="44" y="23" width="1396" height="877" />
+    </state>
+    <state x="400" y="104" width="683" height="714" key="find.popup/44.23.1396.877@44.23.1396.877" timestamp="1575702258822" />
+  </component>
+</project>
