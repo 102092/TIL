@@ -106,7 +106,7 @@ while(numbers1.lenth > i){
 
 ![1566827504881](Data Structure.assets/1566827504881.png)
 
-- Array는
+- Array(배열)는
 
   - 인덱스(**위치**)가 중요함
 
@@ -120,7 +120,7 @@ while(numbers1.lenth > i){
 
     유일무일한 식별자느낌
 
-- List는
+- List(리스트)는
 
   - 인덱스도 중요하지만, 데이터가 저장되어 있는 **순서**가 더 중요하게 여겨짐
 
@@ -525,12 +525,13 @@ public class LinkedList{
     private class Node {
     //node가 가지고 있어야할것
     	private Object data;
-        private Node next;
-        public Node(Object input){
+      private Node next;
+      
+      public Node(Object input){
             this.data = input;
             this.next = null;
         }
-        public String toString(){
+      public String toString(){
             return String.valueOf(this.data)
         }
     }
@@ -739,7 +740,7 @@ class ListIterator(){
 
 
 
-### iterator hasNedt
+### iterator hasNext
 
 ![1567945161088](Data Structure.assets/1567945161088.png)
 
