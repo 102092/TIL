@@ -29,7 +29,7 @@ class check_brackets {
         InputStreamReader input_stream = new InputStreamReader(System.in);
         // BufferedReader reader = new BufferedReader(input_stream);
         BufferedReader reader = new BufferedReader(new FileReader(
-                "/Users/kimdonghwan/Downloads/LkuBSNbcEemBBQ6q5tv6Ug_1e8f8d7156f74352a06c585ba4a0d16b_course2_1909141309/week1_basic_data_structures/1_brackets_in_code/tests/51"));
+                "/Users/kimdonghwan/github/TIL/CS/Data Structure/coursera_data-structures/week1_basic_data_structures/1_brackets_in_code/tests/41"));
         String text = reader.readLine();
 
         Stack<Bracket> opening_brackets_stack = new Stack<Bracket>();
