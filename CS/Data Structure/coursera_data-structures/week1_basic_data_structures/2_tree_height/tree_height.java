@@ -6,8 +6,9 @@ public class tree_height {
 		StringTokenizer tok = new StringTokenizer("");
 		BufferedReader in;
 
-		FastScanner() {
-			in = new BufferedReader(new InputStreamReader(System.in));
+		FastScanner() throws FileNotFoundException {
+			in = new BufferedReader(new FileReader(
+					"/Users/kimdonghwan/github/TIL/CS/Data Structure/coursera_data-structures/week1_basic_data_structures/2_tree_height/tests/18"));
 		}
 
 		String next() throws IOException {
@@ -23,51 +24,76 @@ public class tree_height {
 
 	public class TreeHeight {
 		int n;
-		int parent[];
-		ArrayList<ArrayList<Integer>> temp = new ArrayList<ArrayList<Integer>>();
+		int old[];
+
+		Queue<Integer> queue;
+		ArrayList<ArrayList<Integer>> children;
+		int[] heights;
+		int root;
 
 		void read() throws IOException {
 			FastScanner in = new FastScanner();
 			n = in.nextInt();
-			parent = new int[n];
+			heights = new int[n];
+			children = new ArrayList<>(n);
+			old = new int[n];
 
 			for (int i = 0; i < n; i++) {
-				parent[i] = in.nextInt();
+				children.add(i, new ArrayList<>());
 			}
-		}
 
-		int computeHeight() {
-			int maxHeight = 0;
+			for (int i = 0; i < n; i++) {
+				int parent = in.nextInt();
+				old[i] = parent;
 
-			for (int vertex = 0; vertex < n; vertex++) {
-				ArrayList<Integer> node = new ArrayList<>();
-				node.add(parent[vertex]);
-
-				if (node.contains(-1)) {
-					temp.add(0, node);
-					maxHeight++;
-				} else if (temp.contains(node)) {
-					int index = temp.indexOf(node);
-					temp.get(index).add(parent[vertex]);
+				if (parent == -1) {
+					root = i; // 1
 				} else {
-					temp.add(maxHeight, node);
-					maxHeight++;
+					children.get(parent).add(i);
 				}
 
 			}
+		}
+
+		int computeHeight_fast() {
+			// Replace this code with a faster implementation
+			int maxHeight = 0;
+			queue = new LinkedList<>();
+			queue.add(root);
+
+			while (!queue.isEmpty()) {
+				int pop = queue.poll();
+				for (Integer node : children.get(pop)) {
+					heights[node] = heights[pop] + 1;
+					queue.add(node);
+				}
+				maxHeight = heights[pop] + 1;
+			}
 			return maxHeight;
 
-			// Replace this code with a faster implementation
-			// int maxHeight = 0;
-			// for (int vertex = 0; vertex < n; vertex++) {
-			// int height = 0;
-			// for (int i = vertex; i != -1; i = parent[i])
-			// height++;
-			// maxHeight = Math.max(maxHeight, height);
-			// }
-			// return maxHeight;
-			// }
 		}
+
+		int computeHeight_origin() {
+			// Replace this code with a faster implementation
+			int maxHeight = 0;
+			for (int vertex = 0; vertex < n; vertex++) {
+				int height = 0;
+				for (int i = vertex; i != -1; i = old[i])
+					height++;
+				maxHeight = Math.max(maxHeight, height);
+			}
+			return maxHeight;
+		}
+
+		private void measure_and_print() {
+			long start = System.currentTimeMillis();
+			int fast = computeHeight_fast();
+			long end = System.currentTimeMillis();
+			int origin = computeHeight_origin();
+			System.out.println((origin == fast ? "OK" : "Error!") + " origin=" + origin + " fast=" + fast + " millis="
+					+ (end - start));
+		}
+
 	}
 
 	static public void main(String[] args) throws IOException {
@@ -84,6 +110,6 @@ public class tree_height {
 	public void run() throws IOException {
 		TreeHeight tree = new TreeHeight();
 		tree.read();
-		System.out.println(tree.computeHeight());
+		tree.measure_and_print();
 	}
 }
