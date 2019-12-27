@@ -1610,8 +1610,10 @@ for(int s =1; i=0; i<=k; i++)
      2.1 g에서 나가는 에지들을 제거하고
 
   3. b를 출력하고
+     
      3. 1 b에서 나가는 에지들을 제거하고
   4. e를 출력하고,
+     	
      	4. 1 e에서 나가는 에지들을 제거하고
   5. c,f를 출력한다.
 
@@ -1655,4 +1657,108 @@ for(int s =1; i=0; i<=k; i++)
   - 연결, 인접은 다른말.
 
 - Generic MST 알고리즘
+
+
+
+## 9 Dynamic Programming
+
+### 피보나치 수열
+
+- recursion으로 풀면, 해야될 계산들이 반복되어 계속됨. 
+- 즉 비효율적.
+- 이걸 피할 방법이 필요하겠지?
+
+- Memoization
+
+  - 한번 한 계산을 기억해놓은 다음에, 다음번에 이 계산이 필요할 경우 바로 접근할 수 있도록..
+
+  ```java
+  int fib(int n){
+      if(n==1 || n==2)
+          return 1;
+      else if(f[n] > -1) //f[n]의 초기값을 -1로..
+          return f[n];
+      else{
+      	f[n] = fib(n-2) + fib(n-1);
+      	return f[n];
+      }
+  }
+  ```
+
+  - f[n]에 저장하는 것을 caching한다고 이야기함.
+
+
+
+- bottom-up
+
+  ```java
+  int fib(int n){
+      f[1] = f[2] = 1;
+      for(int i=3; i<=n; i++)
+          f[n] = f[n-1] + f[n-2];
+      return f[n];
+  }
+  ```
+
+  - 가장 기본적인 순서부터 계산해와서, f[n] 을 구하고자 할 때, 오른쪽 식을 구성하는 요소는 이미 다 계산되어있음.
+
+
+
+### 이항계수
+
+- 기본가정 : n >= k
+
+```java
+int binomial(int n, int k){
+    if(n==k || k == 0)
+        return 1;
+    else
+        return binomial(n-1, k) + binomial(n-1, k-1); //이부분
+}
+```
+
+- 이 방법도, 많은 계산이 중복됨을 알 수 있음.
+
+
+
+- Memoization
+  - 2차원배열의 대각선 아래쪽만 채워질 것임. 왜? **n >=k**이니까
+
+```java
+int binomial(int n, int k){
+    if(n==k || k ==0)
+        return 1;
+    else if(binom[n][k] > -1)
+        return binom[n][k];
+    else{
+        binom[n][k] = binomial(n-1,k) + binomial(n-1, k-1);
+        return binom[n][k];
+    }
+}
+```
+
+
+
+- bottom-up	
+  - 순환식의 오른쪽에 등장하는 값들이 항상 왼쪽에 등장하는 값보다 먼저 계산되어진다.
+
+```java
+int binomial(int n, int k){
+    for(int i=0; i <=n; i++){
+        for(int j=0; j<=k && j<=i; j++){
+            if(k==0 || n==k)
+                binom[i][j] =1;
+            else
+                binom[i][j] = binom[i-1][j-1] + binom[i-1][j //순환식 오른쪽부분
+        }
+    }
+    return binom[n][k];
+}
+```
+
+
+
+### 행렬 경로문제 
+
+![image-20191227233236507](Algo_inflearn.assets/image-20191227233236507.png)- 
 
