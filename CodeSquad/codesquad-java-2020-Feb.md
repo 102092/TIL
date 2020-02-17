@@ -11,6 +11,7 @@
 
 - [1-week](#1-week)
 - [2-week](#2-week)
+- [3-week](#3-week)
 
 
 
@@ -263,13 +264,6 @@
 
 
 
-> todo
-
-- [ ] 깃 연습 (https://learngitbranching.js.org/)  , 원격 저장소 + 고급 문제
-- [ ] 이전 정리한 3가지 sort에 대해 직접 써보기.
-
-
-
 > retrospective
 
 - 회고 정리해야함.
@@ -410,3 +404,107 @@
 - https://www.baeldung.com/java-string-pool
 
 - [https://medium.com/@joongwon/string-%EC%9D%98-%EB%A9%94%EB%AA%A8%EB%A6%AC%EC%97%90-%EB%8C%80%ED%95%9C-%EA%B3%A0%EC%B0%B0-57af94cbb6bc](https://medium.com/@joongwon/string-의-메모리에-대한-고찰-57af94cbb6bc)
+
+
+
+
+
+### 02-14,15 토-일
+
+> done
+
+- [x] 이것이자바다 ch 17
+- [x] JVM, String 정리
+- [x] 이펙티브 자바 구입
+- [x] HTTP 생활코딩 강의듣기
+
+
+
+
+
+## 3-week
+
+
+
+### 02-17 월
+
+> done
+
+- [x] sql 1
+- [x] leetcode 1
+- [x] Sprinboot 회원프로필정보보기 까지
+
+
+
+> class
+
+- 스프링 부트 따라하기.
+
+  - 교재 보고 할 필요 없음.
+
+- heroku 배포
+
+- ORM 있는 지만 확인하는 수준.
+
+  - 대부분은 spring-jdbc 사용 or Mybatis
+
+- 서블릿
+
+  - 서버에서 돌아가는 자바 어플리케이션을 통칭하는 말.
+
+- www
+
+  - 3대 요소는 알아야함
+  - 뭐가있찌?
+  - HTTP / HTML / URL
+
+- 정적인 페이지를 처리해주는 서버를 돌리는 
+
+  - apache, ngix
+
+- 동적인 페이지를 처리해주는 == WAS, AppServer
+
+  - 대표적인 WAS는 TOMCAT
+
+  - JSP
+  - Servlet
+
+- EJB, 동적페이지 처리 기준. IBM 밀어줌. 망함. 왜? 너무 어려워. 러닝커브가 너무 높아.
+
+- Django, Spring은 개발자가 서버 구현을 위해 필요한 모든 것이 들어있어서, 로직만 구현하면 됨.
+
+- JVM runtime , Node.js runtime(웹서버 기능을 내장하고 있는.)
+
+  - Node.js 는 web server 없어도 돌아감. 싱글 스레드여서
+
+- WEB SERVER - WAS - DB (3-tier)
+
+- Spring
+  - Full Framework.
+  - 안정적
+  - DI, AOP
+
+- 실행주체는 gradle
+- handlebar 사용
+- 서버에 배포할 때, `gradlew`가 있어야 됨.
+- 기본적으로 `jar` java archive 배포.
+
+- handlerbar를 쓰는 이유? 
+  - 템플릿에 로직을 넘기지 않기 위해서
+
+
+
+### 02-18 화
+
+> done
+
+
+
+> todo
+
+- [ ] Java ch 18
+- 도서
+  - [ ] 헬로우 알고리즘 탐욕알고리즘
+  - [ ] 1% 네트워크 쭉 읽기
+  - [ ] 데이터베이스 기본
+
