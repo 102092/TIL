@@ -498,13 +498,49 @@
 
 > done
 
+- [x] Desgin Pattern 1ch
+
+- [x] thisis Java 18ch
+
+- [x] 스프링 프레임워크 1ch
+- [x] step1 pull request
+- [x] sql 1
+- [x] leetcode 1
+- [x] 풀업
+
+
+
+### 02-19 수
+
+> done
+- [x] programmers 2
+- [x] sql 1
+- [x] java ch 19
+- [x] java-qna 1 review
+- [x] java-qna 2 init
+
 
 
 > todo
+- [ ] step1 배경지식 정리
+- [ ] 스프링 프레임워크 1ch
+- [ ] DP 1ch
 
-- [ ] Java ch 18
-- 도서
-  - [ ] 헬로우 알고리즘 탐욕알고리즘
-  - [ ] 1% 네트워크 쭉 읽기
-  - [ ] 데이터베이스 기본
 
+
+
+> know
+
+- SQL Join
+
+  ![](https://t1.daumcdn.net/cfile/tistory/99219C345BE91A7E32)
+
+
+
+### 02-02 목
+
+> done
+
+
+
+> todo
