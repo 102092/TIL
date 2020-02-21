@@ -521,15 +521,8 @@
 
 
 
-> todo
-- [ ] step1 배경지식 정리
-- [ ] 스프링 프레임워크 1ch
-- [ ] DP 1ch
 
-
-
-
-> know
+> study
 
 - SQL Join
 
@@ -537,10 +530,129 @@
 
 
 
-### 02-02 목
+### 02-20 목
 
 > done
+- [x] SQL 1
+- [x] Leetcode 1
+- [x] Programmers 1
+- [x] step1 배경지식 정리
+- [x] Step2 Pull request
+  - [x] 중복제거
+  - [x] UpdateForm
 
 
+
+> 정리
+
+- 작게 작게, 문제가 발생하면 코드를 조금씩 고쳐준다.
+
+
+
+#### Call by Value, Call by Reference
+
+- Java는 아무것도 안하고 파일을 만들면, Java.lang.*; import가 자동으로 됨.
+- 배열이 Object인지 어떻게 알지? 자바에서?
+  - 매개변수로 넘길 수 있음.
+  - 즉 1급 시민
+  - 고로 객체
+
+- C에서는 배열 == 포인터
+  
+- 왜? Syntax의 추가여서?
+  
+- 사실상 Call by Reference라는게 없음.
+
+  - C 언어는 포인터를 사용해서, Call by Address 할 수 있도록.
+
+- 매개변수는 값을 복사함
+
+- Call by Value == 해당 값을 복사한다는 의미.
+
+- 함수와 스택은 반드시 같이 있어야 빛이 나는 존재들.
+
+- 자바는 primitive type은 call by value, 나머지는 call by reference지만, 후자는 내부적으로 call by value로 돌아간다.
+
+  ```c
+  #include <studio.h>
+  
+  void foo(int *a){
+    *a += 3
+  }
+  
+  int main() {
+    int a = 10;
+    int *b = &a;
+    foo(b);
+    printf("%d\n", *b); //13
+    printf("%d\n" a); //13
+    return 0;
+  }
+  ```
+
+- primitive type을 call by value로 하면, 할 때마다 값을 복사. 그런데 아무리 커도 64bit, 8byte 크게 부담되지는 않음.
+
+- 그렇지만 객체는 오버헤드가 발생할 가능성이 높음(자바 언어를 만들 당시)
+
+- Java memory + thread 알아야함.
+
+
+
+#### Spring
+
+- 객체 지향 프로그래밍을 도와주는 프레임워크들의 집합.
+- Spring MVC : 웹 프레임워크, 보통이 부분을 많이 사용한다.
+-  Tomcat : WAS, web application server, 좀 더 자세하게는 Servlet Container
+  - servlet? 
+
+- Web Server , WAS 는 다른 서버 일수도, 같은 서버내에 있을 수도 있음.
+- 웹프로그래밍은 Request 받아서, Response 보내는 것이 전부.
+- POJO : plain old java object, annotation들을 제외한 Java 클래스를 의미함. 상속 안하고, 단독으로 클래스를 만든 것.
+  - POJO 를 기반으로 Spring container가 bean으로 등록하여 관리해줌.
+- 세자빈
+- [ ] 영문 위키 Java bean 규약 읽기
+  - [ ] wiki code 따라해보기
+
+- 객체가 string 으로 쭉 표현할 수 있으면 serializable 하다 라고 이야기함.
+  - 그리고 네트워크로 전송이 가능하면 serialiable하다라함.
+- Spring에만 bean 이 있는 것이 아님.
+- 스레드는 프로그램 흐름의 단위.
+- 코드를 실행하는 가장 작은 단위는 메서드
+- 스레드는 메모리의 코드 영역 공유, 데이터 영역(클래스 변수가 올라가는) 도 공유
+  - 그렇지만 각자 stack을 가짐.
+  - 왜? 각자 메서드를 실행하기 위해서.
+  - 즉 지역변수는 stack에 저장되므
+  - Context switching
+
+- bean는 싱글톤 , 동기화에 유의하자
+- 웹 코딩할 때, throw를 쓰는 것이 좋음.
+  - 왜? 프로그램이 죽진 않고, 웹페이지에 에러 페이지를 띄어줌.
+
+
+
+### 02-21 금
+
+> done
+- [x] sql join
+- [x] leetcode 1
+- [x] programmer 1
+- step3
+
+  - [x] 로그인 기능 구현 1
+  - [x] 로그인 상태에 따른 메뉴 처리, 로그아웃
+  - [x] 로그인한 자기 자신의 정보만 수정하도록
+  - [x] 중복제거
+  - [x] 쿼리 보기
 
 > todo
+
+- [ ] step 3
+  - [ ] clean code
+  - [ ] 로그한 사용자에 한 해, 질문이 가능하도록
+  - [ ] 질문 목록 기능 구현
+- [ ] spring 1ch
+- [ ] design pattern 1ch
+
+- [ ] 어제 수업 복습
+  - [ ] 본질적으로 보면 왜 자바에는 call by reference는 없다고 볼 수 있을까?
+
