@@ -12,6 +12,7 @@
 - [1-week](#1-week)
 - [2-week](#2-week)
 - [3-week](#3-week)
+- [4-week](#4-week)
 
 
 
@@ -610,9 +611,6 @@
 - POJO : plain old java object, annotation들을 제외한 Java 클래스를 의미함. 상속 안하고, 단독으로 클래스를 만든 것.
   - POJO 를 기반으로 Spring container가 bean으로 등록하여 관리해줌.
 - 세자빈
-- [ ] 영문 위키 Java bean 규약 읽기
-  - [ ] wiki code 따라해보기
-
 - 객체가 string 으로 쭉 표현할 수 있으면 serializable 하다 라고 이야기함.
   - 그리고 네트워크로 전송이 가능하면 serialiable하다라함.
 - Spring에만 bean 이 있는 것이 아님.
@@ -621,7 +619,7 @@
 - 스레드는 메모리의 코드 영역 공유, 데이터 영역(클래스 변수가 올라가는) 도 공유
   - 그렇지만 각자 stack을 가짐.
   - 왜? 각자 메서드를 실행하기 위해서.
-  - 즉 지역변수는 stack에 저장되므
+  - 즉 지역변수는 stack에 저장되므로
   - Context switching
 
 - bean는 싱글톤 , 동기화에 유의하자
@@ -644,15 +642,209 @@
   - [x] 중복제거
   - [x] 쿼리 보기
 
+
+
+### 02-22~23 토 ~ 일
+
+> done
+
+- [x] design pattern 1ch
+- [x] Spring framework 1ch
+
+
+
+## 4-week
+
+### 02-24 월
+
+> done
+
+- Daily
+  - [x] Leetcode 1
+  - [x] programmer 1
+    - TruckOnBridge 다른 풀이 방법도 보고 외워서 다시 써보자
+  - [x] sql 1
+- inflearn
+  - [x] DP 1
+  - [x] Spring framework 1
+- step 3
+  - [x] log level DEBUG
+
+
+
+> 수업
+
+- https://www.youtube.com/watch?v=HPPtkb1XJRc&list=PLYWP8_z2qv7wT1UA_Y0gsYBjnTDEH4YpG
+  
+- 보고 정리 해보자 , Springboot and object programming
+  
+- https://okky.kr/article/682427?fbclid=IwAR0TFnGoWrTLsS_HjkN5Vg2iQHpqZvNM4u1wG9VVrU2N6gv5tUKFWn6uaTY
+  
+- 참고해서 어떻게 더 공부할지 정리해보자
+  
+- 공부하는 방법
+  - 책을 본다
+    - 왜 책? 
+    - 생각할 수 있는 시간을 주기 때문에
+  - - 단! 코딩은 전부 타이핑 한다.
+  - 덮는다
+  - 다시 꺼낸다.
+  - 뒷부분 부터 본다.
+  - 다 읽어도 기억이 안난다.
+  - 다른 책을 본다.
+    - 자바의 정석 봤으면, 자바의 신, 혼공자등등등..
+- 자바 필수
+  1. 자바 기초잭
+  2. 김종민님 책 - 객체지향 스프링 기초
+  3. 최범균 스프링
+
+- 백엔드 3대 subject
+
+  1. Java
+  2. Spring
+  3. HTTP
+  4. Database
+  5. 운영체제 (프로세스, 스레드, I/O)
+
+  - option
+    - git
+    - 클라우드, 리눅스 사용법
+
+
+
+#### redirect vs forward
+
+  - `return "redirect:/users/" + id` 
+  - 이러면, redirect ~ 주소를 하라고, redirect 요청이 브라우저에 감.
+  - `HTTP 301 / localhost:8080/users/1` 
+  - 즉 행동하는 주체는 브라우저, 거부권이 없음. 
+  - 스프링이 처리하는 것이 아니라, 브라우저가 위의 주소로 get 요청을 보내게됨.
+
+
+
+
+- `return "/users/list";`
+  - model을 view에게 전달해주고,
+  - /users/list.html 이라는 템플릿을 읽어서, 전달된 model하고 합쳐서 응답을 해줌.
+
+- forward
+  - 요청 --> 서블릿 --> 응답 (기본 응답 과정)
+  - 요청 --> 콘트롤러의 메소드 -- > 응답 (스프링 MVC )
+  - 요청 --> 서블릿 --> 서블릿 -- > 응답 (forward 과정)
+    - redirect의 주체는 브라우저.
+    - 그렇지만 forward 과정은 브라우저가 아무것도 모름
+
+- 로그인 하기 전 페이지 에서, 로그인 한 후 어떤 페이지로 돌아 가는지
+  - github,
+  - naver
+
+- tomcat 이 sevlet container
+  - 수 많은 서블릿들이 있는데,
+  - 그 중 Dispathcher Sevlet을 spring이 사용하는 것.
+  - 포스팅 해보자.
+
+- Spring boot는 XML 설정을, annotation으로 대신하는 것일 뿐
+- 의존성 주입 왜 해?
+  - 재사용을 쉽게 하기 위해서.
+
+
+
+#### HTTP Request, Response
+
+- URL을 통해 IP를 찾아주는 역할을 하는 것이 DNS
+- 처음 부터 DNS Server를 찾아가는 것은 아님.
+- 처음에 브라우저 DNS Cache에 해당 URL이 있는지 확인함.
+  - 왜 Caching?
+  - 상위 서버의 부하를 줄여주고, 반응이 빠름.
+  - 만약에 가고 싶은 서버의 주소와, 내 Cache 주소가 다르면? --> 오류임.
+    1. 주기적으로 내 Cache와 DNS 서버랑 비교
+    2. Cache에 만료 시간을 같이 줌 --> 그러면 언제 갱신할지 알 수 있으니까.
+- DNS Server는 계층적으로 되어있음.
+- AWS Router 53 , AWS에서 제공해주는 DNS Server
+- SLA , Service Level Agreement, 가동률 100% 왜? 분산 서비스를 제공, 전 세계 이 서버를 200군대로 나눠놨음.
+
+- Hyper ? 뭔가 보완하는 느낌
+  - Hyper Text 텍스트보다, 좀더 많은 것을 전송하는 느낌.
+- 처음 버전은 0.1
+- 한국 사람이 없는 외국에서 공부를 해보자
+- 소켓의 메타포는 옛날 전화기.
+- 클라이언트 -- Buffer -- 서버
+  - 기본적으로 HTTP 아래층은 정상적으로 돌아간다고 가정한다.
+- HTTP 1.1 
+  - keep-alive
+- TCP 3 handShakes
+  - 맺을 때 3번 통신
+  - 끊을 때는 4번 통신해서
+  - HTTP 1.0은, 요청을 하고 연결하고 응답 받고, 연결을 끊음.
+
+- template을 쓰는 이유는 코드의 중복을 최대한 줄이기 위해서.
+- HTTP Protocol은 문자열.
+  - 그렇지만 정해진 규칙에 맞는 문자열임.
+
+- 특정 메서드에 header, body
+- URL에 확장자가 없는 것이 추세
+- index.html은 없애는것이 좋음.
+- fragmentation 운영체제
+- 서버측에서 응답이 없는 메서드 일 때, create user... 201 or 202응답
+- request는 blank line 만나기 전까지가 header
+  - 즉 \r\n을 2개를 만나면 그 다음 부터 body임. 그 전은 header
+- Content-Length 는 body가 몇줄인지 알려줌. 
+- GET, HEAD == No Action on Server.
+  - GET 은 멱등 연산. 요청 때마다, 다른 결과를 응답해주면 안됨.
+- CRUD, GET, POST, PUT, DELETE
+- GET, POST의 차이. GET을 사용해야 하는 이유, POST를 사용해야 하는 이유.
+
+- 상태 코드의 의미.
+- 301 위험성
+- 쿠키는 클라이언트가 저장하는 값. 
+  - 서버가 클라이언트한테 저장하는 값만 저장함.
+  - 세션 아이디는 긴 난수로 만들어야함. 왜? 탈취 위험성
+
+
+
+### 02-25 화
+
+> done
+
+
+
 > todo
 
-- [ ] step 3
+- step2
+  - [ ] Review
+- step 3
   - [ ] clean code
   - [ ] 로그한 사용자에 한 해, 질문이 가능하도록
   - [ ] 질문 목록 기능 구현
-- [ ] spring 1ch
-- [ ] design pattern 1ch
+- 정리 --> Posting
+  - [ ] Java 에는 본질적으로 Call by Reference가 없다?
+  - [ ] REST API에 대해서
+  - [ ] JVM 공간에 대해
+  - [ ] WAS, Servlet에 대해
+  - [ ] GET, POST의 차이. GET을 사용해야 하는 이유, POST를 사용해야 하는 이유.
+  - [ ] 301 위험성
+- Book
 
-- [ ] 어제 수업 복습
-  - [ ] 본질적으로 보면 왜 자바에는 call by reference는 없다고 볼 수 있을까?
+  - Oh yes
+    - [ ] 1ch 정리
 
+  - 1% 네트워크 1ch
+    - [ ] 1ch 정리	
+- 기타
+
+  - [ ] 영문 위키 Java bean 규약 읽기
+
+  - [ ] wiki code 따라해보기
+
+- Spring
+
+  - [ ] Spring-boot 강좌 branch 생성
+  - [ ] project init
+
+- Daily
+
+  - [ ] sql
+  - [ ] leetcode 1
+  - [ ] programmer 1
+
+  
