@@ -806,28 +806,40 @@
 
 > done
 
+- Daily
+  - [x] sql 1
+  - [x] leetcode 1
+  - [x] programmer 1
+    - 소수 에라뭐시기의 체 구현
+- 정리 --> Posting
+  - [x] REST API에 대해서
+  - [x] WAS, Servlet에 대해
+- step2
+  - [x] Review
+- step3
+  - [x] pull request
+
+
+
+### 02-26 수
+
+> done
+
 
 
 > todo
 
-- step2
-  - [ ] Review
-- step 3
-  - [ ] clean code
-  - [ ] 로그한 사용자에 한 해, 질문이 가능하도록
-  - [ ] 질문 목록 기능 구현
 - 정리 --> Posting
   - [ ] Java 에는 본질적으로 Call by Reference가 없다?
-  - [ ] REST API에 대해서
   - [ ] JVM 공간에 대해
-  - [ ] WAS, Servlet에 대해
   - [ ] GET, POST의 차이. GET을 사용해야 하는 이유, POST를 사용해야 하는 이유.
-  - [ ] 301 위험성
+    - https://restfulapi.net/http-methods/
+  - [ ] 301 vs 302 위험성
+    - https://www.hochmanconsultants.com/301-vs-302-redirect/
 - Book
 
   - Oh yes
     - [ ] 1ch 정리
-
   - 1% 네트워크 1ch
     - [ ] 1ch 정리	
 - 기타
@@ -842,9 +854,6 @@
   - [ ] project init
 
 - Daily
-
-  - [ ] sql
+  - [ ] sql 1
   - [ ] leetcode 1
   - [ ] programmer 1
-
-  
