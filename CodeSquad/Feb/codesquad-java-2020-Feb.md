@@ -730,7 +730,7 @@
 - forward
   - 요청 --> 서블릿 --> 응답 (기본 응답 과정)
   - 요청 --> 콘트롤러의 메소드 -- > 응답 (스프링 MVC )
-  - 요청 --> 서블릿 --> 서블릿 -- > 응답 (forward 과정)
+  - **요청 --> 서블릿 --> 서블릿 -- > 응답 (forward 과정)**
     - redirect의 주체는 브라우저.
     - 그렇지만 forward 과정은 브라우저가 아무것도 모름
 
@@ -825,35 +825,158 @@
 
 > done
 
+- Daily
+  - [x] sql 1
+  - [x] programmer 1
+  
+- 기타
 
+  - [x] 영문 위키 Java bean 규약 읽기
+    - 직렬화를 할 수 있음. 즉 객체가 통신을 통해 왔다갔다 할 수 있음.
+    - zero-argument 생성자
+      - 개발자가 알지 못하는, 타당하지 않게 객체가 생성될 수도 있는 위험성
+    - 외부에서 접근은 getter and setter method를 통해서
+      - 무분별한 getter setter 추가는 code가 장황해질 위험성이 있음.
+    - 재사용가능함
+    - mutable한 객체임.
+
+- 정리
+  - [x] 301 vs 302 위험성
+  - [x] GET, POST의 차이. GET을 사용해야 하는 이유, POST를 사용해야 하는 이유.
+  
+- Spring  
+
+  - [x] Spring-boot 강좌 branch 생성
+  - [x] project init
+
+  
+
+### 02-28 목
+
+> done
+
+- Daily
+  - [x] sql 1
+  - [x] leetcode 1
+  - [x] programmer 1
+
+
+
+> 강의
+
+- 자바 참조변수
+- Optional
+- HTTP , 1.0 1.1 2.0 | 쿠키 vs 세션
+
+
+
+##### 자바 참조변수
+
+- primitive type은 값 자체를 사용
+- object 는 reference variable을 사용
+- pointer ? 배열을 조작하기 위해서 사용
+- 자바의 객체는 포인터다.
+- static variable or method는 class 이름으로 접근 하는 것
+- main stack 제일 아래에 args(String 배열 참조변수)
+  - main stack은 날라갈 일이 없음. 
+  - 프로그램이 실행되고 있다면
+- 메서드가 실행되면 하나의 stack 공간이 생김.
+- 자바에서는 매개변수의 포인터를 업데이트 할 수 없음.
+- 자바에서 참조변수는 포인터. 그러나 읽기 전용 포인터.
+- Call by Reference == Pointer와 같음.
+
+- JDK == 개발도구
+- JRE == 실행도구
+  - 둘 다, JVM 위에서 돌아감.
+- xxx.class는 Java byte code(기계어 아님)
+  - 바로 실행은 안되고, JVM이 불러서 기계어로 컴파일하여  실행을 함
+  - JVM ClassLoader에서
+- 자바 파일 만큼, 클래스 파일이 생김.
+
+- 실행이 되려면, 해당 클래스 파일에 Main method가 있어야 하고, 모든 클래스 파일을 로드하는 것이 아니라, 필요한 부분만 그때 그때 동적으로 가져온다. 
+
+- java는 프로세스 여러개 사용함
+  - GC , Excute engine, Class Loader 각각 프로그램이.
+- native method stack : 잘 안씀. 예전에 성능이 느릴 때, 프로그램의 일부를 c로 짰을 때 사용했을 때 이용한 영역
+
+- PC register JVM에 프로그램 실행을 위해서 필요한 자료구조들을 모두 저장하는 영역
+- Heap은 객체가 new하면 들어가는 영역
+- method area method, class가 들어가는 영역. 정적 변수(static , 상수)
+
+- stack per thread, PC register per thread
+
+- 상속을 받으면 자손, 부모 객체 모두 heap 메모리에 올라간다.
+- List<> list = new ArrayList<>(); 
+  - 메서드를 호출 하면 arrayList의  메서드를 호출한다.
+  - 그렇지만 arrayList 만의 메서드를 호출하려 캐스팅을 해야함.
+- tomcat은 멀티스레드
+
+
+
+
+
+##### HTTP
+
+- 1.0 
+- 1.1
+  - pipeline 하나씩 일을 넘겨주는 것, 컨베이너 벨트에서 사람들이 일하는 방식.
+- 2.0
+  - 병렬로 일하고, 요청하면 한번에 갖다줌.
+
+- 요청이 API이어야 PUT, PATCH 차이를 구분해야 하지 않을까.
+- HTTP FORM은 기본적으로 GET, POST만 지원함.
+- 핸드폰 통화가 statefull, 무전기 stateless
+- HTTP는 기본적으로 statelss
+  - 기억하기 위해서 세션, 쿠키를 사용함.
+- 쿠키
+  - 서버가 클라이언트에게 보낼 때, header에 박아서 보냄 set-cookie로 value (session)을
+  - 쿠키는 세션관리
+  - 실제로는 장바구니 시스템에서 사용
+- session
+  - 임시 저장공간
+    - Redis 같은 db 사용
+  - 접속한 사용자 한명당, session 하나를 만들어서 사용하게 됨.
+  - session은 일종의 key-value 자료 구조
+- 일반적으로 세션은 메모리에 저장됨.
+- 패스워드는 복호화되면 안됨.
+
+- session은 싱글톤 , bean이니까 동시에 같은 세션에 접근할 수 없을것이라 생각됨.
+
+
+
+### 02-29 금
+
+> done
+
+- Daily
+  - [x] sql 1
+  - [x] leetcode 1
+- step4
+  - [x] 게시판 구현 1 학습 마무리
+  - [x] 강의 3 
+- DP
+  - [x] 1ch
+- Book
+  - 스프링 입문을 위한 자바 객체 지향의 원리와 이해
+    - [x] 1ch 정리
 
 > todo
 
+- Spring boot edu
+
+  - [ ] step1
 - 정리 --> Posting
   - [ ] Java 에는 본질적으로 Call by Reference가 없다?
+
   - [ ] JVM 공간에 대해
-  - [ ] GET, POST의 차이. GET을 사용해야 하는 이유, POST를 사용해야 하는 이유.
-    - https://restfulapi.net/http-methods/
-  - [ ] 301 vs 302 위험성
-    - https://www.hochmanconsultants.com/301-vs-302-redirect/
-- Book
 
-  - Oh yes
-    - [ ] 1ch 정리
-  - 1% 네트워크 1ch
-    - [ ] 1ch 정리	
-- 기타
 
-  - [ ] 영문 위키 Java bean 규약 읽기
+- 알고리즘 동적계획법
+  - [ ] 1
+  - [ ] 2
 
-  - [ ] wiki code 따라해보기
+- 자료구조 - book
 
-- Spring
+  - [ ] 1ch
 
-  - [ ] Spring-boot 강좌 branch 생성
-  - [ ] project init
-
-- Daily
-  - [ ] sql 1
-  - [ ] leetcode 1
-  - [ ] programmer 1
+- step3 까지 한 코드 살펴보기
