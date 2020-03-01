@@ -1,14 +1,23 @@
-# 영리한 프로그래밍을 위한 알고리즘 
+> 참고
 
-### 참고
-
-- Java로
 - [인프런강의]([https://www.inflearn.com/course/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-%EA%B0%95%EC%A2%8C/dashboard](https://www.inflearn.com/course/알고리즘-강좌/dashboard))
-- 일주일 3강씩
 
-### 목록
 
-1. [Recursion](#1.-Recursion)
+
+> 목표
+
+- 전강의 한번씩 듣고
+- 그 후 문제 풀면서 잘 모르는 부분 다시 보고,
+- 기억해야할 부분 추가적으로 정리해보고
+
+
+
+> 목차
+
+- [Recursion](#1.-Recursion)
+
+- [Sort](#2.-Sort)
+- [DP](#9.-Dynamic-Programming)
 
 
 
@@ -669,7 +678,7 @@ public class CountCells {
 
 
 
-## 2. 정렬
+## 2. Sort
 
 - simple and slow
   - bubble sort
@@ -1304,27 +1313,17 @@ for(int s =1; i=0; i<=k; i++)
 
 
 
-## 3. 검색트리-이진검색트리
-
-### 3.1 트리와 이진트리
-
-- 노드와 링크로 이루어져있음.
-- 맨 위에있는 노드는 루트
-  - 루트는 부모노드가 없음
-- 자식이 없는 노드 ? **leaf 노드**
-
-- 레벨, 루트는 level1...
-- 모든 트리는 노드의 갯수가 n개면 레벨은 n-1개
-- 루트에서 노드로 가는 길을 **유일**하다
+## 3. Binary Search Tree
 
 
 
-**이진트리**
 
-- 각 노드가 최대 2개의 자식을 가진다. 0,1,2개의 자식
-- 각각의 자식의 대해서, 부모의 왼쪽자식인지 오른쪽 자식인지가 정해져있음.(그게 다르면 서로 다른 이진트리이다)
 
-## 6. 해슁
+## 4. Red Black Tree
+
+
+
+## 5.  Hasing
 
 - 해쉬  테이블은 dynamic set을 구현하는 효과적인 방법
   - 적절한 가정하에 탐색, 삽입, 삭제시간이 O(1)  -- 아주 좋음
@@ -1342,7 +1341,7 @@ for(int s =1; i=0; i<=k; i++)
 
 
 
-### 6.1 충돌(Collision)
+### 5.1 충돌(Collision)
 
 - 해쉬 함수값이 겹칠때? 
   - 1024 % 100 == 24, 2024 %24 ==24??? 겹치는데?
@@ -1375,7 +1374,7 @@ for(int s =1; i=0; i<=k; i++)
 - 이 가정이 현실에서는 불가능할 것.
   - 해쉬함수는 랜덤함수가 아니다. 나올 값의 범위가 정해져있음.
 
-### 6.2 Open Addressing
+### 5.2 Open Addressing
 
 **Linear probing**
 
@@ -1398,7 +1397,7 @@ for(int s =1; i=0; i<=k; i++)
 
 
 
-### 6.3 Random Key
+### 5.3 Random Key
 
 - 좋은 해쉬함수?
   - 불규칙한 값.
@@ -1449,9 +1448,9 @@ for(int s =1; i=0; i<=k; i++)
 
 ![image-20190925142323666](Algo_inflearn.assets/image-20190925142323666.png)
 
-## 7. 그래프 알고리즘
+## 6. Graph
 
-### 7.1 그래프 개념, 표현
+### 6.1 그래프 개념, 표현
 
 - 어떤 것들간의 이진관계. 객체가 있고 두 객체 간에는 관계가 있고, 어떤 두 관계에는 그러한 관계가 성립하지 않는 것.
 
@@ -1519,7 +1518,7 @@ for(int s =1; i=0; i<=k; i++)
 
     ![1569505359979](Algo_inflearn.assets/1569505359979.png)
 
-### 7.2 BFS
+### 6.2 BFS
 
 - 순회 = traversal , 모든 노드들을 방문한다.
 
@@ -1560,7 +1559,7 @@ for(int s =1; i=0; i<=k; i++)
 
 
 
-### 7.3 DFS
+### 6.3 DFS
 
 ![1569507213945](Algo_inflearn.assets/1569507213945.png)
 
@@ -1586,7 +1585,7 @@ for(int s =1; i=0; i<=k; i++)
 
 
 
-### 7.4 DAG, 위상순서
+### 6.4 DAG, 위상순서
 
 - Directed Acyclic Graph
   - 방향 사이클이 없는 방향 그래프
@@ -1613,6 +1612,8 @@ for(int s =1; i=0; i<=k; i++)
      
      3. 1 b에서 나가는 에지들을 제거하고
   4. e를 출력하고,
+     	
+     	
      	
      	4. 1 e에서 나가는 에지들을 제거하고
   5. c,f를 출력한다.
@@ -1642,7 +1643,7 @@ for(int s =1; i=0; i<=k; i++)
 - 사각 박스 친 부분은 DFS와 완전히 동일
   - DFS? 
 
-### 7.5 최소 비용 신장트리(MST)
+### 6.5 최소 비용 신장트리(MST)
 
 - 최소의 비용으로 모든 노드들이 서로 연결되도록 하는!
 
@@ -1660,15 +1661,15 @@ for(int s =1; i=0; i<=k; i++)
 
 
 
-## 9 Dynamic Programming
+## 8. Dynamic Programming
 
-### 피보나치 수열
+#### 피보나치 수열
 
 - recursion으로 풀면, 해야될 계산들이 반복되어 계속됨. 
 - 즉 비효율적.
 - 이걸 피할 방법이 필요하겠지?
 
-- Memoization
+- `Memoization`
 
   - 한번 한 계산을 기억해놓은 다음에, 다음번에 이 계산이 필요할 경우 바로 접근할 수 있도록..
 
@@ -1685,26 +1686,29 @@ for(int s =1; i=0; i<=k; i++)
   }
   ```
 
-  - f[n]에 저장하는 것을 caching한다고 이야기함.
+  - f[n]에 저장하는 것을 `caching`한다고 이야기함.
+  - 계산해서 저장해놨다는 말
 
 
 
 - bottom-up
 
+  - 중복된 계산을 피하는 또다른 방법
+  
   ```java
   int fib(int n){
       f[1] = f[2] = 1;
       for(int i=3; i<=n; i++)
           f[n] = f[n-1] + f[n-2];
       return f[n];
-  }
+}
   ```
-
+  
   - 가장 기본적인 순서부터 계산해와서, f[n] 을 구하고자 할 때, 오른쪽 식을 구성하는 요소는 이미 다 계산되어있음.
 
 
 
-### 이항계수
+#### 이항계수
 
 - 기본가정 : n >= k
 
@@ -1749,7 +1753,7 @@ int binomial(int n, int k){
             if(k==0 || n==k)
                 binom[i][j] =1;
             else
-                binom[i][j] = binom[i-1][j-1] + binom[i-1][j //순환식 오른쪽부분
+                binom[i][j] = binom[i-1][j-1] + binom[i-1][j] //순환식 오른쪽부분
         }
     }
     return binom[n][k];
@@ -1758,7 +1762,7 @@ int binomial(int n, int k){
 
 
 
-### 행렬 경로문제 
+#### 행렬 경로문제 
 
 ![image-20191227233236507](Algo_inflearn.assets/image-20191227233236507.png)- 
 
