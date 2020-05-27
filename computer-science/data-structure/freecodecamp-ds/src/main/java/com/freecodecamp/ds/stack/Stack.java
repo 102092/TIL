@@ -24,7 +24,7 @@ public class Stack<T> implements Iterable<T> {
 
   //stack push() 기능
   public void push(T firstElem) {
-    list.push(firstElem);
+    list.addLast(firstElem);
   }
 
   //stack pop() 기능
@@ -42,7 +42,7 @@ public class Stack<T> implements Iterable<T> {
     return list.peekLast();
   }
 
-  private boolean isEmpty() {
+  public boolean isEmpty() {
     return list.isEmpty();
   }
 
