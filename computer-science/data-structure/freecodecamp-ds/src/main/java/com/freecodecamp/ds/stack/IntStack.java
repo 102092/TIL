@@ -4,6 +4,8 @@ package com.freecodecamp.ds.stack;
   배열을 통해 stack 구현하기
  */
 
+import java.util.ArrayDeque;
+
 public class IntStack {
 
   private int[] arr;
@@ -75,7 +77,7 @@ public class IntStack {
     System.out.println("IntStack Time: " + (end - start) / 1e9);
 
     // ArrayDeque times at around 1.438 seconds
-    java.util.ArrayDeque<Integer> arrayDeque = new java.util.ArrayDeque<>();
+    ArrayDeque<Integer> arrayDeque = new ArrayDeque<>();
     // java.util.ArrayDeque <Integer> arrayDeque = new java.util.ArrayDeque<>(n);
     // strangely the ArrayQueue is slower when you give it an initial capacity.
     start = System.nanoTime();
