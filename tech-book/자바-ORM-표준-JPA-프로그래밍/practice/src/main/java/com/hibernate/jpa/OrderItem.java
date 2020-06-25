@@ -7,9 +7,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Getter
+@Setter
 public class OrderItem {
 
     @Id
@@ -20,6 +22,10 @@ public class OrderItem {
     @ManyToOne
     @JoinColumn(name = "ITEM_ID")
     private Item item;
+
+    @ManyToOne
+    @JoinColumn(name = "ORDER_ID")
+    private Order order;
 
     private int orderPrice;
 

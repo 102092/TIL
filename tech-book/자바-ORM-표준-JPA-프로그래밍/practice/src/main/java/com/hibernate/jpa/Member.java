@@ -23,7 +23,13 @@ public class Member {
     @GeneratedValue
     private Long id;
 
-    private String username;
+    private String name;
+
+    private String city;
+
+    private String street;
+
+    private String zipcode;
 
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();

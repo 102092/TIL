@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "ORDERS")
@@ -33,8 +35,10 @@ public class Order {
 
     @OneToOne
     @JoinColumn(name = "DELIVERY_ID")
+    @Column(unique = true)
     private Delivery delivery;
 
+    @Temporal(value = TemporalType.DATE)
     private Date orderDate;
 
     @Enumerated(EnumType.STRING)
@@ -51,7 +55,7 @@ public class Order {
         member.getOrders().add(this);
     }
 
-    public void addOrderItem(OrderItem orderItem){
+    public void addOrderItem(OrderItem orderItem) {
         orderItems.add(orderItem);
         orderItem.setOrder(this);
     }
