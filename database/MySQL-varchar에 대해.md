@@ -1,58 +1,28 @@
-
-
 # 배경
 
-- DB 설계하던 와중에, 몇가지 포스팅을 참고하게 됭되었고 모르는 `Keyword` 를 접하게 되었음.
+- 프로젝트를 진행하다가 `varchar(50)` 에는 과연 한글을 몇 글자나 담을 수 있을지 궁금해졌다.
+
+
 
 # 정리
 
-- 찾아보니, **외래키** 옵션과 관련있는듯함.
-
-- 2가지 제약이 있음.
-
-  - 변경제약, 삭제 제약
-
-- ```
-  RFERENCES [부모테이블명](부모PK컬럼명) ON DELETE / ON UPDATE RESTRICT | CASCADE | SET NULL | NO ACTION | SET DEFAULT
-  ```
-
-  - 보통 이런식으로 어디를 참조하고 있는지 선언하고, **ON** 뒤에 제약 조건을 명시함.
-
-### 변경 제약
-
-- ON UPDATE
-
-### 삭제 제약
-
-- On DELETE
-
-### 옵션
-
-- RESTRICT : 참조하는 부모 테이블의 column이 삭제, 변경 되어도 지우지 않고 유지한다.
-- CASCADE : 참조하는 부모테이블의 column이 삭제, 변경되면 자식 테이블의 column도 삭제, 변경
-- SET NULL : 참조하는 부모테이블의 column이 삭제, 변경되면 자식 테이블의 column들이 `Null` 로 셋팅!
-- NO ACTION : MySQL에서는 `RESTRICT` 와 동일.
-
----
-
-
-
-#### 왜 왜래키를 설정할까?
-
-- 정확하고 완전한 데이터들이 저장되게 하기 위해서.
-- 즉 **참조 무결성**을 보장하기 위해서?
-- 이를 위해 제약조건(Constraint)를 사용하고, 이러한 제약 조건에 어긋나는 자료는 DB에 입력되지 않도록 만들 수 있음.
-- 이러한 제약 조건에는..
-  - NOT NULL,
-  - UNIQUE
-  - PK, 기본키
-  - FK, 외래키
-  - CHECK 가 있음
-- 위에서 적은 옵션들은 FK에 관련되 옵션.
+- 기본적으로 문자열도 00byte로 저장될듯.
+- `Char`
+   - 고정형 문자열이기에 Char(20)을 했을 경우 **20byte**만큼 공간이 할당된다.
+   - 할당된 크기를 넘어가면, 데이터가 잘린다.
+   - 할당을 100으로 하고 6만큼만 쓰면, 94는 낭비하는 셈이 됨.
+- `Varchar`
+  - 가변형 문자열.
+- UTF-8 인코딩 방식은, 아스키 문자를 1byte 한글은 3byte를 차지하고,
+- euc-kr 방식은 아스키 문자는 1byte 한글은 2byte를 차지하는듯.
+- MySQL version 4.1 이전에는 `()` 안에 설정된 수치는 바이트를 의미했지만, 이후에는 즉 현재 프로젝트에서 쓰고있는 버젼에서는 문자수를 의미한다.
+- 다시말하면 `varchar(50)` 이면 아스키 문자든, 한글이든지 50자가 입력가능하다라는 뜻.
+- charater_length(char_length)는 문자수를 계산하는 연산
+- octet_length는 바이트 수를 계산하는 연산
 
 # 참고
 
-- https://h5bak.tistory.com/125
-- https://yzzeee.tistory.com/18
-- https://brownbears.tistory.com/182
-
+- https://namocom.tistory.com/792
+- https://hack-cracker.tistory.com/165
+- https://github.com/Hwannnn/wiki/wiki/%5Bmysql%5D-%EB%AC%B8%EC%9E%90%EC%97%B4%EC%9D%98-%EB%B0%94%EC%9D%B4%ED%8A%B8,-%EC%A0%80%EC%9E%A5%EA%B3%B5%EA%B0%84
+- http://www.rcy.co.kr/xeb/study/2900
