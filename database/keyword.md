@@ -1,7 +1,6 @@
-
-
 # 배경
 
+- MySQL 5.7
 - 프로젝트를 진행하다가 `varchar(50)` 에는 과연 한글을 몇 글자나 담을 수 있을지 궁금해졌다.
 
 # 정리
@@ -26,4 +25,3 @@
 - https://hack-cracker.tistory.com/165
 - https://github.com/Hwannnn/wiki/wiki/[mysql]-문자열의-바이트,-저장공간
 - http://www.rcy.co.kr/xeb/study/2900
-
