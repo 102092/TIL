@@ -28,6 +28,10 @@
     char[] password = nonNull(console) ? console.readPassword() : new char[0];
 ```
 
+# 정리
+- JSR 305, JSR 308 쓰자
+- Checker Framework
+
 
 # 참고
 - https://www.youtube.com/watch?v=vX3yY_36Sk4&t=954
