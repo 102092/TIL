@@ -64,4 +64,55 @@
 - 태그를 잘 입력해야한다.
     - 그래야 나중에 리소스 추적이 쉬워진다.
 
-    
+
+# 2022-03-31
+
+## AWS Core 스토리지
+- EBS 
+    - 데이터분석등에 사용되는 데이트를 저장
+    - 그런데 EC2에 사용하도록 되어있는듯.
+    - 스냅샷도 있음.
+    - 특별한 목적이 아니면 EFS보단 저렴한듯 (single az)
+
+- EFS
+    - 파일 시스템
+    - Mount target 을 통해 접근할 수 있음.
+    - IA (Infrequent Acess) 자주 접근하지 않는 데이터에의 경우 이동되고, 비용이 절감되는 시스템
+
+- FSx series
+    - 여러 타입이 있고, 역할에 따라 선택하면 될듯.
+    - `Windows File Server` 의 경우, 데이터 중복을 제거 기능이 있고
+    - `Netapp ONTAP` 의 경우 데이터 접근빈도에 따라, 데이터를 계층화 하는 기능도 있음. 신기
+
+- S3
+    - API 호출을 통해 쉽게 접근할 수 있음
+    - 글래시어라는 클래스가 있어서, 아카이브가 필요한 데이터를 저장할 수 있음.
+    - 생각보다 많은 타입에 사용될 수 있는 점.
+    - 
+
+### Hands on
+- key pair
+- fsx series
+    - linux, window instacne 하나씩
+
+> CloudFormation guide
+- https://docs.aws.amazon.com/ko_kr/AWSCloudFormation/latest/UserGuide/GettingStarted.html
+
+
+- 참고
+    - https://wjlee81.gitbook.io/2022-builders-storage/
+
+
+## IAM
+- root유저는 생성만, 나머지 기능을 위해서 IAM 유저를 생성해서 사용하는 걸 권장
+- 자격증명 기반 정책
+    - 접근을 하기 위한 정책
+- 리소스 기반 정책
+    - Principal.. 어떤 권한을 가진 애들만 요청할 수 있음.
+    - 접근을 받기 위한 정책
+- cloud trail
+    - 실제 사용된 권한들만을 기반으로 새로운 권한을 만들어주는 것도 가능하다    
+
+### Hands on
+- https://awskosa.gitbook.io/iam/iam-policy/identity-based-policies
+- https://aws.amazon.com/ko/events/seminars/aws-builders/
