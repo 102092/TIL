@@ -88,7 +88,6 @@
     - API 호출을 통해 쉽게 접근할 수 있음
     - 글래시어라는 클래스가 있어서, 아카이브가 필요한 데이터를 저장할 수 있음.
     - 생각보다 많은 타입에 사용될 수 있는 점.
-    - 
 
 ### Hands on
 - key pair
@@ -98,10 +97,8 @@
 > CloudFormation guide
 - https://docs.aws.amazon.com/ko_kr/AWSCloudFormation/latest/UserGuide/GettingStarted.html
 
-
 - 참고
     - https://wjlee81.gitbook.io/2022-builders-storage/
-
 
 ## IAM
 - root유저는 생성만, 나머지 기능을 위해서 IAM 유저를 생성해서 사용하는 걸 권장
@@ -116,3 +113,46 @@
 ### Hands on
 - https://awskosa.gitbook.io/iam/iam-policy/identity-based-policies
 - https://aws.amazon.com/ko/events/seminars/aws-builders/
+
+
+# 2022-04-01
+
+## 데이터베이스 선택하기
+- purpose build database
+    - 트랜잭션은 RDS,
+    - 사용자 로그는 Redshift
+    - 가벼운 정보.., 빠른 조회가 필요하면 ? DynamoDB.. 
+- Aurora DB
+    - Compute nodes - Storage nodes - Amazon S3
+- Amazon DocumentDB
+    - MongoDB
+- QLDB Amazon Quantum Ledger Database
+    - 블록체인 기반
+    - 모든 데이터 변경 기록을 추적 및 확인
+- AWS DMS
+    - Databae Migration Service
+
+
+> DynamoDB vs Docuemnt DB
+- Dynamodb의 경우 Key/value store DB가 메인
+    - JSON에 대한 처리도 가능 
+    - WCU/RCU라는 개념으로 Write/Read Operation 개념도 있음. 
+- DocumentDB는 mongodb처럼 DOcument type(json)에 최적화 되어 있는 DB
+    - Dynamodb의 경우는 aggregate를 자체적으로 처리하기 어려운 부분있는 반면, DocumentDB는 Aggregatation pipeline을 제공
+
+> AMS DMS 서비스의 경우, AWS RDS mysql -> AWS Aurora 이런 케이스도 지원이 되는 건가요?
+- 가능. 
+- 또한 Oracle to Mysql, Mysql to mssql등 전환도 지원이 가능하다.
+
+### Hands on
+- 포스트그레
+- cloud9 으로 ide 를 온라인으로 사용할 수 있는듯.
+- CloudFormation 이용해서, 관련 리소스를 쉽게 생성할 수 있음.
+    - 한번 구축해두면 편할 수도 있겠다.
+    - 리소스 정리도 편하고..
+    - 리소스 정리 중에 에러도, 이용자가 확인할 수 있는 수준으로 나오는 듯.
+    
+
+
+## 참고
+- https://m.blog.naver.com/ijoos/221312444591
