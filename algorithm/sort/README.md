@@ -1,11 +1,13 @@
-# 정의
+# bubble-sort
+
+## 정의
 - 왜 이런 이름?
     - 정렬 중에, 배열에서 가장 큰 요소가 맨 뒤로 이동 (Bubble up) 되기 때문에 
 - 시간 복잡도
     - O(N^2)
 
 
-# 코드
+## 코드
 ```java
 public class BubbleSort {
 
@@ -37,6 +39,5 @@ public class BubbleSort {
 
 ```
 
-
-# 참고
+## 참고
 - https://st-lab.tistory.com/195

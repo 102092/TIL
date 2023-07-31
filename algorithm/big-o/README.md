@@ -1,11 +1,9 @@
-# why Big-O?
+# big-O?
 
-- O는 Order
+- `O` -> Order
 - order of complexity
-
-# about Big-O
 - 알고리즘을 실행하는데 걸리는 **최대 시간**
-![](https://www.freecodecamp.org/news/content/images/2021/06/1_KfZYFUT2OKfjekJlCeYvuQ.jpeg)
+![image](https://www.freecodecamp.org/news/content/images/2021/06/1_KfZYFUT2OKfjekJlCeYvuQ.jpeg)
 
 ## O(1)
 - 상수형 알고리즘
@@ -37,11 +35,10 @@
 - 데이터 입력이 추가 될 때 마다, 실행시간이 n배로 늘어남
 
 
-# 성능
+> 성능
+
 - 위 순서대로 성능상 이점이 있음.
 - 즉 O(1) 이 가장 성능이 좋고, O(n!) 이 가장 성능이 나쁨.
-
-
 
 
 # 참고
