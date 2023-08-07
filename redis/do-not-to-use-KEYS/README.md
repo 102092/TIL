@@ -26,7 +26,7 @@
 redis-cli --scan --pattern users:* | xargs redis-cli del
 ```
 
-# 참고
+## 참고
 - https://redis.io/commands/keys
 - https://tech.kakao.com/2016/03/11/redis-scan/
 - https://rdbtools.com/blog/redis-delete-keys-matching-pattern-using-scan/
