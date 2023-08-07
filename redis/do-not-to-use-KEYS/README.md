@@ -20,7 +20,7 @@
     - match 옵션은 elements들이 scan 통해 반환된 후에 적용이 됨.
     - 즉 해당 패턴에 맞는 element가 없다면, 반환된 키들이 없을 수도 있음 (empty list or set)
 
-# SCAN and DEL
+## SCAN and DEL
 - redis-cli 이용
 ```
 redis-cli --scan --pattern users:* | xargs redis-cli del

@@ -13,7 +13,7 @@
 ## Java code
 
 ```java
-@Compoent
+@Component
 @RequiredArgsConstructor
 public class RedisRepository {
 
