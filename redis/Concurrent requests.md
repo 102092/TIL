@@ -1,5 +1,4 @@
-# How to prevent duplicated requests
-
+# How to prevent concurrent requests
 ## Set up
 - java, spring
 	- spring-data-redis
@@ -9,8 +8,10 @@
 > 요구 사항
 - 1초 미만으로, 다수의 request가 온다고 가정
 - 이중 하나의 요청만 받아들이고, 나머지는 에러를 던져야함
+## Use
+- [[INCRBY]]
 
-## Java code
+## Example of Java code
 
 ```java
 @Component
@@ -40,27 +41,3 @@ public class RedisRepository {
 - 그 외 `true` 리턴
 	- 같은 `key` 1초 내 요청에 대해서는, `2L, 3L, 4L..` 와 같은 `result` 가 반환됨
 - `ops.expire(1, TimeUnit.SECONS)` 설정을 통해서, 무분별하게 쌓일 수 있는 점을 방지
-
-## Redis
-
-### INCRBY
-- Time complexity: O(1)
-
-```txt
-...If the key does not exist, it is set to 0 before performing the operation
-```
-- 해당 키가 존재하지 않으면, `0` 으로 설정됨
-
-### Examples
-```sh
-redis> SET mykey "10"
-"OK"
-redis> INCRBY mykey 5
-(integer) 15
-redis>
-```
-
-## Reference
-- https://www.baeldung.com/java-redis-lettuce
-- http://redis.io/commands/incrby
-- https://redis.io/commands/incrby/
