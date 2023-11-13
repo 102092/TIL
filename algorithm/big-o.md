@@ -1,4 +1,4 @@
-# big-O?
+# 정의
 
 - `O` -> Order
 - order of complexity
