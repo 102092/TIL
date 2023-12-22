@@ -1,16 +1,13 @@
 ## 배경
 - 제한된 메모리 환경에서 사용할 수 있는 스레드의 수가 제한되어있음.
-- 또한 필요한 스레드 수가 증가하면서, context-switching 비용도 증가함.
+- 또한 필요한 스레드 수가 증가하면서, `context-switching` 비용도 증가함.
 - 위의 2가지 문제점을 해결하기 위해 나온 개념이 `virtual-thread`.
 
 ## 특징
 - context switching 비용이 저렴하다
  
-|   |Thread|Virtual Thread|
-|---|---|---|
-|Stack 사이즈|~2MB|~10KB|
-|생성시간|~1ms|~1µs|
-|컨텍스트 스위칭|~100µs|~10µs|
+![image](https://github.com/102092/TIL/assets/22140570/d4a159dd-f7f2-48a3-909a-c93076a8e474)
+
 
 - 왜?
 	- `platform thread` 위에서 여러 `virtual thread` 가 번걸아가면서 실행되는 형태
@@ -18,6 +15,8 @@
 
 ## 구조
 ![image1](https://techblog.woowahan.com/wp-content/uploads/2023/12/6.png)
+
+![image](https://github.com/102092/TIL/assets/22140570/0616f192-0a4e-4365-ba20-e4712f582162)
 
 - 스케쥴러가 `platform thread` 를 관리한다.
 - `platform thread` 는 `virtual thread` 의 작업 분배를 관리한다 
@@ -34,5 +33,12 @@
 - `virtual thread`  는 `runConfiguration` 을 가지고 있다.
 	- `runConfiguration` 은 실제 작업 내용(`runnable`) 을 가지고 있다
 
+## 정리
+- `virtual thread` 는 기존 `platform thread` 를 대체하는 것이 목적이 아님.
+	- `platform thread` 의 기다림에 대한 개선이 목적.
+- `virtual thread` 를 도입한다고 해서, 무조건적으로 처리량이 높아지진 않음.
+- 리액티브 프로그래밍과 동일하게 '처리량' 은 증가하지만 더 가독성이 좋고, 개발자 친화적인 방법이다.
+
 ## Reference
 - https://techblog.woowahan.com/15398/
+- https://tech.kakao.com/2023/12/22/techmeet-virtualthread/
