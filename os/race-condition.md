@@ -1,5 +1,3 @@
-# Race conditoin
-
 ## About
 
 - race?
