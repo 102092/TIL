@@ -1,10 +1,8 @@
-# Spring @Transactional
-
 ## 들어가면서
 
 - 스프링에서 트랜잭션은 `@Transactional` 을 선언하면 적용
 - 해당 기능은 AOP를 통해 구현.
-  - AOP가 적용되었는 지 확인하기 위해서는 `.getClass()` 를 통해클래스 이름을 확인해도 됨. ($$SpringCGLIB...)
+  - AOP가 적용되었는 지 확인하기 위해서는 `.getClass()` 를 통해클래스 이름을 확인해도 됨. (`$$SpringCGLIB...`)
   - 혹은 `AopUtils` 라는 클래스에서 제공하는 메서드를 통해 확인해볼 수 도 있음.
   - 그리고 `public` 메서드에만 적용이 가능. (`private`, `protected`, `package-visible` 엔 적용이 안됨.)
     - `protected`, `package-visible` 의 경우 외부에서 호출은 가능하나, 스프링 자체에서 적용되지 않도록 막고 있음.

@@ -1,4 +1,3 @@
-# @Access
 
 > Used to specify an access type to be applied to an entity class, mapped superclass, or embeddable class, or to a specific attribute of such a class.
 
