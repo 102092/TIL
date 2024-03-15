@@ -1,5 +1,3 @@
-# Hibernate Architecture
-
 - 들어가면서..
 - Spring 5, Hibernate 5, HikariCP 사용 중.
 - 현재 프로젝트 환경의 아키텍쳐가 다음과 같다고 생각하자, 만약에 A- TransactinoManager가 진행 중인 트랜잭션 중에 B- SessionFactory로 switch 한다면, 어떻게 될까?
@@ -30,12 +28,6 @@
 - atomic한 작업을 지정하는 데 사용되는 single threaded, short-lived한 객체
 - JDBC, JTA or CORBA transaction 로 부터 추상화되어있음.
 - 하나의 Session은 여러개에 Transaction에 걸쳐있을 수 있음.
-
-### Reference
-
-- <https://www.decodejava.com/hibernate-architecture.html>
-- <https://www.geeksforgeeks.org/hibernate-architecture/>
-- <https://access.redhat.com/documentation/en-us/red_hat_jboss_web_server/3/html/hibernate_core_reference_guide/chap-hibernate_architecture>
 
 ## HibernateTransactionManager
 
@@ -79,11 +71,6 @@
 
 - 현재 트랜잭션을 재시작.
 
-### Reference
-
-- <https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/orm/hibernate5/HibernateTransactionManager.html>
-- <https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/transaction/support/AbstractPlatformTransactionManager.html>
-
 ## SessionFactory
 
 - `Session getCurrentSession()`
@@ -105,3 +92,11 @@
 
 - 현재 진행되는 트랜잭션을 관리하는 매니저 인듯
 - 스레드 별로 있는 듯.
+
+## Reference
+
+- <https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/orm/hibernate5/HibernateTransactionManager.html>
+- <https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/transaction/support/AbstractPlatformTransactionManager.html>
+- - <https://www.decodejava.com/hibernate-architecture.html>
+- <https://www.geeksforgeeks.org/hibernate-architecture/>
+- <https://access.redhat.com/documentation/en-us/red_hat_jboss_web_server/3/html/hibernate_core_reference_guide/chap-hibernate_architecture>

@@ -1,10 +1,11 @@
+#thread #virtual-thread
 ## 배경
-- 제한된 메모리 환경에서 사용할 수 있는 스레드의 수가 제한되어있음.
-- 또한 필요한 스레드 수가 증가하면서, `context-switching` 비용도 증가함.
-- 위의 2가지 문제점을 해결하기 위해 나온 개념이 `virtual-thread`.
+- 제한된 메모리 환경에서 사용할 수 있는 [[thread]] 의 수가 제한되어있음.
+- 또한 필요한 스레드 수가 증가하면서, [[context-switching]] 비용도 증가함.
+- 위의 2가지 문제점을 해결하기 위해 나온 개념이 [[virtual-thread]].
 
 ## 특징
-- context switching 비용이 저렴하다
+- [[context-switching]] 비용이 저렴하다
  
 ![image](https://github.com/102092/TIL/assets/22140570/d4a159dd-f7f2-48a3-909a-c93076a8e474)
 

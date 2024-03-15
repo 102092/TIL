@@ -1,4 +1,6 @@
-# high-ASCII characters ?
+#tip 
+
+## high-ASCII characters ?
 
 - Non-ASCII characters 를 의미하는 듯.
 
@@ -12,6 +14,6 @@ s = s.replaceAll("[^\\x00-\\x7f]", "");
 ```
 
 
-# 참고
+## 참고
 - https://stackoverflow.com/questions/5008422/how-to-remove-high-ascii-characters-from-string-like-in-java
 - https://developer-p.tistory.com/72

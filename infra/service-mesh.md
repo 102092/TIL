@@ -20,5 +20,5 @@
 
 - 애플리케이션 간 통신 라우팅에 대한 복잡도를 줄이는 데 기여한다.
 
-## reference
+## Reference
 - https://istio.io/latest/about/service-mesh/

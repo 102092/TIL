@@ -1,4 +1,4 @@
-# Article
+#java #tip
 
 ## Choosing a garbage collector
 

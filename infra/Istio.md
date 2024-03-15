@@ -11,5 +11,5 @@
 - 그런데 서비스 코드 변경 거의 없이 가능하다
 	- 즉 편리함
 
-## reference
+## Reference
 - https://istio.io/latest/about/

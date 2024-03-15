@@ -1,5 +1,3 @@
-# Comparator with boolean array
-
 - boolean array가 있을 때, natureOrder, reverseOrder가 어떻게 정렬되는지 확인.
 
 ```java

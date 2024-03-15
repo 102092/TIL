@@ -1,5 +1,3 @@
-# Invoke Dynamic
-
 ## Understanding Java method invocation with invokedynamic
 
 > As of Java 8, invokedynamic is used as a primary implementation mechanism to provide advanced platform features. One of the clearest and simplest examples of this use of the opcode is in the implementation of lambda expressions. To follow along with the rest of this article, you’ll need to have some familiarity with how the JVM invokes methods, or you’ll need to read the first article in this series.
@@ -225,10 +223,6 @@ Method arguments:
 - metafactory 는 lookup object 와 MethodTypes 를 가지고 있는데 이게 type safety를 위한 것.
     - MethodHandle(lookup) 객체는 priavte static method를 가르키고 있는데.
     - 이 private static method가 lambda body임
-
-
-
-## An Introduction to Invoke Dynamic in the JVM
 
 ## 참고
 

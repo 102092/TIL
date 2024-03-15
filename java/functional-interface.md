@@ -1,13 +1,9 @@
-# Functional interface in Java
 
-## Document
 - Java 스펙에 정의된 함수형 인터페이스라는 것을 알리기 위한 **정보성 애노테이션**
 - 함수형 인터페이스 ?
     - 한개의 *추상 메소드*를 가짐
     - `default` 선언된 메소드는 구현이 있으므로 추상 메소드가 아님
     - `java.lang.Object` 의 공통 메서드(`equals()`..등) 를 대체하는 추상 메소드는, 함수형 인터페이스를 위한 추상메소드로 여겨지지 않음.
-
----
 
 ```java
 @FunctionalInterface

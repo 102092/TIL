@@ -1,5 +1,3 @@
-# about externalizable
-
 ## 참고
 
 - <https://www.baeldung.com/java-externalizable>
