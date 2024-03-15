@@ -1,11 +1,13 @@
-# Introduction
+#infra
+
 - 로그 수집기 (collector)
 - 데이터 유실을 막기 위해 메모리, 파일 기반의 Buffer 시스템을 가지고 있음.
 - Failover을 위한 HA(high availability) 구성도 가능.
     - HA? 클러스터링, 이중화등의 방식. 즉 하나의 `fluentd` 시스템이 원치 않은 이유로 종료되었을 경우, 다른 `fluentd` 시스템이 있어서 로그 데이터의 유실을 막아주는 것.
 
-# Basic
+
 > Inputs or listeners Fluentd will have and set up common matching rules to route the Event data to a specific Output.
+
 - input data는 특정한 룰에 매칭되어서 output으로 전환된다.
     - 전체적인 동작은 input -> (Filter) -> Buffer -> Output
 - 예를 들면 `HTTP Request` 는 아래와 같은 데이터로 전환.
@@ -49,6 +51,7 @@ record: {"user":"-","method":"GET","code":200,"size":777,"host":"192.168.0.1","p
 - 즉 내부적으로 이벤트가 전송되기 전에, 어떤 체인으로 연결된 룰을 적용시킨다고 보면 될듯.
 
 ## Filter
+
 > A Filter behaves like a rule to pass or reject an event
 
 -  통과시키거나, 거부하는 룰인듯.
@@ -95,6 +98,7 @@ Content-length: 0
 
 
 ## Label
+
 >  aims to solve the configuration file complexity and allows to define new Routing sections that do not follow the top-to-bottom order, instead they act like linked references
 
 - configuratoin 파일의 복잡성을 해결하기 위해 나왔음.
@@ -103,6 +107,7 @@ Content-length: 0
 
 
 ## Buffers
+
 > In this example, we use stdout, the non-buffered output
 > you use outputs in buffered mode e.g. forward, mongodb, s3 and etc.
 

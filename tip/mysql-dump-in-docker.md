@@ -1,3 +1,5 @@
+#docker
+
 ## 배경
 - 로컬에서 사용 중인 docker(mysql) 의 구조를 main-repl 형태로 변경할 필요가 생김.
 - 처음 생각은 `mysql dump`, `mysql main-repl on docker` 등의 키워드를 통해서  

@@ -7,7 +7,7 @@
 ---
 ## 정리
 ![image](https://gmoon92.github.io/md/img/aop/jdk-dynamic-proxy-and-cglib/aop-proxy-mechanism2.png)
-- Bean 이 인터페이스를 구현하고 있으면.. -> [[JDK-Dynamic-Proxy]]
+- Bean 이 인터페이스를 구현하고 있으면.. -> [[JDK-dynamic-proxy]]
 - Bean이 인터페이스를 구현하고 있지 않으면.. [[CGLib]]
 
 ## 참고

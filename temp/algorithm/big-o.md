@@ -1,4 +1,4 @@
-# 정의
+#algorithm
 
 - `O` -> Order
 - order of complexity

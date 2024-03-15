@@ -1,3 +1,4 @@
+#infra
 ## what is service mesh ?
 
 > ... The term “service mesh” describes both the type of software you use to implement this pattern, and the security or network domain that is created when you use that software.

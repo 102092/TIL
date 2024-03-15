@@ -1,5 +1,3 @@
-# LambdaMetaFactory
-
 ## 참고
 
 - <https://docs.oracle.com/javase/8/docs/api/java/lang/invoke/LambdaMetafactory.html>
