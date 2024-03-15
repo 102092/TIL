@@ -1,6 +1,7 @@
+#trouble-shooting 
 # [HikariCP] Possibly consider using a shorter maxLifetime value
 
-## 에러 로그
+# 에러 로그
 
 ```textile
 HikariPool-1 - Failed to validate connection com.mysql.jdbc.JDBC4Connection (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
@@ -13,20 +14,13 @@ HikariPool-1 - Failed to validate connection com.mysql.jdbc.JDBC4Connection (No 
 ## 에러 메세지 해석
 
 - `Failed to validate connection com.mysql.jdbc.JDBC4Connection`
-  
-  - JDBC4Connection 객체를 validate 검증하는데 실패하였음.
-
+- JDBC4Connection 객체를 validate 검증하는데 실패하였음.
 - `No operations allowed after connection closed.`
-  
-  - 커넥션이 종료된 후에는 어떠한 기능 수행이 허용되지 않음.
-  
-  - DB와의 커넥션을 이야기하는 듯.
-  
-  - 즉 Connection Pool에서 어떤 Connection 객체를 validate 진행하는데 (Poolbase.isConnectionAlive),
-
-- `Possibly consider using a shorter maxLifetime value.`
-  
-  - `maxLifeTime` 값을 감소시키는 걸 고려하라
+- 커넥션이 종료된 후에는 어떠한 기능 수행이 허용되지 않음.
+	- DB와의 커넥션을 이야기하는 듯.
+- 즉 Connection Pool에서 어떤 Connection 객체를 validate 진행하는데 (Poolbase.isConnectionAlive),
+	- `Possibly consider using a shorter maxLifetime value.`
+	- `maxLifeTime` 값을 감소시키는 걸 고려하라
 
 ## 원인
 
@@ -76,26 +70,18 @@ HikariPool-1 - Failed to validate connection com.mysql.jdbc.JDBC4Connection (No 
 ```
 
 - Connection이 살아있는 지 확인해보는 메서드
-
 - 여기서 에러를 발생함.
-
-- 어느 부분에서?
-  
-  - `setNetworkTimeout(connection, validationTimeout);` 혹은 `Statement statement = connection.createStatement()` 일수도..
-
+	- 어느 부분에서?
+	- `setNetworkTimeout(connection, validationTimeout);` 혹은 `Statement statement = connection.createStatement()` 일수도..
 - 아마 히카리 풀에 있는 커넥션을 통해 무언가를 하려고 (예를 들면 커넥션의 타임아웃설정..)을 하려 했으나, 이에 연결된 Database의 커넥션은 **이미** 닫혀서, `SQLException` 이 발생했을듯.
-
 - 이 때문에 `warn` 로그가 최종적으로 찍히게 된듯.
 
 ## 해결
 
 - Database 의 `wait_timeout`  보다 HikariCP의 `maxLifetime` 를 5초 더 짦게 주었음.
-
 - 왜 5초?
-  
-  - 권장사항...
-  
-  - [HikariCP는 test-while-idle과 같은 커넥션 갱신 기능이 없을까? | 후덥의 기술블로그](https://pkgonan.github.io/2018/04/HikariCP-test-while-idle)
+	- 권장사항...
+	- [HikariCP는 test-while-idle과 같은 커넥션 갱신 기능이 없을까? | 후덥의 기술블로그](https://pkgonan.github.io/2018/04/HikariCP-test-while-idle)
 
 ## HikariCP option
 
@@ -193,13 +179,8 @@ HikariPool-1 - Failed to validate connection com.mysql.jdbc.JDBC4Connection (No 
 ## 참고
 
 - [[HikariCP] Possibly consider using a shorter maxLifetime value :: Hello World](https://hello-world.kr/33)
-
 - [HikariCP Failed to Validate Connection Warning 이야기 | Carrey`s 기술블로그](https://jaehun2841.github.io/2020/01/08/2020-01-08-hikari-pool-validate-connection/#hikari-pool-failed-to-validate-connection)
-
 - [java - Possibly consider using a shorter maxLifetime value - hikari connection pool spring boot - Stack Overflow](https://stackoverflow.com/questions/60310858/possibly-consider-using-a-shorter-maxlifetime-value-hikari-connection-pool-spr)
-
 - [MySQL :: MySQL 5.7 Reference Manual :: 5.1.7 Server System Variables](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_wait_timeout)
-
 - [GitHub - brettwooldridge/HikariCP: 光 HikariCP・A solid, high-performance, JDBC connection pool at last.](https://github.com/brettwooldridge/HikariCP#configuration-knobs-baby)
-
 - [HikariCP 세팅시 옵션 설명](https://effectivesquid.tistory.com/entry/HikariCP-%EC%84%B8%ED%8C%85%EC%8B%9C-%EC%98%B5%EC%85%98-%EC%84%A4%EB%AA%85)

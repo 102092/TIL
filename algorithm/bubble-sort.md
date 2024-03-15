@@ -4,8 +4,7 @@
 - 시간 복잡도
     - O(N^2)
 
-
-## 코드
+## 예제 코드
 ```java
 public class BubbleSort {
 

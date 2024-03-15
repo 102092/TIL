@@ -1,3 +1,4 @@
+#linux #tip
 ## how to count files in directory
 
 ```
