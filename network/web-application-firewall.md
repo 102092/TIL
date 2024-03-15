@@ -1,5 +1,4 @@
-# WAF ?
-
+- WAP
 - Web Application Firewall
 - 비정상적인 트래픽(e.g DDOS attack) 탐지, 차단하기 위한 방화벽을 말함
 - 웹 프로토콜 HTTP 정보를 바탕으로 차단 룰을 설정

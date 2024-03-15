@@ -1,4 +1,3 @@
-# REST API가 뭔가요?
 
 > An API is a set of definitions and protocols for building and integrating application software
 
@@ -21,5 +20,5 @@
 - 프로토콜이나 어떠한 표준은 아니지만, 통용되는 규칙, 제약 정도라 말할 수 있을듯.
 
 ## 참고
-- <https://www.redhat.com/en/topics/api/what-is-a-rest-api>
-- <https://www.ibm.com/topics/rest-apis>
+- https://www.redhat.com/en/topics/api/what-is-a-rest-api
+- https://www.ibm.com/topics/rest-apis
