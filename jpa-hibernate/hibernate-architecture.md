@@ -1,3 +1,5 @@
+#hibernate
+
 - 들어가면서..
 - Spring 5, Hibernate 5, HikariCP 사용 중.
 - 현재 프로젝트 환경의 아키텍쳐가 다음과 같다고 생각하자, 만약에 A- TransactinoManager가 진행 중인 트랜잭션 중에 B- SessionFactory로 switch 한다면, 어떻게 될까?
