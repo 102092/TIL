@@ -1,6 +1,6 @@
 #thread #virtual-thread
 ## 배경
-- 제한된 메모리 환경에서 사용할 수 있는 [[thread]] 의 수가 제한되어있음.
+- 제한된 메모리 환경에서 사용할 수 있는 [[os/thread]] 의 수가 제한되어있음.
 - 또한 필요한 스레드 수가 증가하면서, [[context-switching]] 비용도 증가함.
 - 위의 2가지 문제점을 해결하기 위해 나온 개념이 [[virtual-thread]].
 
