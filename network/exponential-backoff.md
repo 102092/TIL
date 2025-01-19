@@ -1,4 +1,4 @@
-![](https://d2908q01vomqb2.cloudfront.net/fc074d501302eb2b93e2554793fcaf50b3bf7291/2017/10/03/exponential-backoff-and-jitter-blog-figure-4.png)
+![image](https://d2908q01vomqb2.cloudfront.net/fc074d501302eb2b93e2554793fcaf50b3bf7291/2017/10/03/exponential-backoff-and-jitter-blog-figure-4.png)
 
 - 일정 시간 간격을 두고, 재시도.
 - 그리고 일정 시간 간격은 **점진적** 으로 증가한다.
