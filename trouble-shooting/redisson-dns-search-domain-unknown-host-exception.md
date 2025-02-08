@@ -39,7 +39,7 @@ Caused by: io.netty.resolver.dns.DnsNameResolverTimeoutException: [/xx.xxx.x.xx:
 	- `java 17`
 	- `org.redisson:redisson-spring-boot-starter:3.18.0`
 		- `io.netty:4.1.79 (Final)`
-	- `org.springframework.boot:2.7.3
+	- `org.springframework.boot:2.7.3`
 ## 원인
 - redisson(netty) -> DNS
 	- 기존 DnsAddressResolverGroupFactory 을 통해 생성된 DnsAddressResolverGroup는 여러 DNS에 동시에 쿼리?
