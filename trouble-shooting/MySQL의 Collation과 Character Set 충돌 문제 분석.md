@@ -1,4 +1,4 @@
-# 들어가면서
+# 개요
 
 ```
 Illegal mix of collations (utf8_general_ci,IMPLICIT) and(utf8mb4_unicode_ci,COERCIBLE) for operation '='
