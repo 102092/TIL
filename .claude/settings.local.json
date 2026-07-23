@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:privacy.anthropic.com)",
+      "WebFetch(domain:docs.claude.com)",
+      "WebFetch(domain:privacy.claude.com)",
+      "Bash(gh repo view:*)"
+    ]
+  }
+}
